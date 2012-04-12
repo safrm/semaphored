@@ -11,7 +11,9 @@ sources.files = $$SOURCES $$HEADERS $$RESOURCES *.txt *.pro
 sources.path = $$[QT_INSTALL_EXAMPLES]/semaphored/semaphored
 INSTALLS += target sources
 
-symbian {
-    TARGET.UID3 = 0xA000CF64
-    include($$QT_SOURCE_TREE/examples/symbianpkgrules.pri)
-}
+OTHER_FILES += \
+    debian/changelog \
+    debian/rules \
+    debian/control \
+    README \
+    LICENSE.LGPL

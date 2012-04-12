@@ -74,8 +74,8 @@ DragWidget::DragWidget(QWidget *parent)
     setPalette(newPalette);
 
     setAcceptDrops(true);
-    setMinimumSize(400, qMax(200, y));
-    setWindowTitle(tr("Draggable Text"));
+    setMinimumSize(600, qMax(300, y));
+    setWindowTitle(tr("sempathored"));
 }
 
 void DragWidget::dragEnterEvent(QDragEnterEvent *event)
