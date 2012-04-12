@@ -1,9 +1,11 @@
-HEADERS     = draglabel.h \
-              dragwidget.h
-RESOURCES   = semaphored.qrc
-SOURCES     = draglabel.cpp \
-              dragwidget.cpp \
-              main.cpp
+HEADERS     = src/draglabel.h \
+              src/dragwidget.h \
+              src/dragsquare.h
+RESOURCES   = src/semaphored.qrc
+SOURCES     = src/draglabel.cpp \
+              src/dragwidget.cpp \
+              src/main.cpp \
+              src/dragsquare.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/semaphored/semaphored

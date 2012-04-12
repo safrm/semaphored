@@ -52,6 +52,10 @@ class DragWidget : public QWidget
 {
 public:
     DragWidget(QWidget *parent = 0);
+    enum { WHITE =  0,
+           RED   =  1,
+           ORANGE = 2,
+           GREEN  = 3} color;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);

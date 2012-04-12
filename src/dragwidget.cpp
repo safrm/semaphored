@@ -42,6 +42,7 @@
 
 #include "draglabel.h"
 #include "dragwidget.h"
+#include "dragsquare.h"
 
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent)
@@ -68,6 +69,11 @@ DragWidget::DragWidget(QWidget *parent)
             }
         }
     }
+    //add few testing squeres
+    DragSquare *wordSqare = new DragSquare("test",this);
+    wordSqare->move(50, 50);
+    wordSqare->show();
+    wordSqare->setAttribute(Qt::WA_DeleteOnClose);
 
     QPalette newPalette = palette();
     newPalette.setColor(QPalette::Window, Qt::white);
@@ -129,7 +135,7 @@ void DragWidget::dropEvent(QDropEvent *event)
         if (child->inherits("QWidget")) {
             QWidget *widget = static_cast<QWidget *>(child);
             if (!widget->isVisible())
-                widget->deleteLater();
+               widget->deleteLater();
         }
     }
 }
