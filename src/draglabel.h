@@ -48,13 +48,22 @@ QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
 class QDragMoveEvent;
 class QFrame;
+class QMenu;
+class QLineEdit;
 QT_END_NAMESPACE
 
 class DragLabel : public QLabel
 {
+    Q_OBJECT
 public:
     DragLabel(const QString &text, QWidget *parent);
-protected:
+private:
+    QMenu* rightClickMenu();
+    QMenu* m_RightClickMenu;
+
+protected :
+    virtual void contextMenuEvent ( QContextMenuEvent * event );
+    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
     void changeColor(const QColor &acolor);
 
     QColor currentColor;

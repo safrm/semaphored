@@ -39,11 +39,14 @@
 ****************************************************************************/
 
 #include <QtGui>
-
+# include <QActionGroup>
 #include "draglabel.h"
+#include "yelloweditbox.h"
 
 DragLabel::DragLabel(const QString &text, QWidget *parent)
-    : QLabel(text, parent), currentColor(Qt::white)
+    : QLabel(text, parent),
+      m_RightClickMenu(NULL),
+      currentColor(Qt::white)
 {
     changeColor(Qt::white);
     setAutoFillBackground(true);
@@ -58,3 +61,70 @@ void DragLabel::changeColor(const QColor &acolor)
     pal.setColor(backgroundRole(), acolor);
     setPalette(pal);
 }
+
+void DragLabel::contextMenuEvent( QContextMenuEvent * event )
+{
+    //first ativate right editor window
+    /*QPoint position = event->pos();
+    int c = tabBar()->count();
+    int clickedItem(-1);
+    int i(0);
+    for (; i<c; ++i) {
+    if (tabBar()->tabRect(i).contains(position)) {
+      clickedItem = i;
+      break;
+    }
+    }
+    if (clickedItem != -1)
+    setCurrentIndex(clickedItem);
+*/
+    //execute menu
+    const QAction* selectedAction = rightClickMenu()->exec(event->globalPos());
+//    if (selectedAction == m_openAct) {
+}
+QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
+{
+  if (!m_RightClickMenu)
+  {
+    m_RightClickMenu = new QMenu(this);
+    QMenu* colorMenu = new QMenu("Color", this);
+    QActionGroup* colorGroup = new QActionGroup(this);
+    QAction* pRedColorAction = new QAction(QIcon(":/images/red.svg"), tr("&Red"), this);
+    connect(pRedColorAction,SIGNAL(triggered()),this,SLOT(changeColor(Qt::red)));
+    pRedColorAction->setCheckable(true);
+    colorMenu->addAction(pRedColorAction);
+
+    QAction* pOrangeColorAction = new QAction(QIcon(":/images/orange.svg"), tr("&Orange"), this);
+    //connect(pCopyFullFileNameAction,SIGNAL(triggered()),this,SLOT(copyFullFileName()));
+    pOrangeColorAction->setCheckable(true);
+    colorMenu->addAction(pOrangeColorAction);
+
+    QAction* pGreenColorAction = new QAction(QIcon(":/images/green.svg"), tr("&Green"), this);
+    //connect(pCopyFullFileNameAction,SIGNAL(triggered()),this,SLOT(copyFullFileName()));
+    pGreenColorAction->setCheckable(true);
+    colorMenu->addAction(pGreenColorAction);
+    colorMenu->addSeparator();
+    QAction* pWhiteColorAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
+    //connect(pCopyFullFileNameAction,SIGNAL(triggered()),this,SLOT(copyFullFileName()));
+    pWhiteColorAction->setCheckable(true);
+    colorMenu->addAction(pWhiteColorAction);
+    colorGroup->setExclusive(true);
+
+    colorMenu->addActions(colorGroup->actions());
+    m_RightClickMenu->addMenu(colorMenu);
+
+  }
+
+  return m_RightClickMenu;
+}
+
+void DragLabel::mouseDoubleClickEvent ( QMouseEvent * event )
+{
+    //edit
+    YellowEditBox* captionEdit = new YellowEditBox(this);
+
+    captionEdit->show();
+    captionEdit->setFocus();
+}
+
+

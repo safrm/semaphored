@@ -75,6 +75,7 @@ DragWidget::DragWidget(QWidget *parent)
     wordSqare->show();
     wordSqare->setAttribute(Qt::WA_DeleteOnClose);
 
+    //backround color?
     QPalette newPalette = palette();
     newPalette.setColor(QPalette::Window, Qt::white);
     setPalette(newPalette);
