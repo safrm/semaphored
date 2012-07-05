@@ -17,4 +17,5 @@ New:3 - change color right click menu (exclusive)
 Bug:3 - drag and drop changes color
 Bug:1 - disable D&D spliting
 New:2 - input text aligning
+New:5 - Delete All
 

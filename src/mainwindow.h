@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+class QAction;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -12,13 +12,15 @@ public:
 signals:
     
 public slots:
-
+    void deleteAllSlot();
 private:
-//    void createActions();
+    void createActions();
     void createMenus();
 //    void createToolBars();
 //    void createStatusBar();
 //    void createDockWindows();
+
+    QAction* deleteAllAct;
 };
 
 #endif // MAINWINDOW_H
