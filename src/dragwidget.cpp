@@ -53,7 +53,7 @@ DragWidget::DragWidget(QWidget *parent)
 
     int x = 5;
     int y = 5;
-
+/*  word by word
     while (!inputStream.atEnd()) {
         QString word;
         inputStream >> word;
@@ -69,6 +69,24 @@ DragWidget::DragWidget(QWidget *parent)
             }
         }
     }
+    */
+    //line by  line
+    QString line;
+    do {
+        line = inputStream.readLine();
+        if (!line.isEmpty()) {
+            DragLabel *wordLabel = new DragLabel(line, this);
+            wordLabel->move(x, y);
+            wordLabel->show();
+            wordLabel->setAttribute(Qt::WA_DeleteOnClose);
+            y += wordLabel->height() + 2;
+            if (y + 10 >= height()) {
+                y = 5;
+                x += 150 ;
+            }
+        }
+    } while (!line.isNull());
+
     //add few testing squeres
     DragSquare *wordSqare = new DragSquare("test",this);
     wordSqare->move(50, 50);
