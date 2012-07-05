@@ -39,14 +39,15 @@
 ****************************************************************************/
 
 #include <QApplication>
-#include "dragwidget.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(semaphored);
 
     QApplication app(argc, argv);
-    DragWidget window;
-    window.show();
+
+    MainWindow* mainWin = new MainWindow();
+    mainWin->show();
     return app.exec();
 }

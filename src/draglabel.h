@@ -42,6 +42,7 @@
 #define DRAGLABEL_H
 
 #include <QLabel>
+#include <qnamespace.h>
 
 QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
@@ -53,6 +54,10 @@ class DragLabel : public QLabel
 {
 public:
     DragLabel(const QString &text, QWidget *parent);
+protected:
+    void changeColor(const QColor &acolor);
+
+    QColor currentColor;
 };
 
 #endif

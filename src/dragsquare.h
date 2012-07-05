@@ -1,9 +1,9 @@
 #ifndef DRAGSQUARE_H
 #define DRAGSQUARE_H
 
-#include <QLabel>
+#include "draglabel.h"
 
-class DragSquare : public QLabel
+class DragSquare : public DragLabel
 {
     Q_OBJECT
 public:

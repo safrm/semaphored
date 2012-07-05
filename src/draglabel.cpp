@@ -43,9 +43,18 @@
 #include "draglabel.h"
 
 DragLabel::DragLabel(const QString &text, QWidget *parent)
-    : QLabel(text, parent)
+    : QLabel(text, parent), currentColor(Qt::white)
 {
+    changeColor(Qt::white);
     setAutoFillBackground(true);
     setFrameShape(QFrame::Panel);
     setFrameShadow(QFrame::Raised);
+}
+
+void DragLabel::changeColor(const QColor &acolor)
+{
+    currentColor = acolor;
+    QPalette pal = palette();
+    pal.setColor(backgroundRole(), acolor);
+    setPalette(pal);
 }
