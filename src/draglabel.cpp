@@ -89,33 +89,58 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
     m_RightClickMenu = new QMenu(this);
     QMenu* colorMenu = new QMenu("Color", this);
     QActionGroup* colorGroup = new QActionGroup(this);
-    QAction* pRedColorAction = new QAction(QIcon(":/images/red.svg"), tr("&Red"), this);
-    connect(pRedColorAction,SIGNAL(triggered()),this,SLOT(changeColor(Qt::red)));
+    pRedColorAction = new QAction(QIcon(":/images/red.svg"), tr("&Red"), this);
     pRedColorAction->setCheckable(true);
-    colorMenu->addAction(pRedColorAction);
 
-    QAction* pOrangeColorAction = new QAction(QIcon(":/images/orange.svg"), tr("&Orange"), this);
-    //connect(pCopyFullFileNameAction,SIGNAL(triggered()),this,SLOT(copyFullFileName()));
+    pOrangeColorAction = new QAction(QIcon(":/images/orange.svg"), tr("&Orange"), this);
     pOrangeColorAction->setCheckable(true);
-    colorMenu->addAction(pOrangeColorAction);
 
-    QAction* pGreenColorAction = new QAction(QIcon(":/images/green.svg"), tr("&Green"), this);
-    //connect(pCopyFullFileNameAction,SIGNAL(triggered()),this,SLOT(copyFullFileName()));
+
+    pGreenColorAction = new QAction(QIcon(":/images/green.svg"), tr("&Green"), this);
     pGreenColorAction->setCheckable(true);
+
+    //colorGroup->addSeparator();
+
+    pWhiteColorAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
+    pWhiteColorAction->setCheckable(true);
+    pWhiteColorAction->setChecked(true);
+
+
+    //group
+    colorGroup->addAction(pRedColorAction);
+    colorGroup->addAction(pOrangeColorAction);
+    colorGroup->addAction(pGreenColorAction);
+    colorGroup->addAction(pWhiteColorAction);
+    colorGroup->setExclusive(true);
+    connect(colorGroup,SIGNAL(triggered(QAction *)),this,SLOT(changeColorSlot(QAction*)));
+
+    //menu
+    colorMenu->addAction(pRedColorAction);
+    colorMenu->addAction(pOrangeColorAction);
     colorMenu->addAction(pGreenColorAction);
     colorMenu->addSeparator();
-    QAction* pWhiteColorAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
-    //connect(pCopyFullFileNameAction,SIGNAL(triggered()),this,SLOT(copyFullFileName()));
-    pWhiteColorAction->setCheckable(true);
     colorMenu->addAction(pWhiteColorAction);
-    colorGroup->setExclusive(true);
 
-    colorMenu->addActions(colorGroup->actions());
     m_RightClickMenu->addMenu(colorMenu);
 
   }
 
   return m_RightClickMenu;
+}
+
+void DragLabel::changeColorSlot(QAction* action)
+{
+    QColor newColor(Qt::white);
+    if (action == pRedColorAction )
+        newColor = Qt::red;
+    else if (action == pOrangeColorAction)
+        newColor = QColor(255,128,64);
+    else if (action == pGreenColorAction)
+        newColor = Qt::green;
+    else if (action == pWhiteColorAction)
+        newColor = Qt::white;
+
+    changeColor(newColor);
 }
 
 void DragLabel::mouseDoubleClickEvent ( QMouseEvent * event )

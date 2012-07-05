@@ -146,6 +146,9 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
     if (!child)
         return;
+    if (event->button() == Qt::RightButton)
+        return;
+
 
     QPoint hotSpot = event->pos() - child->pos();
 

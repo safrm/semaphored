@@ -57,16 +57,24 @@ class DragLabel : public QLabel
     Q_OBJECT
 public:
     DragLabel(const QString &text, QWidget *parent);
+    void changeColor(const QColor &acolor);
+
 private:
     QMenu* rightClickMenu();
-    QMenu* m_RightClickMenu;
+private slots:
+    void changeColorSlot(QAction *action);
 
 protected :
     virtual void contextMenuEvent ( QContextMenuEvent * event );
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
-    void changeColor(const QColor &acolor);
 
     QColor currentColor;
+private:
+    QMenu* m_RightClickMenu;
+    QAction* pWhiteColorAction;
+    QAction* pGreenColorAction;
+    QAction* pOrangeColorAction;
+    QAction* pRedColorAction;
 };
 
 #endif
