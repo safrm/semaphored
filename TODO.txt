@@ -5,9 +5,13 @@ New:3 - few shapes
 New:4 - square 2 texts
 New:2 - background color
 Bug:2 - drag and drop changes type
+New:3 - multiselection
+New:3 - multi move
+New:3 - right spliting
 
 DONE - changelog
 -----------------------------
 New:5 - doubleclick edits text + press escape cancels it
 New:3 - change color right click menu (exclusive)
 Bug:3 - drag and drop changes color
+Bug:1 - disable D&D spliting

@@ -122,7 +122,8 @@ void DragWidget::dropEvent(QDropEvent *event)
             color = qvariant_cast<QColor>(mime->colorData());
         }
 
-        foreach (QString piece, pieces) {
+        //foreach (QString piece, pieces) {
+        QString piece = mime->text();
             DragLabel *newLabel = new DragLabel(piece, this);
             newLabel->move(position - hotSpot);
             QPalette palette = newLabel->palette();
@@ -132,7 +133,7 @@ void DragWidget::dropEvent(QDropEvent *event)
             newLabel->setAttribute(Qt::WA_DeleteOnClose);
 
             position += QPoint(newLabel->width(), 0);
-        }
+        //}
 
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
