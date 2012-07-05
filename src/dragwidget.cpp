@@ -101,22 +101,33 @@ void DragWidget::dragEnterEvent(QDragEnterEvent *event)
 
 void DragWidget::dropEvent(QDropEvent *event)
 {
+    QString sCurrentObjName = event->mimeData()->objectName();
+    if (sCurrentObjName == "DragLabel") {
+    }
     if (event->mimeData()->hasText()) {
         const QMimeData *mime = event->mimeData();
         QStringList pieces = mime->text().split(QRegExp("\\s+"),
                              QString::SkipEmptyParts);
         QPoint position = event->pos();
         QPoint hotSpot;
+        QColor color(Qt::white);
+
 
         QList<QByteArray> hotSpotPos = mime->data("application/x-hotspot").split(' ');
         if (hotSpotPos.size() == 2) {
             hotSpot.setX(hotSpotPos.first().toInt());
             hotSpot.setY(hotSpotPos.last().toInt());
         }
+        if(mime->hasColor()) {
+            color = qvariant_cast<QColor>(mime->colorData());
+        }
 
         foreach (QString piece, pieces) {
             DragLabel *newLabel = new DragLabel(piece, this);
             newLabel->move(position - hotSpot);
+            QPalette palette = newLabel->palette();
+            palette.setColor(backgroundRole(),color);
+            newLabel->setPalette(palette);
             newLabel->show();
             newLabel->setAttribute(Qt::WA_DeleteOnClose);
 
@@ -157,6 +168,8 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     mimeData->setData("application/x-hotspot",
                       QByteArray::number(hotSpot.x())
                       + " " + QByteArray::number(hotSpot.y()));
+    mimeData->setColorData(child->palette().color(backgroundRole()));
+
 
     QPixmap pixmap(child->size());
     child->render(&pixmap);

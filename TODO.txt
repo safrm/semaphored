@@ -1,12 +1,13 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
 New:3 - load background image
-Bug:3 - drag and drop changes color
 New:3 - few shapes
 New:4 - square 2 texts
 New:2 - background color
+Bug:2 - drag and drop changes type
 
 DONE - changelog
 -----------------------------
 New:5 - doubleclick edits text + press escape cancels it
 New:3 - change color right click menu (exclusive)
+Bug:3 - drag and drop changes color
