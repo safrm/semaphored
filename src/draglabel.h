@@ -59,6 +59,9 @@ public:
     DragLabel(const QString &text, QWidget *parent);
     void changeColor(const QColor &acolor);
 
+public slots:
+    void editSlot();
+
 private:
     QMenu* rightClickMenu();
 private slots:

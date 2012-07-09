@@ -45,7 +45,9 @@
 
 QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
-class QDropEvent;
+class QMenu;
+class QAction;
+
 QT_END_NAMESPACE
 
 class DragWidget : public QWidget
@@ -61,6 +63,15 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     void mousePressEvent(QMouseEvent *event);
+
+    virtual void contextMenuEvent ( QContextMenuEvent * event );
+
+private:
+    QMenu* rightClickMenu();
+    QMenu* m_RightClickMenu;
+
+    QAction* m_NewLabelAction;
+    QAction* m_NewSquareAction;
 };
 
 #endif

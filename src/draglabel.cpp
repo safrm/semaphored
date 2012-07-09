@@ -84,8 +84,7 @@ void DragLabel::contextMenuEvent( QContextMenuEvent * event )
 }
 QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
 {
-  if (!m_RightClickMenu)
-  {
+  if (!m_RightClickMenu)   {
     m_RightClickMenu = new QMenu(this);
     QMenu* colorMenu = new QMenu("Color", this);
     QActionGroup* colorGroup = new QActionGroup(this);
@@ -145,11 +144,13 @@ void DragLabel::changeColorSlot(QAction* action)
 
 void DragLabel::mouseDoubleClickEvent ( QMouseEvent * event )
 {
-    //edit
-    YellowEditBox* captionEdit = new YellowEditBox(this);
+    emit editSlot();
+}
 
+void DragLabel::editSlot()
+{
+    YellowEditBox* captionEdit = new YellowEditBox(this);
+    //captionEdit->installEventFilter(captionEdit);
     captionEdit->show();
     captionEdit->setFocus();
 }
-
-

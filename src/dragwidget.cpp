@@ -45,7 +45,8 @@
 #include "dragsquare.h"
 
 DragWidget::DragWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      m_RightClickMenu(NULL)
 {
     QFile dictionaryFile(":/dictionary/words.txt");
     dictionaryFile.open(QIODevice::ReadOnly);
@@ -202,4 +203,39 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
     if (dropAction == Qt::MoveAction)
         child->close();
+}
+
+void  DragWidget::contextMenuEvent ( QContextMenuEvent * event )
+{
+    const QAction* selectedAction = rightClickMenu()->exec(event->globalPos());
+    if (selectedAction == m_NewLabelAction) {
+        DragLabel *wordLabel = new DragLabel("line", this);
+        wordLabel->move(event->pos());
+        wordLabel->show();
+        wordLabel->setAttribute(Qt::WA_DeleteOnClose);
+        emit wordLabel->editSlot();
+    } else if (selectedAction == m_NewSquareAction) {
+        DragSquare *wordSqare = new DragSquare("newtest",this);
+        wordSqare->move(event->pos());
+        wordSqare->show();
+        wordSqare->setAttribute(Qt::WA_DeleteOnClose);
+        emit wordSqare->editSlot();
+     }
+}
+
+QMenu* DragWidget::rightClickMenu()
+{
+  if (!m_RightClickMenu) {
+    m_RightClickMenu = new QMenu(this);
+    QMenu* newMenu = new QMenu("New", this);
+
+    m_NewLabelAction = new QAction(QIcon(":/images/new_label.svg"), tr("&Label"), this);
+    newMenu->addAction(m_NewLabelAction);
+
+    m_NewSquareAction = new QAction(QIcon(":/images/new_square.svg"), tr("&Square"), this);
+    newMenu->addAction(m_NewSquareAction);
+
+    m_RightClickMenu->addMenu(newMenu);
+  }
+  return m_RightClickMenu;
 }

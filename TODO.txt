@@ -9,6 +9,7 @@ New:3 - multiselection
 New:3 - multi move
 New:3 - right spliting
 New:2 - input text
+New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
 
 DONE - changelog
 -----------------------------
@@ -18,4 +19,5 @@ Bug:3 - drag and drop changes color
 Bug:1 - disable D&D spliting
 New:2 - input text aligning
 New:5 - Delete All
-
+New:5 - Export as picture
+New:4 - RightClick popup New objects

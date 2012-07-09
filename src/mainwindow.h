@@ -13,6 +13,7 @@ signals:
     
 public slots:
     void deleteAllSlot();
+    void exportAsPictureSlot();
 private:
     void createActions();
     void createMenus();
@@ -20,6 +21,7 @@ private:
 //    void createStatusBar();
 //    void createDockWindows();
 
+    QAction* exportAsPictureAct;
     QAction* deleteAllAct;
 };
 
