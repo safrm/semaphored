@@ -8,8 +8,11 @@ Bug:2 - drag and drop changes type
 New:3 - multiselection
 New:3 - multi move
 New:3 - right spliting
-New:2 - input text
+New:2 - input text dialog + D&D
 New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
+New:2 - show color legend
+New:4 - saving & loading
+New:4 - printing
 
 DONE - changelog
 -----------------------------
