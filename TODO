@@ -1,11 +1,11 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
 New:3 - load background image
-New:3 - few shapes
+New:3 - few shapes for single text
 New:4 - square 2 texts
 New:2 - background color
 Bug:2 - drag and drop changes type
-New:3 - multiselection
+New:3 - 1/2 multiselection : selection visibility, multi operations
 New:3 - multi move
 New:3 - right spliting
 New:2 - input text dialog + D&D
@@ -13,6 +13,10 @@ New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
 New:2 - show color legend
 New:4 - saving & loading
 New:4 - printing
+New:2 - toolbars
+New:2 - title with version number
+New:2 - about dialog
+
 
 DONE - changelog
 -----------------------------
@@ -24,3 +28,6 @@ New:2 - input text aligning
 New:5 - Delete All
 New:5 - Export as picture
 New:4 - RightClick popup New objects
+New:2 - yellowbox click outside cancels edit
+New:3 - 1/2 multiselection: selected widgets array and logic
+

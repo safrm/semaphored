@@ -42,11 +42,14 @@
 #define DRAGWIDGET_H
 
 #include <QWidget>
-
+#include <QList>
+#include <QPoint>
 QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
 class QMenu;
 class QAction;
+class DragLabel;
+
 
 QT_END_NAMESPACE
 
@@ -63,6 +66,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent (QMouseEvent * event);
 
     virtual void contextMenuEvent ( QContextMenuEvent * event );
 
@@ -72,6 +76,10 @@ private:
 
     QAction* m_NewLabelAction;
     QAction* m_NewSquareAction;
+
+    QList<const DragLabel*> selectedItems;
+    QPoint selectionStart;
+    bool bSelecting;
 };
 
 #endif

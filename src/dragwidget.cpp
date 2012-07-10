@@ -43,10 +43,16 @@
 #include "draglabel.h"
 #include "dragwidget.h"
 #include "dragsquare.h"
+#include "yelloweditbox.h"
 
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent),
-      m_RightClickMenu(NULL)
+      m_RightClickMenu(NULL),
+     m_NewLabelAction(NULL),
+     m_NewSquareAction(NULL),
+     selectedItems(),
+     selectionStart(),
+     bSelecting(false)
 {
     QFile dictionaryFile(":/dictionary/words.txt");
     dictionaryFile.open(QIODevice::ReadOnly);
@@ -174,12 +180,40 @@ void DragWidget::dropEvent(QDropEvent *event)
 
 void DragWidget::mousePressEvent(QMouseEvent *event)
 {
-    QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
-    if (!child)
+    QWidget * widget = childAt(event->pos());
+    DragLabel *child(NULL);
+    if (widget && widget->inherits("DragLabel"))
+       child = static_cast<DragLabel*>(widget);
+
+    //we pressed out of objects - so let's begin selection
+    if (!child) {
+        //a bit stupid way but easy.. maybe it could restoe old text instead of applying new one?
+        foreach (QObject *yellowBox, children()) {
+            if (yellowBox->inherits("YellowEditBox")) {
+                emit (static_cast<YellowEditBox*>(yellowBox))->updateText();
+            }
+        }
+        //we have selection so we want to clean it
+        if(selectedItems.size()) {
+           selectedItems.clear();
+           return;
+        } else {
+        //we don't have selection so we try to create it
+        selectionStart = event->pos();
+        bSelecting = true;
         return;
+        }
+    }
+
     if (event->button() == Qt::RightButton)
         return;
 
+    //TODO we have selection and want to work with it
+    if(selectedItems.size()) {
+      //QList<QPoint> hotSpots;
+      //QMimeData *mimeData = new QMimeData;
+      return;
+    }
 
     QPoint hotSpot = event->pos() - child->pos();
 
@@ -203,6 +237,22 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
     if (dropAction == Qt::MoveAction)
         child->close();
+}
+
+void DragWidget::mouseReleaseEvent (QMouseEvent * event)
+{
+    if(bSelecting) {
+        bSelecting = false;
+        QPoint selectionEnd = event->pos();
+        QRect selectionRect(selectionStart,selectionEnd);
+        foreach (QObject *child, children()) {
+            if (child->inherits("DragLabel")) {
+                const DragLabel *widget = static_cast<const DragLabel *>(child);
+                if(selectionRect.contains(widget->geometry()))
+                    selectedItems += widget;
+            }
+        }
+    }
 }
 
 void  DragWidget::contextMenuEvent ( QContextMenuEvent * event )

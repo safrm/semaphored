@@ -23,5 +23,5 @@ OTHER_FILES += \
     debian/control \
     README \
     LICENSE.LGPL \
-    TODO.txt \
+    TODO \
     src/words.txt

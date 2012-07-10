@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     DragWidget* window = new DragWidget();
     setCentralWidget(window);
-
+    //TODO  setWindowTitle("");
 }
 void MainWindow::createActions()
 {
