@@ -15,7 +15,7 @@ New:4 - printing
 New:2 - toolbars
 New:2 - title with version number
 New:2 - about dialog
-New:3 - squere scaling
+New:3 - squere scaling automatic/manual?
 
 DONE - changelog
 -----------------------------
@@ -32,3 +32,4 @@ New:3 - 1/2 multiselection: selected widgets array and logic
 New:1 - Gray color
 Bug:2 - drag and drop changes type
 New:4 - square 2 texts
+Bug:2 - delete all does not delete squares

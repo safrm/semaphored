@@ -55,12 +55,15 @@ QT_END_NAMESPACE
 
 class DragWidget : public QWidget
 {
+    Q_OBJECT
 public:
     DragWidget(QWidget *parent = 0);
     enum { WHITE =  0,
            RED   =  1,
            ORANGE = 2,
            GREEN  = 3} color;
+public slots:
+    void deleteAllItemsSlot();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);

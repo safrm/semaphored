@@ -93,7 +93,7 @@ DragWidget::DragWidget(QWidget *parent)
         }
     } while (!line.isNull());
 
-    //add few testing squeres
+    //add few testing squares
     DragSquare *wordSqare = new DragSquare("test","content", this);
     wordSqare->move(50, 50);
     wordSqare->show();
@@ -147,7 +147,7 @@ void DragWidget::dropEvent(QDropEvent *event)
 
         QString label = mime->text();
 
-        //squere for now
+        //square for now
         if(mime->hasHtml()) {
             QString text = mime->html();
             DragSquare *newSquare = new DragSquare(label, text, this);
@@ -194,6 +194,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         foreach (QObject *yellowBox, children()) {
             if (yellowBox->inherits("YellowEditBox")) {
                 emit (static_cast<YellowEditBox*>(yellowBox))->updateText();
+                return;
             }
         }
         //we have selection so we want to clean it
@@ -229,7 +230,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
     if(labelChild) {
         if(widget->parent()->inherits("DragSquare")) {
-            squareChild = static_cast<DragSquare*>(labelChild->parent()); //we take the whole squere
+            squareChild = static_cast<DragSquare*>(labelChild->parent()); //we take the whole square
         } else {
           QPoint hotSpot = event->pos() - labelChild->pos();
 
@@ -255,7 +256,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
                 labelChild->close();
         }
     }
-    //1 composed squere
+    //1 composed square
     if (squareChild) {
         QPoint hotSpot = event->pos() - squareChild->pos();
 
@@ -336,4 +337,18 @@ QMenu* DragWidget::rightClickMenu()
     m_RightClickMenu->addMenu(newMenu);
   }
   return m_RightClickMenu;
+}
+
+void DragWidget::deleteAllItemsSlot()
+{
+    foreach (QObject *child, children()) {
+        if (child->inherits("DragLabel")) {
+            DragLabel *widget = static_cast<DragLabel *>(child);
+            widget->deleteLater();
+        }
+        if (child->inherits("DragSquare")) {
+            DragSquare *widget = static_cast<DragSquare *>(child);
+            widget->deleteLater();
+        }
+    }
 }

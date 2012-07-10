@@ -10,9 +10,9 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     exportAsPictureAct(NULL),
-    deleteAllAct(NULL)
+    deleteAllAct(NULL),
+    m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
 {
-
     //createDockWindows();
     createActions();
     createMenus();
@@ -20,8 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //createStatusBar();
 
 
-    DragWidget* window = new DragWidget();
-    setCentralWidget(window);
+    setCentralWidget(m_canvasWidget);
     //TODO  setWindowTitle("");
 }
 void MainWindow::createActions()
@@ -32,7 +31,7 @@ void MainWindow::createActions()
 
     deleteAllAct = new QAction(QIcon(":/images/deleteall.svg"), tr("&Delete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
-    connect(deleteAllAct, SIGNAL(triggered()), this, SLOT(deleteAllSlot()));
+    connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
 }
 
 void MainWindow::createMenus()
@@ -45,17 +44,6 @@ void MainWindow::createMenus()
     menuBar()->addMenu(tr("&View"));
     menuBar()->addSeparator();
     menuBar()->addMenu(tr("&Help"));
-}
-
-void MainWindow::deleteAllSlot()
-{
-    foreach (QObject *child, centralWidget()->children()) {
-        if (child->inherits("DragLabel")) {
-            DragLabel *widget = static_cast<DragLabel *>(child);
-            //if (!widget->isVisible())
-               widget->deleteLater();
-        }
-    }
 }
 
 void MainWindow::exportAsPictureSlot()

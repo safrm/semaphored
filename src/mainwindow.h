@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 class QAction;
+class DragWidget;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -12,7 +13,6 @@ public:
 signals:
     
 public slots:
-    void deleteAllSlot();
     void exportAsPictureSlot();
 private:
     void createActions();
@@ -23,6 +23,7 @@ private:
 
     QAction* exportAsPictureAct;
     QAction* deleteAllAct;
+    DragWidget* m_canvasWidget;
 };
 
 #endif // MAINWINDOW_H
