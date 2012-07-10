@@ -39,7 +39,6 @@
 ****************************************************************************/
 
 #include <QtGui>
-
 #include "draglabel.h"
 #include "dragwidget.h"
 #include "dragsquare.h"
@@ -95,7 +94,7 @@ DragWidget::DragWidget(QWidget *parent)
     } while (!line.isNull());
 
     //add few testing squeres
-    DragSquare *wordSqare = new DragSquare("test",this);
+    DragSquare *wordSqare = new DragSquare("test","content", this);
     wordSqare->move(50, 50);
     wordSqare->show();
     wordSqare->setAttribute(Qt::WA_DeleteOnClose);
@@ -126,13 +125,12 @@ void DragWidget::dragEnterEvent(QDragEnterEvent *event)
 
 void DragWidget::dropEvent(QDropEvent *event)
 {
-    QString sCurrentObjName = event->mimeData()->objectName();
+   /* QString sCurrentObjName = event->mimeData()->objectName();
     if (sCurrentObjName == "DragLabel") {
     }
+    */
     if (event->mimeData()->hasText()) {
         const QMimeData *mime = event->mimeData();
-        QStringList pieces = mime->text().split(QRegExp("\\s+"),
-                             QString::SkipEmptyParts);
         QPoint position = event->pos();
         QPoint hotSpot;
         QColor color(Qt::white);
@@ -147,18 +145,26 @@ void DragWidget::dropEvent(QDropEvent *event)
             color = qvariant_cast<QColor>(mime->colorData());
         }
 
-        //foreach (QString piece, pieces) {
-        QString piece = mime->text();
-            DragLabel *newLabel = new DragLabel(piece, this);
-            newLabel->move(position - hotSpot);
-            QPalette palette = newLabel->palette();
-            palette.setColor(backgroundRole(),color);
-            newLabel->setPalette(palette);
-            newLabel->show();
-            newLabel->setAttribute(Qt::WA_DeleteOnClose);
+        QString label = mime->text();
 
-            position += QPoint(newLabel->width(), 0);
-        //}
+        //squere for now
+        if(mime->hasHtml()) {
+            QString text = mime->html();
+            DragSquare *newSquare = new DragSquare(label, text, this);
+            newSquare->move(position - hotSpot);
+            newSquare->changeColor(color);
+            newSquare->show();
+            newSquare->setAttribute(Qt::WA_DeleteOnClose);
+            position += QPoint(newSquare->width(), 0);
+        } else { //label
+          DragLabel *newLabel = new DragLabel(label, this);
+          newLabel->move(position - hotSpot);
+          newLabel->changeColor(color);
+          newLabel->show();
+          newLabel->setAttribute(Qt::WA_DeleteOnClose);
+          position += QPoint(newLabel->width(), 0);
+        }
+
 
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
@@ -181,12 +187,9 @@ void DragWidget::dropEvent(QDropEvent *event)
 void DragWidget::mousePressEvent(QMouseEvent *event)
 {
     QWidget * widget = childAt(event->pos());
-    DragLabel *child(NULL);
-    if (widget && widget->inherits("DragLabel"))
-       child = static_cast<DragLabel*>(widget);
-
-    //we pressed out of objects - so let's begin selection
-    if (!child) {
+    //we pressed out of our objects
+    if (!widget) {
+        //cancel YellowBox edit
         //a bit stupid way but easy.. maybe it could restoe old text instead of applying new one?
         foreach (QObject *yellowBox, children()) {
             if (yellowBox->inherits("YellowEditBox")) {
@@ -215,28 +218,70 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
       return;
     }
 
-    QPoint hotSpot = event->pos() - child->pos();
+    DragLabel *labelChild(NULL);
+    DragSquare *squareChild(NULL);
 
-    QMimeData *mimeData = new QMimeData;
-    mimeData->setText(child->text());
-    mimeData->setData("application/x-hotspot",
-                      QByteArray::number(hotSpot.x())
-                      + " " + QByteArray::number(hotSpot.y()));
-    mimeData->setColorData(child->palette().color(backgroundRole()));
+    //1 label
+    if (widget->inherits("DragLabel"))
+        labelChild = static_cast<DragLabel*>(widget);
+    else if (widget->inherits("DragSquare"))
+        squareChild = static_cast<DragSquare*>(widget);
+
+    if(labelChild) {
+        if(widget->parent()->inherits("DragSquare")) {
+            squareChild = static_cast<DragSquare*>(labelChild->parent()); //we take the whole squere
+        } else {
+          QPoint hotSpot = event->pos() - labelChild->pos();
+
+            QMimeData *mimeData = new QMimeData;
+            mimeData->setText(labelChild->text());
+            mimeData->setData("application/x-hotspot",
+                              QByteArray::number(hotSpot.x())
+                              + " " + QByteArray::number(hotSpot.y()));
+            mimeData->setColorData(labelChild->currentColor());
 
 
-    QPixmap pixmap(child->size());
-    child->render(&pixmap);
+            QPixmap pixmap(labelChild->size());
+            labelChild->render(&pixmap);
 
-    QDrag *drag = new QDrag(this);
-    drag->setMimeData(mimeData);
-    drag->setPixmap(pixmap);
-    drag->setHotSpot(hotSpot);
+            QDrag *drag = new QDrag(this);
+            drag->setMimeData(mimeData);
+            drag->setPixmap(pixmap);
+            drag->setHotSpot(hotSpot);
 
-    Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+            Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 
-    if (dropAction == Qt::MoveAction)
-        child->close();
+            if (dropAction == Qt::MoveAction)
+                labelChild->close();
+        }
+    }
+    //1 composed squere
+    if (squareChild) {
+        QPoint hotSpot = event->pos() - squareChild->pos();
+
+         QMimeData *mimeData = new QMimeData;
+         mimeData->setText(squareChild->label());
+         mimeData->setHtml(squareChild->text());
+         mimeData->setData("application/x-hotspot",
+                           QByteArray::number(hotSpot.x())
+                           + " " + QByteArray::number(hotSpot.y()));
+         mimeData->setColorData(squareChild->currentColor());
+
+
+         QPixmap pixmap(squareChild->size());
+         squareChild->render(&pixmap);
+
+         QDrag *drag = new QDrag(this);
+         drag->setMimeData(mimeData);
+         drag->setPixmap(pixmap);
+         drag->setHotSpot(hotSpot);
+
+         Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+
+         if (dropAction == Qt::MoveAction)
+             squareChild->close();
+    }
+
 }
 
 void DragWidget::mouseReleaseEvent (QMouseEvent * event)
@@ -257,20 +302,23 @@ void DragWidget::mouseReleaseEvent (QMouseEvent * event)
 
 void  DragWidget::contextMenuEvent ( QContextMenuEvent * event )
 {
-    const QAction* selectedAction = rightClickMenu()->exec(event->globalPos());
+    event->accept();
+    QPoint pos = event->globalPos();
+    QAction* selectedAction = rightClickMenu()->exec(pos);
     if (selectedAction == m_NewLabelAction) {
         DragLabel *wordLabel = new DragLabel("line", this);
         wordLabel->move(event->pos());
         wordLabel->show();
         wordLabel->setAttribute(Qt::WA_DeleteOnClose);
-        emit wordLabel->editSlot();
+        wordLabel->editSlot();
     } else if (selectedAction == m_NewSquareAction) {
-        DragSquare *wordSqare = new DragSquare("newtest",this);
+        DragSquare *wordSqare = new DragSquare("newtest","content2", this);
         wordSqare->move(event->pos());
         wordSqare->show();
         wordSqare->setAttribute(Qt::WA_DeleteOnClose);
-        emit wordSqare->editSlot();
+        wordSqare->editLabelSlot();
      }
+
 }
 
 QMenu* DragWidget::rightClickMenu()

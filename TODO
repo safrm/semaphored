@@ -1,10 +1,9 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
+
 New:3 - load background image
 New:3 - few shapes for single text
-New:4 - square 2 texts
 New:2 - background color
-Bug:2 - drag and drop changes type
 New:3 - 1/2 multiselection : selection visibility, multi operations
 New:3 - multi move
 New:3 - right spliting
@@ -16,7 +15,7 @@ New:4 - printing
 New:2 - toolbars
 New:2 - title with version number
 New:2 - about dialog
-
+New:3 - squere scaling
 
 DONE - changelog
 -----------------------------
@@ -30,4 +29,6 @@ New:5 - Export as picture
 New:4 - RightClick popup New objects
 New:2 - yellowbox click outside cancels edit
 New:3 - 1/2 multiselection: selected widgets array and logic
-
+New:1 - Gray color
+Bug:2 - drag and drop changes type
+New:4 - square 2 texts

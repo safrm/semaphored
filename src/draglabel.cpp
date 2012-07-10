@@ -38,15 +38,16 @@
 **
 ****************************************************************************/
 
-#include <QtGui>
-# include <QActionGroup>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QActionGroup>
 #include "draglabel.h"
 #include "yelloweditbox.h"
 
 DragLabel::DragLabel(const QString &text, QWidget *parent)
     : QLabel(text, parent),
       m_RightClickMenu(NULL),
-      currentColor(Qt::white)
+      m_currentColor(Qt::white)
 {
     changeColor(Qt::white);
     setAutoFillBackground(true);
@@ -56,32 +57,24 @@ DragLabel::DragLabel(const QString &text, QWidget *parent)
 
 void DragLabel::changeColor(const QColor &acolor)
 {
-    currentColor = acolor;
-    QPalette pal = palette();
-    pal.setColor(backgroundRole(), acolor);
-    setPalette(pal);
+    if(m_currentColor !=  acolor ) {
+        m_currentColor = acolor;
+        QPalette pal = palette();
+        pal.setColor(backgroundRole(), acolor);
+        setPalette(pal);
+        emit colorChangedSignal();
+    }
 }
 
 void DragLabel::contextMenuEvent( QContextMenuEvent * event )
 {
-    //first ativate right editor window
-    /*QPoint position = event->pos();
-    int c = tabBar()->count();
-    int clickedItem(-1);
-    int i(0);
-    for (; i<c; ++i) {
-    if (tabBar()->tabRect(i).contains(position)) {
-      clickedItem = i;
-      break;
-    }
-    }
-    if (clickedItem != -1)
-    setCurrentIndex(clickedItem);
-*/
-    //execute menu
+    event->accept();
+    //if(!parent()->inherits("DragSquare")) { //separated
     const QAction* selectedAction = rightClickMenu()->exec(event->globalPos());
 //    if (selectedAction == m_openAct) {
+    //}
 }
+
 QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
 {
   if (!m_RightClickMenu)   {
@@ -104,12 +97,15 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
     pWhiteColorAction->setCheckable(true);
     pWhiteColorAction->setChecked(true);
 
+    pGrayColorAction = new QAction(QIcon(":/images/gray.svg"), tr("&Gray"), this);
+    pGrayColorAction->setCheckable(true);
 
     //group
     colorGroup->addAction(pRedColorAction);
     colorGroup->addAction(pOrangeColorAction);
     colorGroup->addAction(pGreenColorAction);
     colorGroup->addAction(pWhiteColorAction);
+    colorGroup->addAction(pGrayColorAction);
     colorGroup->setExclusive(true);
     connect(colorGroup,SIGNAL(triggered(QAction *)),this,SLOT(changeColorSlot(QAction*)));
 
@@ -119,11 +115,10 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
     colorMenu->addAction(pGreenColorAction);
     colorMenu->addSeparator();
     colorMenu->addAction(pWhiteColorAction);
+    colorMenu->addAction(pGrayColorAction);
 
     m_RightClickMenu->addMenu(colorMenu);
-
   }
-
   return m_RightClickMenu;
 }
 
@@ -133,11 +128,13 @@ void DragLabel::changeColorSlot(QAction* action)
     if (action == pRedColorAction )
         newColor = Qt::red;
     else if (action == pOrangeColorAction)
-        newColor = QColor(255,128,64);
+        newColor = QColor(254,154,46);//newColor = QColor(255,128,64);
     else if (action == pGreenColorAction)
         newColor = Qt::green;
     else if (action == pWhiteColorAction)
         newColor = Qt::white;
+    else if (action == pGrayColorAction)
+        newColor = Qt::lightGray;
 
     changeColor(newColor);
 }

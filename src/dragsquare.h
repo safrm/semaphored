@@ -1,17 +1,30 @@
 #ifndef DRAGSQUARE_H
 #define DRAGSQUARE_H
 
-#include "draglabel.h"
-
-class DragSquare : public DragLabel
+#include <QFrame>
+class DragLabel;
+class QTextEdit;
+class QColor;
+class DragSquare : public QFrame
 {
     Q_OBJECT
 public:
-    explicit DragSquare(const QString &text, QWidget *parent = 0);
+    explicit DragSquare(const QString &label, const QString &text, QWidget *parent = 0);
+    QString label();
+    QString text();
+    QColor currentColor();
+    void changeColor(const QColor &acolor);
 
-signals:
-    
+
 public slots:
+    void updateColorsSlot();
+    void editLabelSlot() ;
+protected :
+    virtual void contextMenuEvent ( QContextMenuEvent * event );
+private:
+
+        DragLabel* labelDragLabel;
+        QTextEdit* textTextEdit;
     
 };
 
