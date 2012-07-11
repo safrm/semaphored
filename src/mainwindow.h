@@ -38,6 +38,8 @@ signals:
     
 public slots:
     void exportAsPictureSlot();
+    void changeBackgroundColorSlot(QAction* action);
+
 private:
     void createActions();
     void createMenus();
@@ -47,6 +49,10 @@ private:
 
     QAction* exportAsPictureAct;
     QAction* deleteAllAct;
+    QAction* loadBackgroundImageAct;
+    QAction* m_BgColorWhiteAction;
+    QAction* m_BgColorGrayAction ;
+    QAction* m_BgColorCyanAction;
     DragWidget* m_canvasWidget;
 };
 

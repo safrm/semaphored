@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     exportAsPictureAct(NULL),
     deleteAllAct(NULL),
+    loadBackgroundImageAct(NULL),
     m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
 {
     //createDockWindows();
@@ -56,6 +57,27 @@ void MainWindow::createActions()
     deleteAllAct = new QAction(QIcon(":/images/deleteall.svg"), tr("&Delete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
     connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
+
+    loadBackgroundImageAct = new QAction(QIcon(":/images/load_background_image.svg"), tr("&Load background image"), this);
+    loadBackgroundImageAct->setStatusTip(tr("Load background image"));
+    connect(loadBackgroundImageAct, SIGNAL(triggered()), m_canvasWidget, SLOT(loadBackgroundImageSlot()));
+
+    QActionGroup* backgroundColorGroup = new QActionGroup(this);
+    m_BgColorWhiteAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
+    m_BgColorWhiteAction->setCheckable(true);
+    m_BgColorWhiteAction->setChecked(true);
+
+    m_BgColorGrayAction = new QAction(QIcon(":/images/gray.svg"), tr("&Gray"), this);
+    m_BgColorGrayAction->setCheckable(true);
+
+    m_BgColorCyanAction = new QAction(QIcon(":/images/cyan.svg"), tr("&Cyan"), this);
+    m_BgColorCyanAction->setCheckable(true);
+
+    backgroundColorGroup->addAction(m_BgColorWhiteAction);
+    backgroundColorGroup->addAction(m_BgColorGrayAction);
+    backgroundColorGroup->addAction(m_BgColorCyanAction);
+    backgroundColorGroup->setExclusive(true);
+    connect(backgroundColorGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundColorSlot(QAction*)));
 }
 
 void MainWindow::createMenus()
@@ -65,7 +87,14 @@ void MainWindow::createMenus()
     QMenu* editMenu = menuBar()->addMenu(tr("&Edit"));
     editMenu->addAction(deleteAllAct);
 
-    menuBar()->addMenu(tr("&View"));
+    //menuBar()->addMenu(tr("&View"));
+    QMenu* backgroundMenu = menuBar()->addMenu(tr("&Background"));
+    backgroundMenu->addAction(m_BgColorWhiteAction);
+    backgroundMenu->addAction(m_BgColorGrayAction);
+    backgroundMenu->addAction(m_BgColorCyanAction);
+    backgroundMenu->addSeparator();
+    backgroundMenu->addAction(loadBackgroundImageAct);
+
     menuBar()->addSeparator();
     menuBar()->addMenu(tr("&Help"));
 }
@@ -87,4 +116,17 @@ void MainWindow::exportAsPictureSlot()
             QMessageBox::warning(this,"Picture was not exported", "Your system supports only following formats: " +supportedFormats);
         }
     }
+}
+
+void MainWindow::changeBackgroundColorSlot(QAction * action)
+{
+    QColor newColor(Qt::white);
+    if (action == m_BgColorWhiteAction )
+        newColor = Qt::white;
+    else if (action == m_BgColorGrayAction)
+        newColor = Qt::gray;
+    else if (action == m_BgColorCyanAction)
+        newColor = Qt::cyan;
+
+    m_canvasWidget->changeBackgroundColor(newColor);
 }

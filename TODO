@@ -1,19 +1,21 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
+New:2 - title with version number
+New:3 - 1/2 load background image
+New:4 - saving & loading
+New:4 - printing
+New:2 - toolbars
+New:5 - delete one item
+--- 1st release ---
 
-New:3 - load background image
 New:3 - few shapes for single text
-New:2 - background color
+New:2 - background kanban table: backlog,todo, in progress, done
 New:3 - 1/2 multiselection : selection visibility, multi operations
 New:3 - multi move
 New:3 - right spliting
 New:2 - input text dialog + D&D
 New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
 New:2 - show color legend
-New:4 - saving & loading
-New:4 - printing
-New:2 - toolbars
-New:2 - title with version number
 New:2 - about dialog
 New:3 - squere scaling automatic/manual?
 
@@ -33,3 +35,6 @@ New:1 - Gray color
 Bug:2 - drag and drop changes type
 New:4 - square 2 texts
 Bug:2 - delete all does not delete squares
+New:2 - background color
+New:3 - 1/2 load background image
+Chg:2 - current color taken from role color

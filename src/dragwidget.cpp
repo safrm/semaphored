@@ -23,6 +23,8 @@
 ****************************************************************************/
 
 #include <QtGui>
+#include <QActionGroup>
+
 #include "draglabel.h"
 #include "dragwidget.h"
 #include "dragsquare.h"
@@ -89,6 +91,7 @@ DragWidget::DragWidget(QWidget *parent)
     setPalette(newPalette);
 
     setAcceptDrops(true);
+    setAutoFillBackground(true);
     setMinimumSize(600, qMax(300, y));
     setWindowTitle(tr("sempathored"));
 }
@@ -335,4 +338,36 @@ void DragWidget::deleteAllItemsSlot()
             widget->deleteLater();
         }
     }
+}
+
+void DragWidget::loadBackgroundImageSlot()
+{
+    QString supportedFormats("");
+    foreach(QByteArray name,QImageWriter::supportedImageFormats())
+        supportedFormats +=  name + " ";
+    QString sFilename = QFileDialog::getOpenFileName(this, "Load background image: " + supportedFormats,"",
+                                                     tr("Images (*.png *.xpm *.jpg)"));
+    if(sFilename.size()) {
+        QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
+        //suffix = suffix.mid(suffix.lastIndexOf('.')); - grabs the last period in addition to the suffix
+        if(QImageWriter::supportedImageFormats().contains(ext)) {
+            /*QPalette pal = palette();
+            pal.setBrush(backgroundRole(), QBrush(QImage(sFilename)));
+            setPalette(pal);
+            */
+            //setStyleSheet(QString::fromUtf8("background-image: url(:/new/prefix1/icon/Smiley.bmp);"));
+            setStyleSheet(QString("background-image: " + sFilename + ";"));
+        } else {
+            QMessageBox::warning(this,"Image format is not supported", "Your system supports only following formats: " +supportedFormats);
+        }
+    }
+}
+
+void DragWidget::changeBackgroundColor(const QColor &acolor)
+{
+    QPalette pal = palette();
+    pal.setBrush(backgroundRole(), acolor);
+    setPalette(pal);
+    //setStyleSheet(QString("background-image: " + sFilename + ";"));
+    //setStyleSheet("background-color: rgb(85, 170, 255)");
 }

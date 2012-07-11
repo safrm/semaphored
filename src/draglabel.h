@@ -42,7 +42,7 @@ class DragLabel : public QLabel
 public:
     DragLabel(const QString &text, QWidget *parent);
     void changeColor(const QColor &acolor);
-    QColor currentColor() { return m_currentColor;};
+    QColor currentColor();
 
 signals:
     void colorChangedSignal();
@@ -60,7 +60,7 @@ protected :
 
 
 private:
-    QColor m_currentColor;
+    //QColor m_currentColor;
     QMenu*   m_RightClickMenu;
     QAction* pWhiteColorAction;
     QAction* pGrayColorAction;

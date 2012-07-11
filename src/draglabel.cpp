@@ -30,8 +30,7 @@
 
 DragLabel::DragLabel(const QString &text, QWidget *parent)
     : QLabel(text, parent),
-      m_RightClickMenu(NULL),
-      m_currentColor(Qt::white)
+      m_RightClickMenu(NULL)
 {
     changeColor(Qt::white);
     setAutoFillBackground(true);
@@ -41,8 +40,7 @@ DragLabel::DragLabel(const QString &text, QWidget *parent)
 
 void DragLabel::changeColor(const QColor &acolor)
 {
-    if(m_currentColor !=  acolor ) {
-        m_currentColor = acolor;
+    if(currentColor() !=  acolor ) {
         QPalette pal = palette();
         pal.setColor(backgroundRole(), acolor);
         setPalette(pal);
@@ -74,8 +72,6 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
 
     pGreenColorAction = new QAction(QIcon(":/images/green.svg"), tr("&Green"), this);
     pGreenColorAction->setCheckable(true);
-
-    //colorGroup->addSeparator();
 
     pWhiteColorAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
     pWhiteColorAction->setCheckable(true);
@@ -134,4 +130,8 @@ void DragLabel::editSlot()
     //captionEdit->installEventFilter(captionEdit);
     captionEdit->show();
     captionEdit->setFocus();
+}
+QColor DragLabel::currentColor()
+{
+    return palette().color(backgroundRole());
 }

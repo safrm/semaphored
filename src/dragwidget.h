@@ -46,8 +46,10 @@ public:
            RED   =  1,
            ORANGE = 2,
            GREEN  = 3} color;
+    void changeBackgroundColor(const QColor &acolor);
 public slots:
     void deleteAllItemsSlot();
+    void loadBackgroundImageSlot();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
@@ -58,6 +60,7 @@ protected:
     virtual void contextMenuEvent ( QContextMenuEvent * event );
 
 private:
+
     QMenu* rightClickMenu();
     QMenu* m_RightClickMenu;
 
