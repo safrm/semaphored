@@ -294,19 +294,18 @@ void  DragWidget::contextMenuEvent ( QContextMenuEvent * event )
     QPoint pos = event->globalPos();
     QAction* selectedAction = rightClickMenu()->exec(pos);
     if (selectedAction == m_NewLabelAction) {
-        DragLabel *wordLabel = new DragLabel("line", this);
+        DragLabel *wordLabel = new DragLabel("label", this);
         wordLabel->move(event->pos());
         wordLabel->show();
         wordLabel->setAttribute(Qt::WA_DeleteOnClose);
         wordLabel->editSlot();
     } else if (selectedAction == m_NewSquareAction) {
-        DragSquare *wordSqare = new DragSquare("newtest","content2", this);
+        DragSquare *wordSqare = new DragSquare("sqare","comments", this);
         wordSqare->move(event->pos());
         wordSqare->show();
         wordSqare->setAttribute(Qt::WA_DeleteOnClose);
         wordSqare->editLabelSlot();
      }
-
 }
 
 QMenu* DragWidget::rightClickMenu()

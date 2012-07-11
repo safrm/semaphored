@@ -53,6 +53,7 @@ public:
     QMenu* rightClickMenu();
 private slots:
     void changeColorSlot(QAction *action);
+    void deleteItemSlot();
 
 protected :
     virtual void contextMenuEvent ( QContextMenuEvent * event );

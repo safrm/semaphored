@@ -5,7 +5,6 @@ New:3 - 1/2 load background image
 New:4 - saving & loading
 New:4 - printing
 New:2 - toolbars
-New:5 - delete one item
 --- 1st release ---
 
 New:3 - few shapes for single text
@@ -38,3 +37,5 @@ Bug:2 - delete all does not delete squares
 New:2 - background color
 New:3 - 1/2 load background image
 Chg:2 - current color taken from role color
+New:1 - Quit in menu
+New:5 - delete one item

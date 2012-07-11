@@ -48,6 +48,7 @@ private:
 //    void createDockWindows();
 
     QAction* exportAsPictureAct;
+    QAction* quitAct;
     QAction* deleteAllAct;
     QAction* loadBackgroundImageAct;
     QAction* m_BgColorWhiteAction;

@@ -34,6 +34,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     exportAsPictureAct(NULL),
+    quitAct(NULL),
     deleteAllAct(NULL),
     loadBackgroundImageAct(NULL),
     m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
@@ -53,6 +54,10 @@ void MainWindow::createActions()
     exportAsPictureAct = new QAction(QIcon(":/images/export_as_picture.svg"), tr("&Export As picture"), this);
     exportAsPictureAct->setStatusTip(tr("Export As picture"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
+
+    quitAct = new QAction(QIcon(":/images/quit.svg"), tr("&Quit"), this);
+    quitAct->setStatusTip(tr("Quit"));
+    connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
 
     deleteAllAct = new QAction(QIcon(":/images/deleteall.svg"), tr("&Delete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
@@ -84,6 +89,8 @@ void MainWindow::createMenus()
 {
     QMenu* fileMenu =menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(exportAsPictureAct);
+    fileMenu->addSeparator();
+    fileMenu->addAction(quitAct);
     QMenu* editMenu = menuBar()->addMenu(tr("&Edit"));
     editMenu->addAction(deleteAllAct);
 

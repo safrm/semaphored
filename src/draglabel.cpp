@@ -97,7 +97,12 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
     colorMenu->addAction(pWhiteColorAction);
     colorMenu->addAction(pGrayColorAction);
 
+    QAction* pDeleteAction = new QAction(QIcon(":/images/delete.svg"), tr("&Delete"), this);
+    connect(pDeleteAction,SIGNAL(triggered()),this,SLOT(deleteItemSlot()));
+
+
     m_RightClickMenu->addMenu(colorMenu);
+    m_RightClickMenu->addAction(pDeleteAction);
   }
   return m_RightClickMenu;
 }
@@ -131,7 +136,16 @@ void DragLabel::editSlot()
     captionEdit->show();
     captionEdit->setFocus();
 }
+
 QColor DragLabel::currentColor()
 {
     return palette().color(backgroundRole());
+}
+
+void DragLabel::deleteItemSlot()
+{
+    if(parentWidget()->inherits("DragSquare"))
+       parentWidget()->close();
+    else
+      close();
 }
