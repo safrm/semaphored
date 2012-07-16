@@ -81,7 +81,7 @@ DragWidget::DragWidget(QWidget *parent)
 
     //add few testing squares
     DragSquare *wordSqare = new DragSquare("test","content", this);
-    wordSqare->move(50, 50);
+    wordSqare->move(250, 50);
     wordSqare->show();
     wordSqare->setAttribute(Qt::WA_DeleteOnClose);
 
