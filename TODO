@@ -1,15 +1,14 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
 New:2 - title with version number
-New:3 - 1/2 load background image
 New:4 - saving & loading
 New:4 - printing
 New:2 - toolbars
 --- 1st release ---
 
 New:3 - few shapes for single text
-New:2 - background kanban table: backlog,todo, in progress, done
 New:2 - background sizes
+New:3 - background scaling
 New:3 - 1/2 multiselection : selection visibility, multi operations
 New:3 - multi move
 New:3 - right spliting
@@ -40,3 +39,7 @@ New:3 - 1/2 load background image
 Chg:2 - current color taken from role color
 New:1 - Quit in menu
 New:5 - delete one item
+New:2 - default image background
+New:3 - 1/2 load background image
+New:2 - background kanban table: backlog,todo, in progress, done
+New:1 - colorful titles in example

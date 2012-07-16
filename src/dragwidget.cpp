@@ -30,9 +30,15 @@
 #include "dragsquare.h"
 #include "yelloweditbox.h"
 
+QString DragWidget::BG_IMAGE_DEFAULT_1(":/images/default.png");
+QString DragWidget::BG_IMAGE_DEFAULT_2(":/images/bg-semaphored-a5.png");
+QString DragWidget::BG_IMAGE_KANBAN_1(":/images/bg-kanban1-a5.png");
+QString DragWidget::BG_IMAGE_KANBAN_2(":/images/bg-kanban2-a5.png");
+QSize DragWidget::DEFAULT_SIZE(720,445); //A5
+QMenu * DragWidget::m_RightClickMenu(NULL);
+
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent),
-      m_RightClickMenu(NULL),
      m_NewLabelAction(NULL),
      m_NewSquareAction(NULL),
      selectedItems(),
@@ -63,11 +69,23 @@ DragWidget::DragWidget(QWidget *parent)
     }
     */
     //line by  line
+    QColor titleColor(Qt::green);
+    int iColorCounter(0);
     QString line;
     do {
         line = inputStream.readLine();
         if (!line.isEmpty()) {
-            DragLabel *wordLabel = new DragLabel(line, this);
+            //colorful titles in example
+            switch(iColorCounter++ % 5) {
+             case 0: titleColor = Qt::white; break;
+             case 1: titleColor = Qt::lightGray; break;
+             case 2: titleColor = Qt::green; break;
+             case 3: titleColor = QColor(254,154,46); break;
+             case 4:
+             default: titleColor = Qt::red; break;
+            }
+
+            DragLabel *wordLabel = new DragLabel(line, this, titleColor);
             wordLabel->move(x, y);
             wordLabel->show();
             wordLabel->setAttribute(Qt::WA_DeleteOnClose);
@@ -86,13 +104,14 @@ DragWidget::DragWidget(QWidget *parent)
     wordSqare->setAttribute(Qt::WA_DeleteOnClose);
 
     //backround color?
-    QPalette newPalette = palette();
-    newPalette.setColor(QPalette::Window, Qt::white);
-    setPalette(newPalette);
+
+    QPalette pal = palette();
+    pal.setBrush(backgroundRole(), QBrush(QImage(BG_IMAGE_DEFAULT_1)));
+    setPalette(pal);
 
     setAcceptDrops(true);
     setAutoFillBackground(true);
-    setMinimumSize(600, qMax(300, y));
+    setMinimumSize(DEFAULT_SIZE);
     setWindowTitle(tr("sempathored"));
 }
 
@@ -339,27 +358,15 @@ void DragWidget::deleteAllItemsSlot()
     }
 }
 
-void DragWidget::loadBackgroundImageSlot()
+void DragWidget::loadUserBackgroundImage()
 {
     QString supportedFormats("");
     foreach(QByteArray name,QImageWriter::supportedImageFormats())
         supportedFormats +=  name + " ";
     QString sFilename = QFileDialog::getOpenFileName(this, "Load background image: " + supportedFormats,"",
                                                      tr("Images (*.png *.xpm *.jpg)"));
-    if(sFilename.size()) {
-        QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
-        //suffix = suffix.mid(suffix.lastIndexOf('.')); - grabs the last period in addition to the suffix
-        if(QImageWriter::supportedImageFormats().contains(ext)) {
-            /*QPalette pal = palette();
-            pal.setBrush(backgroundRole(), QBrush(QImage(sFilename)));
-            setPalette(pal);
-            */
-            //setStyleSheet(QString::fromUtf8("background-image: url(:/new/prefix1/icon/Smiley.bmp);"));
-            setStyleSheet(QString("background-image: " + sFilename + ";"));
-        } else {
-            QMessageBox::warning(this,"Image format is not supported", "Your system supports only following formats: " +supportedFormats);
-        }
-    }
+    if(sFilename.size())
+        changeBackgroundImage(sFilename);
 }
 
 void DragWidget::changeBackgroundColor(const QColor &acolor)
@@ -369,4 +376,27 @@ void DragWidget::changeBackgroundColor(const QColor &acolor)
     setPalette(pal);
     //setStyleSheet(QString("background-image: " + sFilename + ";"));
     //setStyleSheet("background-color: rgb(85, 170, 255)");
+}
+
+void DragWidget::changeBackgroundImage(const QString  &sFilename)
+{
+    QString supportedFormats("");
+    foreach(QByteArray name,QImageWriter::supportedImageFormats())
+        supportedFormats +=  name + " ";
+    if(sFilename.size()) {
+        QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
+        if(QImageWriter::supportedImageFormats().contains(ext)) {
+            QImage newImage(sFilename);
+            if(!newImage.isNull()) {
+                QPalette pal = palette();
+                pal.setBrush(backgroundRole(), QBrush(newImage));
+                setPalette(pal);
+            }  else {
+                QMessageBox::warning(this,"Image does not exist or is not supported", "Your system supports only following formats: " +supportedFormats);
+                return;
+            }
+        } else {
+            QMessageBox::warning(this,"Image format is not supported", "Your system supports only following formats: " +supportedFormats);
+        }
+    }
 }

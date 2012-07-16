@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent) :
     exportAsPictureAct(NULL),
     quitAct(NULL),
     deleteAllAct(NULL),
-    loadBackgroundImageAct(NULL),
     m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
 {
     //createDockWindows();
@@ -63,14 +62,9 @@ void MainWindow::createActions()
     deleteAllAct->setStatusTip(tr("Delete all"));
     connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
 
-    loadBackgroundImageAct = new QAction(QIcon(":/images/load_background_image.svg"), tr("&Load background image"), this);
-    loadBackgroundImageAct->setStatusTip(tr("Load background image"));
-    connect(loadBackgroundImageAct, SIGNAL(triggered()), m_canvasWidget, SLOT(loadBackgroundImageSlot()));
-
     QActionGroup* backgroundColorGroup = new QActionGroup(this);
     m_BgColorWhiteAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
     m_BgColorWhiteAction->setCheckable(true);
-    m_BgColorWhiteAction->setChecked(true);
 
     m_BgColorGrayAction = new QAction(QIcon(":/images/gray.svg"), tr("&Gray"), this);
     m_BgColorGrayAction->setCheckable(true);
@@ -78,9 +72,31 @@ void MainWindow::createActions()
     m_BgColorCyanAction = new QAction(QIcon(":/images/cyan.svg"), tr("&Cyan"), this);
     m_BgColorCyanAction->setCheckable(true);
 
+    m_BgDefaultImage1Action = new QAction(QIcon(":/images/default_image1.svg"), tr("&Default background image titles"), this);
+    m_BgDefaultImage1Action->setCheckable(true);
+    m_BgDefaultImage1Action->setChecked(true);
+
+    m_BgDefaultImage2Action = new QAction(QIcon(":/images/default_image2.svg"), tr("&Default background image painting"), this);
+    m_BgDefaultImage2Action->setCheckable(true);
+
+    m_BgImageKanban1Action = new QAction(QIcon(":/images/image_kanban_1.svg"), tr("&Background image Kanban 1"), this);
+    m_BgImageKanban1Action->setCheckable(true);
+    m_BgImageKanban2Action = new QAction(QIcon(":/images/image_kanban_2.svg"), tr("&Background image Kanban 2"), this);
+    m_BgImageKanban2Action->setCheckable(true);
+
+    m_BgUserImageAction = new QAction(QIcon(":/images/load_background_image.svg"), tr("&User background image"), this);
+    m_BgUserImageAction->setStatusTip(tr("User background image"));
+    m_BgUserImageAction->setCheckable(true);
+    //connect(m_BgUserImageAction, SIGNAL(triggered()), m_canvasWidget, SLOT(loadBackgroundImageSlot()));
+
     backgroundColorGroup->addAction(m_BgColorWhiteAction);
     backgroundColorGroup->addAction(m_BgColorGrayAction);
     backgroundColorGroup->addAction(m_BgColorCyanAction);
+    backgroundColorGroup->addAction(m_BgDefaultImage1Action);
+    backgroundColorGroup->addAction(m_BgDefaultImage2Action);
+    backgroundColorGroup->addAction(m_BgImageKanban1Action);
+    backgroundColorGroup->addAction(m_BgImageKanban2Action);
+    backgroundColorGroup->addAction(m_BgUserImageAction);
     backgroundColorGroup->setExclusive(true);
     connect(backgroundColorGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundColorSlot(QAction*)));
 }
@@ -100,7 +116,12 @@ void MainWindow::createMenus()
     backgroundMenu->addAction(m_BgColorGrayAction);
     backgroundMenu->addAction(m_BgColorCyanAction);
     backgroundMenu->addSeparator();
-    backgroundMenu->addAction(loadBackgroundImageAct);
+    backgroundMenu->addAction(m_BgDefaultImage1Action);
+    backgroundMenu->addAction(m_BgDefaultImage2Action);
+    backgroundMenu->addAction(m_BgImageKanban1Action);
+    backgroundMenu->addAction(m_BgImageKanban2Action);
+    backgroundMenu->addSeparator();
+    backgroundMenu->addAction(m_BgUserImageAction);
 
     menuBar()->addSeparator();
     menuBar()->addMenu(tr("&Help"));
@@ -129,11 +150,19 @@ void MainWindow::changeBackgroundColorSlot(QAction * action)
 {
     QColor newColor(Qt::white);
     if (action == m_BgColorWhiteAction )
-        newColor = Qt::white;
+        m_canvasWidget->changeBackgroundColor(Qt::white);
     else if (action == m_BgColorGrayAction)
-        newColor = Qt::gray;
+        m_canvasWidget->changeBackgroundColor(Qt::gray);
     else if (action == m_BgColorCyanAction)
-        newColor = Qt::cyan;
-
-    m_canvasWidget->changeBackgroundColor(newColor);
-}
+        m_canvasWidget->changeBackgroundColor(newColor = Qt::cyan);
+    else if (action == m_BgDefaultImage1Action)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_DEFAULT_1);
+    else if (action == m_BgDefaultImage2Action)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_DEFAULT_2);
+    else if (action == m_BgImageKanban1Action)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1);
+    else if (action == m_BgImageKanban2Action)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2);
+    else if (action == m_BgUserImageAction)
+        m_canvasWidget->loadUserBackgroundImage();
+  }

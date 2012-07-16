@@ -46,10 +46,17 @@ public:
            RED   =  1,
            ORANGE = 2,
            GREEN  = 3} color;
+    static QString BG_IMAGE_DEFAULT_1;
+    static QString BG_IMAGE_DEFAULT_2;
+    static QString BG_IMAGE_KANBAN_1;
+    static QString BG_IMAGE_KANBAN_2;
+    static QSize DEFAULT_SIZE;
     void changeBackgroundColor(const QColor &acolor);
+    void changeBackgroundImage(const QString  &sFilename);
+    void loadUserBackgroundImage();
+
 public slots:
     void deleteAllItemsSlot();
-    void loadBackgroundImageSlot();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
@@ -62,7 +69,7 @@ protected:
 private:
 
     QMenu* rightClickMenu();
-    QMenu* m_RightClickMenu;
+    static QMenu* m_RightClickMenu;
 
     QAction* m_NewLabelAction;
     QAction* m_NewSquareAction;

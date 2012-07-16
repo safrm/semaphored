@@ -33,7 +33,7 @@ class DragSquare : public QFrame
 {
     Q_OBJECT
 public:
-    explicit DragSquare(const QString &label, const QString &text, QWidget *parent = 0);
+    explicit DragSquare(const QString &label, const QString &text, QWidget *parent = 0, const QColor &defaultColor = Qt::white);
     QString label();
     QString text();
     QColor currentColor();

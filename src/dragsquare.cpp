@@ -30,7 +30,7 @@
 #include "dragsquare.h"
 #include "draglabel.h"
 
-DragSquare::DragSquare(const QString &label, const QString &text, QWidget *parent)
+DragSquare::DragSquare(const QString &label, const QString &text, QWidget *parent,const QColor &defaultColor )
     : QFrame(parent)
 {
 
@@ -40,7 +40,7 @@ DragSquare::DragSquare(const QString &label, const QString &text, QWidget *paren
 
     QVBoxLayout * mainLayout= new QVBoxLayout(this);
     mainLayout->setContentsMargins(0,0,0,0);
-    labelDragLabel = new DragLabel(label, this);
+    labelDragLabel = new DragLabel(label, this, defaultColor);
     connect( labelDragLabel, SIGNAL(colorChangedSignal()), this, SLOT(updateColorsSlot()));
     textTextEdit = new QTextEdit(text, this);
     //int iHeight = textTextEdit->fontPointSize();

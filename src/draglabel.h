@@ -40,7 +40,7 @@ class DragLabel : public QLabel
 {
     Q_OBJECT
 public:
-    DragLabel(const QString &text, QWidget *parent);
+    DragLabel(const QString &text, QWidget *parent, const QColor &defaultColor = Qt::white);
     void changeColor(const QColor &acolor);
     QColor currentColor();
 

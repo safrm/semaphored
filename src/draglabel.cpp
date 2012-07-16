@@ -28,11 +28,11 @@
 #include "draglabel.h"
 #include "yelloweditbox.h"
 
-DragLabel::DragLabel(const QString &text, QWidget *parent)
+DragLabel::DragLabel(const QString &text, QWidget *parent, const QColor &defaultColor)
     : QLabel(text, parent),
       m_RightClickMenu(NULL)
 {
-    changeColor(Qt::white);
+    changeColor(defaultColor);
     setAutoFillBackground(true);
     setFrameShape(QFrame::Panel);
     setFrameShadow(QFrame::Raised);
@@ -65,20 +65,28 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
     QActionGroup* colorGroup = new QActionGroup(this);
     pRedColorAction = new QAction(QIcon(":/images/red.svg"), tr("&Red"), this);
     pRedColorAction->setCheckable(true);
+    if(currentColor()== Qt::red)
+        pRedColorAction->setChecked(true);
 
     pOrangeColorAction = new QAction(QIcon(":/images/orange.svg"), tr("&Orange"), this);
     pOrangeColorAction->setCheckable(true);
-
+    if(currentColor() == QColor(254,154,46))
+        pOrangeColorAction->setChecked(true);
 
     pGreenColorAction = new QAction(QIcon(":/images/green.svg"), tr("&Green"), this);
     pGreenColorAction->setCheckable(true);
+    if(currentColor()== Qt::green)
+        pGreenColorAction->setChecked(true);
 
     pWhiteColorAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
     pWhiteColorAction->setCheckable(true);
-    pWhiteColorAction->setChecked(true);
+    if(currentColor()== Qt::white)
+        pWhiteColorAction->setChecked(true);
 
     pGrayColorAction = new QAction(QIcon(":/images/gray.svg"), tr("&Gray"), this);
     pGrayColorAction->setCheckable(true);
+    if(currentColor()== Qt::lightGray)
+        pGrayColorAction->setChecked(true);
 
     //group
     colorGroup->addAction(pRedColorAction);

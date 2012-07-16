@@ -50,10 +50,14 @@ private:
     QAction* exportAsPictureAct;
     QAction* quitAct;
     QAction* deleteAllAct;
-    QAction* loadBackgroundImageAct;
     QAction* m_BgColorWhiteAction;
     QAction* m_BgColorGrayAction ;
     QAction* m_BgColorCyanAction;
+    QAction* m_BgDefaultImage1Action;
+    QAction* m_BgDefaultImage2Action;
+    QAction* m_BgImageKanban1Action;
+    QAction* m_BgImageKanban2Action;
+    QAction* m_BgUserImageAction;
     DragWidget* m_canvasWidget;
 };
 
