@@ -39,6 +39,7 @@ signals:
 public slots:
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
+    void loadTextFileSlot();
 
 private:
     void createActions();
@@ -48,6 +49,7 @@ private:
 //    void createDockWindows();
 
     QAction* exportAsPictureAct;
+    QAction* loadTextFileAct;
     QAction* quitAct;
     QAction* deleteAllAct;
     QAction* m_BgColorWhiteAction;
@@ -56,7 +58,9 @@ private:
     QAction* m_BgDefaultImage1Action;
     QAction* m_BgDefaultImage2Action;
     QAction* m_BgImageKanban1Action;
+    QAction* m_BgImageKanban1HAction;
     QAction* m_BgImageKanban2Action;
+    QAction* m_BgImageKanban2HAction;
     QAction* m_BgUserImageAction;
     DragWidget* m_canvasWidget;
 };

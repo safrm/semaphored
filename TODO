@@ -8,7 +8,7 @@ New:2 - toolbars
 
 New:3 - few shapes for single text
 New:2 - background sizes
-New:3 - background scaling
+New:2 - background scaling
 New:3 - 1/2 multiselection : selection visibility, multi operations
 New:3 - multi move
 New:3 - right spliting
@@ -43,3 +43,5 @@ New:2 - default image background
 New:3 - 1/2 load background image
 New:2 - background kanban table: backlog,todo, in progress, done
 New:1 - colorful titles in example
+New:2 - Horizontal Kanban backgrounds
+New:3 - Load labels from text file

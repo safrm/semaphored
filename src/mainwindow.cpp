@@ -34,6 +34,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     exportAsPictureAct(NULL),
+    loadTextFileAct(NULL),
     quitAct(NULL),
     deleteAllAct(NULL),
     m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
@@ -53,6 +54,10 @@ void MainWindow::createActions()
     exportAsPictureAct = new QAction(QIcon(":/images/export_as_picture.svg"), tr("&Export As picture"), this);
     exportAsPictureAct->setStatusTip(tr("Export As picture"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
+
+    loadTextFileAct = new QAction(QIcon(":/images/load_text_file.svg"), tr("&Load text file"), this);
+    loadTextFileAct->setStatusTip(tr("Load text file"));
+    connect(loadTextFileAct, SIGNAL(triggered()), this, SLOT(loadTextFileSlot()));
 
     quitAct = new QAction(QIcon(":/images/quit.svg"), tr("&Quit"), this);
     quitAct->setStatusTip(tr("Quit"));
@@ -81,8 +86,12 @@ void MainWindow::createActions()
 
     m_BgImageKanban1Action = new QAction(QIcon(":/images/image_kanban_1.svg"), tr("&Background image Kanban 1"), this);
     m_BgImageKanban1Action->setCheckable(true);
+    m_BgImageKanban1HAction = new QAction(QIcon(":/images/image_kanban_1h.svg"), tr("&Background image Kanban 1H"), this);
+    m_BgImageKanban1HAction->setCheckable(true);
     m_BgImageKanban2Action = new QAction(QIcon(":/images/image_kanban_2.svg"), tr("&Background image Kanban 2"), this);
     m_BgImageKanban2Action->setCheckable(true);
+    m_BgImageKanban2HAction = new QAction(QIcon(":/images/image_kanban_2h.svg"), tr("&Background image Kanban 2H"), this);
+    m_BgImageKanban2HAction->setCheckable(true);
 
     m_BgUserImageAction = new QAction(QIcon(":/images/load_background_image.svg"), tr("&User background image"), this);
     m_BgUserImageAction->setStatusTip(tr("User background image"));
@@ -95,7 +104,9 @@ void MainWindow::createActions()
     backgroundColorGroup->addAction(m_BgDefaultImage1Action);
     backgroundColorGroup->addAction(m_BgDefaultImage2Action);
     backgroundColorGroup->addAction(m_BgImageKanban1Action);
+    backgroundColorGroup->addAction(m_BgImageKanban1HAction);
     backgroundColorGroup->addAction(m_BgImageKanban2Action);
+    backgroundColorGroup->addAction(m_BgImageKanban2HAction);
     backgroundColorGroup->addAction(m_BgUserImageAction);
     backgroundColorGroup->setExclusive(true);
     connect(backgroundColorGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundColorSlot(QAction*)));
@@ -104,6 +115,7 @@ void MainWindow::createActions()
 void MainWindow::createMenus()
 {
     QMenu* fileMenu =menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(loadTextFileAct);
     fileMenu->addAction(exportAsPictureAct);
     fileMenu->addSeparator();
     fileMenu->addAction(quitAct);
@@ -118,8 +130,11 @@ void MainWindow::createMenus()
     backgroundMenu->addSeparator();
     backgroundMenu->addAction(m_BgDefaultImage1Action);
     backgroundMenu->addAction(m_BgDefaultImage2Action);
+    backgroundMenu->addSeparator();
     backgroundMenu->addAction(m_BgImageKanban1Action);
+    backgroundMenu->addAction(m_BgImageKanban1HAction);
     backgroundMenu->addAction(m_BgImageKanban2Action);
+    backgroundMenu->addAction(m_BgImageKanban2HAction);
     backgroundMenu->addSeparator();
     backgroundMenu->addAction(m_BgUserImageAction);
 
@@ -161,8 +176,20 @@ void MainWindow::changeBackgroundColorSlot(QAction * action)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_DEFAULT_2);
     else if (action == m_BgImageKanban1Action)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1);
+    else if (action == m_BgImageKanban1HAction)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1H);
     else if (action == m_BgImageKanban2Action)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2);
+    else if (action == m_BgImageKanban2HAction)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2H);
     else if (action == m_BgUserImageAction)
         m_canvasWidget->loadUserBackgroundImage();
   }
+
+void MainWindow::loadTextFileSlot()
+{
+    QString sFilename = QFileDialog::getOpenFileName(this, "Load source test file: ",
+                                                     tr("Text files (*.txt *.*)"));
+    if(sFilename.size())
+        m_canvasWidget->loadTextFile(sFilename);
+}

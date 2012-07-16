@@ -49,11 +49,14 @@ public:
     static QString BG_IMAGE_DEFAULT_1;
     static QString BG_IMAGE_DEFAULT_2;
     static QString BG_IMAGE_KANBAN_1;
+    static QString BG_IMAGE_KANBAN_1H;
     static QString BG_IMAGE_KANBAN_2;
+    static QString BG_IMAGE_KANBAN_2H;
     static QSize DEFAULT_SIZE;
     void changeBackgroundColor(const QColor &acolor);
     void changeBackgroundImage(const QString  &sFilename);
     void loadUserBackgroundImage();
+    void loadTextFile(const QString &sFilename, bool bColorsOn = false);
 
 public slots:
     void deleteAllItemsSlot();

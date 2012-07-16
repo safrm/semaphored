@@ -7,5 +7,7 @@
         <file>images/bg-semaphored-a5.png</file>
         <file>images/bg-kanban1-a5.png</file>
         <file>images/bg-kanban2-a5.png</file>
+        <file>images/bg-kanban1-a5h.png</file>
+        <file>images/bg-kanban2-a5h.png</file>
     </qresource>
 </RCC>

@@ -33,7 +33,9 @@
 QString DragWidget::BG_IMAGE_DEFAULT_1(":/images/default.png");
 QString DragWidget::BG_IMAGE_DEFAULT_2(":/images/bg-semaphored-a5.png");
 QString DragWidget::BG_IMAGE_KANBAN_1(":/images/bg-kanban1-a5.png");
+QString DragWidget::BG_IMAGE_KANBAN_1H(":/images/bg-kanban1-a5h.png");
 QString DragWidget::BG_IMAGE_KANBAN_2(":/images/bg-kanban2-a5.png");
+QString DragWidget::BG_IMAGE_KANBAN_2H(":/images/bg-kanban2-a5h.png");
 QSize DragWidget::DEFAULT_SIZE(720,445); //A5
 QMenu * DragWidget::m_RightClickMenu(NULL);
 
@@ -45,7 +47,29 @@ DragWidget::DragWidget(QWidget *parent)
      selectionStart(),
      bSelecting(false)
 {
-    QFile dictionaryFile(":/dictionary/words.txt");
+
+    loadTextFile(QString(":/dictionary/words.txt"), true);
+
+    //add few testing squares
+    DragSquare *wordSqare = new DragSquare("test","content", this);
+    wordSqare->move(250, 50);
+    wordSqare->show();
+    wordSqare->setAttribute(Qt::WA_DeleteOnClose);
+
+    //backround color
+    QPalette pal = palette();
+    pal.setBrush(backgroundRole(), QBrush(QImage(BG_IMAGE_DEFAULT_1)));
+    setPalette(pal);
+
+    setAcceptDrops(true);
+    setAutoFillBackground(true);
+    setMinimumSize(DEFAULT_SIZE);
+    setWindowTitle(tr("sempathored"));
+}
+
+void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
+{
+    QFile dictionaryFile(sFilename);
     dictionaryFile.open(QIODevice::ReadOnly);
     QTextStream inputStream(&dictionaryFile);
 
@@ -69,22 +93,23 @@ DragWidget::DragWidget(QWidget *parent)
     }
     */
     //line by  line
-    QColor titleColor(Qt::green);
+    QColor titleColor(Qt::white);
     int iColorCounter(0);
     QString line;
     do {
         line = inputStream.readLine();
         if (!line.isEmpty()) {
-            //colorful titles in example
-            switch(iColorCounter++ % 5) {
-             case 0: titleColor = Qt::white; break;
-             case 1: titleColor = Qt::lightGray; break;
-             case 2: titleColor = Qt::green; break;
-             case 3: titleColor = QColor(254,154,46); break;
-             case 4:
-             default: titleColor = Qt::red; break;
+            if(bColorsOn) {
+                //colorful titles in example
+                switch(iColorCounter++ % 5) {
+                 case 0: titleColor = Qt::white; break;
+                 case 1: titleColor = Qt::lightGray; break;
+                 case 2: titleColor = Qt::green; break;
+                 case 3: titleColor = QColor(254,154,46); break;
+                 case 4:
+                 default: titleColor = Qt::red; break;
+                }
             }
-
             DragLabel *wordLabel = new DragLabel(line, this, titleColor);
             wordLabel->move(x, y);
             wordLabel->show();
@@ -96,23 +121,6 @@ DragWidget::DragWidget(QWidget *parent)
             }
         }
     } while (!line.isNull());
-
-    //add few testing squares
-    DragSquare *wordSqare = new DragSquare("test","content", this);
-    wordSqare->move(250, 50);
-    wordSqare->show();
-    wordSqare->setAttribute(Qt::WA_DeleteOnClose);
-
-    //backround color?
-
-    QPalette pal = palette();
-    pal.setBrush(backgroundRole(), QBrush(QImage(BG_IMAGE_DEFAULT_1)));
-    setPalette(pal);
-
-    setAcceptDrops(true);
-    setAutoFillBackground(true);
-    setMinimumSize(DEFAULT_SIZE);
-    setWindowTitle(tr("sempathored"));
 }
 
 void DragWidget::dragEnterEvent(QDragEnterEvent *event)
