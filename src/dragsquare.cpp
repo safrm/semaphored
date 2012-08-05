@@ -46,9 +46,17 @@ DragSquare::DragSquare(const QString &label, const QString &text, QWidget *paren
     //int iHeight = textTextEdit->fontPointSize();
     int iWidth = labelDragLabel->width();
     textTextEdit->setAutoFillBackground(true);
-    textTextEdit->setFrameShape(QFrame::Box);
+    textTextEdit->setFrameShape(QFrame::NoFrame);
+    labelDragLabel->setFrameShape(QFrame::NoFrame);
+    labelDragLabel->setIndent(4);
+    setFrameStyle(QFrame::Box | QFrame::Plain);
+    setLineWidth(2);
     textTextEdit->setMaximumSize(labelDragLabel->width(),60);
     mainLayout->addWidget(labelDragLabel);
+    QFrame * separator = new QFrame(this);
+    separator->setFrameShape(QFrame::HLine);
+    separator->setLineWidth(2);
+    mainLayout->addWidget(separator);
     mainLayout->addWidget(textTextEdit);
     setLayout(mainLayout);
     updateColorsSlot();

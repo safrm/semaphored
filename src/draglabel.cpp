@@ -34,8 +34,8 @@ DragLabel::DragLabel(const QString &text, QWidget *parent, const QColor &default
 {
     changeColor(defaultColor);
     setAutoFillBackground(true);
-    setFrameShape(QFrame::Panel);
-    setFrameShadow(QFrame::Raised);
+    setFrameStyle(QFrame::Box | QFrame::Plain);
+    setLineWidth(2);
 }
 
 void DragLabel::changeColor(const QColor &acolor)
