@@ -1,7 +1,7 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
 New:2 - title with version number
-New:4 - saving & loading
+New:4 - saving & loading 1/2
 New:4 - printing
 New:2 - toolbars
 New:3 - settings
@@ -11,6 +11,7 @@ New:3 - few shapes for single text
 New:2 - background sizes
 New:2 - background scaling
 New:3 - 1/2 multiselection : selection visibility, multi operations
+New:3 - multi selection painting
 New:3 - multi move
 New:3 - right spliting
 New:2 - input text dialog + D&D
@@ -18,9 +19,11 @@ New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
 New:2 - show color legend
 New:2 - about dialog
 New:3 - squere scaling automatic/manual?
+New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+New:4 - saving & loading 1/2 - menu and actions
 New:5 - doubleclick edits text + press escape cancels it
 New:3 - change color right click menu (exclusive)
 Bug:3 - drag and drop changes color

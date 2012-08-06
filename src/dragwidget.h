@@ -34,7 +34,6 @@ class QMenu;
 class QAction;
 class DragLabel;
 
-
 QT_END_NAMESPACE
 
 class DragWidget : public QWidget
@@ -57,6 +56,8 @@ public:
     void changeBackgroundImage(const QString  &sFilename);
     void loadUserBackgroundImage();
     void loadTextFile(const QString &sFilename, bool bColorsOn = false);
+    void loadProject(const QString &sFilename);
+    void saveProject(const QString &sFilename);
 
 public slots:
     void deleteAllItemsSlot();
@@ -65,7 +66,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent (QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent * event);
 
     virtual void contextMenuEvent ( QContextMenuEvent * event );
 

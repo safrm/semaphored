@@ -37,6 +37,8 @@ public:
 signals:
     
 public slots:
+    void loadProjectSlot();
+    void saveProjectSlot();
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
     void loadTextFileSlot();
@@ -48,6 +50,8 @@ private:
 //    void createStatusBar();
 //    void createDockWindows();
 
+    QAction* loadProjectAct;
+    QAction* saveProjectAct;
     QAction* exportAsPictureAct;
     QAction* loadTextFileAct;
     QAction* quitAct;

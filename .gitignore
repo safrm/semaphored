@@ -1,4 +1,7 @@
 Makefile
+Makefile.*
+debug/*
+object_script.semaphored.*
 *.o
 moc_*.cpp
 qrc_*.cpp

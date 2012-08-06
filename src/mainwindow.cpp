@@ -33,6 +33,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+    loadProjectAct(NULL),
+    saveProjectAct(NULL),
     exportAsPictureAct(NULL),
     loadTextFileAct(NULL),
     quitAct(NULL),
@@ -51,6 +53,14 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 void MainWindow::createActions()
 {
+    loadProjectAct = new QAction(QIcon(":/images/load_project.svg"), tr("&Load project"), this);
+    loadProjectAct->setStatusTip(tr("Load project"));
+    connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot()));
+
+    saveProjectAct = new QAction(QIcon(":/images/save_project.svg"), tr("&Save project"), this);
+    saveProjectAct->setStatusTip(tr("Save project"));
+    connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProjectSlot()));
+
     exportAsPictureAct = new QAction(QIcon(":/images/export_as_picture.svg"), tr("&Export As picture"), this);
     exportAsPictureAct->setStatusTip(tr("Export As picture"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
@@ -114,7 +124,10 @@ void MainWindow::createActions()
 
 void MainWindow::createMenus()
 {
-    QMenu* fileMenu =menuBar()->addMenu(tr("&File"));
+    QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(loadProjectAct);
+    fileMenu->addAction(saveProjectAct);
+    fileMenu->addSeparator();
     fileMenu->addAction(loadTextFileAct);
     fileMenu->addAction(exportAsPictureAct);
     fileMenu->addSeparator();
@@ -140,6 +153,26 @@ void MainWindow::createMenus()
 
     menuBar()->addSeparator();
     menuBar()->addMenu(tr("&Help"));
+}
+
+void MainWindow::loadProjectSlot()
+{
+    QString sFilename = QFileDialog::getOpenFileName(this, "Load project from file ", QString(),
+                                                     tr("Semaphored project files (*.sem)"));
+    if(sFilename.size())
+        m_canvasWidget->loadProject(sFilename);
+}
+
+void MainWindow::saveProjectSlot()
+{
+    QString sFilename = QFileDialog::getSaveFileName(this, "Save project as: ", "untitled.sem",
+                                                     tr("Semaphored project files (*.sem)"));
+    if(sFilename.size()) {
+        QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
+        if(ext != "sem")
+            sFilename += ".sem";
+        m_canvasWidget->saveProject(sFilename);
+    }
 }
 
 void MainWindow::exportAsPictureSlot()
@@ -188,7 +221,7 @@ void MainWindow::changeBackgroundColorSlot(QAction * action)
 
 void MainWindow::loadTextFileSlot()
 {
-    QString sFilename = QFileDialog::getOpenFileName(this, "Load source test file: ",
+    QString sFilename = QFileDialog::getOpenFileName(this, "Load source test file: ",QString(),
                                                      tr("Text files (*.txt *.*)"));
     if(sFilename.size())
         m_canvasWidget->loadTextFile(sFilename);

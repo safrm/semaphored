@@ -200,11 +200,13 @@ void DragWidget::dropEvent(QDropEvent *event)
 
 void DragWidget::mousePressEvent(QMouseEvent *event)
 {
+    if (event->button() == Qt::RightButton)
+        return;
     QWidget * widget = childAt(event->pos());
     //we pressed out of our objects
     if (!widget) {
         //cancel YellowBox edit
-        //a bit stupid way but easy.. maybe it could restoe old text instead of applying new one?
+        //a bit stupid way but easy.. maybe it could restore old text instead of applying new one?
         foreach (QObject *yellowBox, children()) {
             if (yellowBox->inherits("YellowEditBox")) {
                 emit (static_cast<YellowEditBox*>(yellowBox))->updateText();
@@ -222,9 +224,6 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         return;
         }
     }
-
-    if (event->button() == Qt::RightButton)
-        return;
 
     //TODO we have selection and want to work with it
     if(selectedItems.size()) {
@@ -299,7 +298,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
 }
 
-void DragWidget::mouseReleaseEvent (QMouseEvent * event)
+void DragWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     if(bSelecting) {
         bSelecting = false;
@@ -315,7 +314,7 @@ void DragWidget::mouseReleaseEvent (QMouseEvent * event)
     }
 }
 
-void  DragWidget::contextMenuEvent ( QContextMenuEvent * event )
+void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
 {
     event->accept();
     QPoint pos = event->globalPos();
@@ -407,4 +406,12 @@ void DragWidget::changeBackgroundImage(const QString  &sFilename)
             QMessageBox::warning(this,"Image format is not supported", "Your system supports only following formats: " +supportedFormats);
         }
     }
+}
+
+void DragWidget::loadProject(const QString &sFilename)
+{
+}
+
+void DragWidget::saveProject(const QString &sFilename)
+{
 }
