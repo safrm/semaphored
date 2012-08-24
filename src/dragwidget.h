@@ -32,6 +32,7 @@ QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
 class QMenu;
 class QAction;
+class QRubberBand;
 class DragLabel;
 
 QT_END_NAMESPACE
@@ -63,11 +64,11 @@ public slots:
     void deleteAllItemsSlot();
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dropEvent(QDropEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent * event);
-
+    virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dropEvent(QDropEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
+    virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void contextMenuEvent ( QContextMenuEvent * event );
 
 private:
@@ -78,9 +79,9 @@ private:
     QAction* m_NewLabelAction;
     QAction* m_NewSquareAction;
 
-    QList<const DragLabel*> selectedItems;
+    QList<DragLabel*> selectedItems;
     QPoint selectionStart;
-    bool bSelecting;
+    QRubberBand* rubberBand;
 };
 
 #endif

@@ -157,3 +157,11 @@ void DragLabel::deleteItemSlot()
     else
       close();
 }
+
+void DragLabel::select(bool bSelected)
+{
+    if(bSelected)
+        setLineWidth(4);
+    else
+        setLineWidth(2);
+}

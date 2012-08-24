@@ -24,6 +24,7 @@
 
 #include <QtGui>
 #include <QActionGroup>
+#include <QRubberBand>
 
 #include "draglabel.h"
 #include "dragwidget.h"
@@ -45,7 +46,7 @@ DragWidget::DragWidget(QWidget *parent)
      m_NewSquareAction(NULL),
      selectedItems(),
      selectionStart(),
-     bSelecting(false)
+     rubberBand(NULL)
 {
 
     loadTextFile(QString(":/dictionary/words.txt"), true);
@@ -215,12 +216,17 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         }
         //we have selection so we want to clean it
         if(selectedItems.size()) {
+            foreach (DragLabel *widget, selectedItems)
+                 widget->select(false);
            selectedItems.clear();
            return;
         } else {
         //we don't have selection so we try to create it
         selectionStart = event->pos();
-        bSelecting = true;
+        if (!rubberBand)
+              rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
+          rubberBand->setGeometry(QRect(selectionStart, QSize()));
+          rubberBand->show();
         return;
         }
     }
@@ -297,18 +303,23 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     }
 
 }
+void DragWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if(rubberBand)
+        rubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
+}
 
 void DragWidget::mouseReleaseEvent(QMouseEvent * event)
 {
-    if(bSelecting) {
-        bSelecting = false;
-        QPoint selectionEnd = event->pos();
-        QRect selectionRect(selectionStart,selectionEnd);
+    if(rubberBand && rubberBand->isVisible()) {
+        rubberBand->hide();
         foreach (QObject *child, children()) {
             if (child->inherits("DragLabel")) {
-                const DragLabel *widget = static_cast<const DragLabel *>(child);
-                if(selectionRect.contains(widget->geometry()))
+                DragLabel *widget = static_cast<const DragLabel *>(child);
+                if(rubberBand->rect().contains(widget->geometry())) {
                     selectedItems += widget;
+                    widget->select(true);
+                }
             }
         }
     }

@@ -43,14 +43,14 @@ public:
     DragLabel(const QString &text, QWidget *parent, const QColor &defaultColor = Qt::white);
     void changeColor(const QColor &acolor);
     QColor currentColor();
+    QMenu* rightClickMenu();
+    void select(bool bSelected);
 
 signals:
     void colorChangedSignal();
 public slots:
     void editSlot();
 
-public:
-    QMenu* rightClickMenu();
 private slots:
     void changeColorSlot(QAction *action);
     void deleteItemSlot();
