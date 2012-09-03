@@ -85,6 +85,7 @@ private:
     QList<DragLabel*> selectedItems;
     QPoint selectionStart;
     QRubberBand* rubberBand;
+    QString m_BackgroundPicture; // "" - default, filename = picture, QColor::isValidColor  - color
 };
 
 #endif

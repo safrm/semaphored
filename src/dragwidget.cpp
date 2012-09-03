@@ -25,6 +25,9 @@
 #include <QtGui>
 #include <QActionGroup>
 #include <QRubberBand>
+#include <QDomDocument>
+#include <QTextStream>
+#include <QFile>
 
 #include "draglabel.h"
 #include "dragwidget.h"
@@ -46,7 +49,8 @@ DragWidget::DragWidget(QWidget *parent)
      m_NewSquareAction(NULL),
      selectedItems(),
      selectionStart(),
-     rubberBand(NULL)
+     rubberBand(NULL),
+     m_BackgroundPicture("")
 {
 
     loadTextFile(QString(":/dictionary/words.txt"), true);
@@ -61,6 +65,7 @@ DragWidget::DragWidget(QWidget *parent)
     QPalette pal = palette();
     pal.setBrush(backgroundRole(), QBrush(QImage(BG_IMAGE_DEFAULT_1)));
     setPalette(pal);
+    m_BackgroundPicture = BG_IMAGE_DEFAULT_1;
 
     setAcceptDrops(true);
     setAutoFillBackground(true);
@@ -400,6 +405,7 @@ void DragWidget::changeColorMutliselected(const QColor &acolor)
          widget->changeColor(acolor);
     }
 }
+
 void DragWidget::loadUserBackgroundImage()
 {
     QString supportedFormats("");
@@ -407,8 +413,10 @@ void DragWidget::loadUserBackgroundImage()
         supportedFormats +=  name + " ";
     QString sFilename = QFileDialog::getOpenFileName(this, "Load background image: " + supportedFormats,"",
                                                      tr("Images (*.png *.xpm *.jpg)"));
-    if(sFilename.size())
+    if(sFilename.size()) {
         changeBackgroundImage(sFilename);
+        m_BackgroundPicture = sFilename;
+    }
 }
 
 void DragWidget::changeBackgroundColor(const QColor &acolor)
@@ -416,6 +424,7 @@ void DragWidget::changeBackgroundColor(const QColor &acolor)
     QPalette pal = palette();
     pal.setBrush(backgroundRole(), acolor);
     setPalette(pal);
+    m_BackgroundPicture = acolor.name();
     //setStyleSheet(QString("background-image: " + sFilename + ";"));
     //setStyleSheet("background-color: rgb(85, 170, 255)");
 }
@@ -433,6 +442,7 @@ void DragWidget::changeBackgroundImage(const QString  &sFilename)
                 QPalette pal = palette();
                 pal.setBrush(backgroundRole(), QBrush(newImage));
                 setPalette(pal);
+                m_BackgroundPicture = sFilename;
             }  else {
                 QMessageBox::warning(this,"Image does not exist or is not supported", "Your system supports only following formats: " +supportedFormats);
                 return;
@@ -445,10 +455,58 @@ void DragWidget::changeBackgroundImage(const QString  &sFilename)
 
 void DragWidget::loadProject(const QString &sFilename)
 {
+    //question do you want to continue?
+    //load xml
 }
 
 void DragWidget::saveProject(const QString &sFilename)
 {
+    QDomDocument xmlDocument; //has to be first because of EditorView::OnlyPlainData reads it
+    QFile fileWrite(sFilename);
+    if (!fileWrite.open(QFile::WriteOnly| QFile::Text)) {
+        QMessageBox::warning(this,"Saving project failed", "Check file permissions: " + sFilename);
+        return ;
+    }
+    QTextStream out(&fileWrite);
+    QDomElement root = xmlDocument.createElement("project" );
+    root.setAttribute("version", APP_VERSION_SHORT);
+    xmlDocument.appendChild( root );
+
+    QDomElement items = xmlDocument.createElement("items");
+    items.setAttribute("background", m_BackgroundPicture );
+    //items.setAttribute("geometry", QString(saveGeometry().toHex()));
+    items.setAttribute("x", QString::number(pos().x()));
+    items.setAttribute("y", QString::number(pos().y()));
+    items.setAttribute("w", QString::number(size().width()));
+    items.setAttribute("h", QString::number(size().height()));
+    root.appendChild(items);
+
+    QDomElement tag;
+    foreach (QObject *child, children()) {
+        if (child->inherits("DragLabel")) {
+            DragLabel *widgetLabel = static_cast<DragLabel *>(child);
+            tag = xmlDocument.createElement("label");
+            tag.setAttribute("color", widgetLabel->currentColor().name());
+            tag.setAttribute("label", widgetLabel->text());
+            tag.setAttribute("x", QString::number(widgetLabel->pos().x()));
+            tag.setAttribute("y", QString::number(widgetLabel->pos().y()));
+            items.appendChild(tag);
+        }
+        else if (child->inherits("DragSquare")) {
+            DragSquare *widgetSquare = static_cast<DragSquare *>(child);
+            tag = xmlDocument.createElement("square");
+            tag.setAttribute("color", widgetSquare->currentColor().name());
+            tag.setAttribute("label", widgetSquare->text());
+            tag.setAttribute("text", widgetSquare->text());
+            tag.setAttribute("x", QString::number(widgetSquare->pos().x()));
+            tag.setAttribute("y", QString::number(widgetSquare->pos().y()));
+            items.appendChild(tag);
+        }
+        else
+          ;
+    }
+   //save
+    out << xmlDocument.toString();
 }
 
 bool DragWidget::isMultiselecting()

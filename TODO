@@ -1,10 +1,9 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
-New:4 - saving & loading 1/2
-New:2 - toolbars
-New:3 - settings
-
+New:4 - loading from xml
 --- 1st release ---
+New:3 - settings
+New:2 - toolbars
 New:3 - few shapes for single text
 New:2 - background sizes
 New:2 - background scaling
@@ -20,6 +19,9 @@ New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+New:4 - saving to xml
+Chg:2 - addding QtXml
+New:2 - runtime convertion APP_VERSION_SHORT to uint for version/serialization comparation
 New:3 - export as pdf
 New:4 - printing
 New:3 - multiselection: changecolor

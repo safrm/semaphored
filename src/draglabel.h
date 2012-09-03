@@ -62,7 +62,6 @@ protected :
 
 
 private:
-    //QColor m_currentColor;
     QMenu*   m_RightClickMenu;
     QAction* pWhiteColorAction;
     QAction* pGrayColorAction;

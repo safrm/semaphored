@@ -54,11 +54,13 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
     //createToolBars();
     //createStatusBar();
+    qWarning(QString::number(MainWindow::shortVersionToNum(QString(APP_VERSION_SHORT))).toLatin1());
 
 
     setCentralWidget(m_canvasWidget);
     setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_VERSION_FULL) + " (" + QString(APP_DATE) +")");
 }
+
 MainWindow* MainWindow::instance()
 {
     return  g_pMainGuiWindow;
@@ -186,6 +188,9 @@ void MainWindow::loadProjectSlot()
     QString sFilename = QFileDialog::getOpenFileName(this, "Load project from file ", QString(),
                                                      tr("Semaphored project files (*.sem)"));
     if(sFilename.size())
+        if(QMessageBox::question(this, tr("Load project"),
+                                                 tr("Do you want to <b>load project</b> %1 ? \nUnsaved changes in current project will be lost.").arg(sFilename),
+                                                 QMessageBox::Yes | QMessageBox::No |QMessageBox::Cancel) == QMessageBox::Yes)
         m_canvasWidget->loadProject(sFilename);
 }
 
@@ -222,6 +227,7 @@ void MainWindow::exportAsPictureSlot()
 
 void MainWindow::changeBackgroundColorSlot(QAction * action)
 {
+   //TPDP this could be unified by m_BackgroundPicture, "" - default, filename = picture, QColor::isValidColor  - color
     QColor newColor(Qt::white);
     if (action == m_BgColorWhiteAction )
         m_canvasWidget->changeBackgroundColor(Qt::white);
@@ -239,11 +245,12 @@ void MainWindow::changeBackgroundColorSlot(QAction * action)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1H);
     else if (action == m_BgImageKanban2Action)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2);
-    else if (action == m_BgImageKanban2HAction)
+   else if (action == m_BgImageKanban2HAction)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2H);
-    else if (action == m_BgUserImageAction)
+    else if (action == m_BgUserImageAction) {
         m_canvasWidget->loadUserBackgroundImage();
-  }
+   }
+}
 
 void MainWindow::loadTextFileSlot()
 {
@@ -290,4 +297,17 @@ void MainWindow::exportCanvasToPdf()
         painter.drawPixmap (0, 0, qpm);
         painter.end();
     }
+}
+
+
+//converts   X.Y.Z to uint min: 0	max: 4294 967 295 (4)
+uint MainWindow::shortVersionToNum(const QString & sShortVersion)
+{
+    QStringList list = sShortVersion.split(".");
+    if(list.size()!=3) {
+        qCritical(QString("Short version should to be in X.Y.Z format: " + sShortVersion ).toAscii() );
+        return 0;
+    }
+    uint uiVersion = list.at(0).toUInt() * 1000000 + list.at(1).toUInt() * 1000 + list.at(2).toUInt();
+    return uiVersion;
 }
