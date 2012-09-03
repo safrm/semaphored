@@ -33,6 +33,7 @@
 #include "mainwindow.h"
 #include "draglabel.h"
 #include "dragwidget.h"
+#include "aboutdialog.h"
 
 MainWindow * g_pMainGuiWindow =NULL;
 
@@ -45,8 +46,10 @@ MainWindow::MainWindow(QWidget *parent) :
     printAct(NULL),
     exportAsPdf(NULL),
     quitAct(NULL),
+    aboutAct(NULL),
     deleteAllAct(NULL),
-    m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
+    m_canvasWidget(new DragWidget()), //TODO use size hint in  canvas
+    m_aboutDialog(NULL)
 {
     g_pMainGuiWindow = this;
     //createDockWindows();
@@ -84,16 +87,20 @@ void MainWindow::createActions()
 
     exportAsPdf = new QAction(QIcon(":/images/export_as_pdf.svg"), tr("&Export To PDF"), this);
     exportAsPdf->setStatusTip(tr("Export To PDF"));
-    connect(exportAsPdf, SIGNAL(triggered()), this, SLOT(exportCanvasToPdf()));
+    connect(exportAsPdf, SIGNAL(triggered()), this, SLOT(exportCanvasToPdfSlot()));
 
     printAct = new QAction(QIcon(":/images/print.svg"), tr("&Print..."), this);
     printAct->setShortcuts(QKeySequence::Print);
     printAct->setStatusTip(tr("Print the current canvas"));
-    connect(printAct, SIGNAL(triggered()), this, SLOT(printCurrentCanvas()));
+    connect(printAct, SIGNAL(triggered()), this, SLOT(printCurrentCanvasSlot()));
 
     quitAct = new QAction(QIcon(":/images/quit.svg"), tr("&Quit"), this);
     quitAct->setStatusTip(tr("Quit"));
     connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
+
+    aboutAct = new QAction(QIcon(":/images/about.svg"), tr("&About"), this);
+    aboutAct->setStatusTip(tr("Show the application's About box"));
+    connect(aboutAct, SIGNAL(triggered()), this, SLOT(showAboutDialogSlot()));
 
     deleteAllAct = new QAction(QIcon(":/images/deleteall.svg"), tr("&Delete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
@@ -178,7 +185,8 @@ void MainWindow::createMenus()
     backgroundMenu->addAction(m_BgUserImageAction);
 
     menuBar()->addSeparator();
-    menuBar()->addMenu(tr("&Help"));
+    QMenu* helpMenu =  menuBar()->addMenu(tr("&Help"));
+    helpMenu->addAction(aboutAct);
 }
 
 void MainWindow::loadProjectSlot()
@@ -263,7 +271,7 @@ DragWidget*  MainWindow::canvasWidget()
     return m_canvasWidget;
 }
 
-void MainWindow::printCurrentCanvas()
+void MainWindow::printCurrentCanvasSlot()
 {
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog dlg(&printer, this);
@@ -278,7 +286,7 @@ void MainWindow::printCurrentCanvas()
     painter.end();
 }
 
-void MainWindow::exportCanvasToPdf()
+void MainWindow::exportCanvasToPdfSlot()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Export to PDF", QString(), "*.pdf");
     if (!fileName.isEmpty()) {
@@ -297,7 +305,6 @@ void MainWindow::exportCanvasToPdf()
     }
 }
 
-
 //converts   X.Y.Z to uint min: 0	max: 4294 967 295 (4)
 uint MainWindow::shortVersionToNum(const QString & sShortVersion)
 {
@@ -308,4 +315,12 @@ uint MainWindow::shortVersionToNum(const QString & sShortVersion)
     }
     uint uiVersion = list.at(0).toUInt() * 1000000 + list.at(1).toUInt() * 1000 + list.at(2).toUInt();
     return uiVersion;
+}
+
+void MainWindow::showAboutDialogSlot()
+{
+    if (!m_aboutDialog) {
+        m_aboutDialog = new AboutDialog(this);
+    }
+    m_aboutDialog->show();
 }

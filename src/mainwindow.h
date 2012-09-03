@@ -29,6 +29,7 @@
 class QAction;
 class DragWidget;
 class QPrinter;
+class AboutDialog;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -46,8 +47,9 @@ public slots:
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
     void loadTextFileSlot();
-    void printCurrentCanvas();
-    void exportCanvasToPdf();
+    void printCurrentCanvasSlot();
+    void exportCanvasToPdfSlot();
+    void showAboutDialogSlot();
 
 private:
     void createActions();
@@ -63,6 +65,7 @@ private:
     QAction* printAct;
     QAction* exportAsPdf;
     QAction* quitAct;
+    QAction* aboutAct;
     QAction* deleteAllAct;
     QAction* m_BgColorWhiteAction;
     QAction* m_BgColorGrayAction ;
@@ -75,6 +78,7 @@ private:
     QAction* m_BgImageKanban2HAction;
     QAction* m_BgUserImageAction;
     DragWidget* m_canvasWidget;
+    AboutDialog* m_aboutDialog;
 };
 
 #endif // MAINWINDOW_H
