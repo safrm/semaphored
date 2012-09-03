@@ -33,6 +33,7 @@
 #include "dragwidget.h"
 #include "dragsquare.h"
 #include "yelloweditbox.h"
+#include "version.h"
 
 QString DragWidget::BG_IMAGE_DEFAULT_1(":/images/default.png");
 QString DragWidget::BG_IMAGE_DEFAULT_2(":/images/bg-semaphored-a5.png");
@@ -376,6 +377,7 @@ QMenu* DragWidget::rightClickMenu()
 
 void DragWidget::deleteAllItemsSlot()
 {
+    selectedItems.clear();
     foreach (QObject *child, children()) {
         if (child->inherits("DragLabel")) {
             DragLabel *widget = static_cast<DragLabel *>(child);
@@ -455,8 +457,81 @@ void DragWidget::changeBackgroundImage(const QString  &sFilename)
 
 void DragWidget::loadProject(const QString &sFilename)
 {
-    //question do you want to continue?
-    //load xml
+    //clean & delete
+    deleteAllItemsSlot();
+    QFile file(sFilename);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this,"Loading project failed", "Check file : " + sFilename);
+        return ;
+    }
+    QDomDocument doc( sFilename );
+    QString errotMsg("");
+    int iErrorLine(0), iErrorCol(0);
+    if ( !doc.setContent( &file,false, &errotMsg, &iErrorLine, &iErrorCol))
+    {
+      file.close();
+      qCritical()<< "QDomDocument::setContent: " <<  errotMsg << " Line " << iErrorLine << " column: " << iErrorCol;
+      return;
+    }
+    file.close();
+
+    //parsing
+    QString tagName("");
+    QDomElement docElem = doc.documentElement();
+
+    //root element
+    if( docElem.tagName() != "project") {
+        qCritical()<< "Wrong root element " ;
+        return;
+    }
+    //version check
+    QString sVersion = docElem.attribute("version");
+    if(Version::shortVersionToNum(sVersion) != Version::shortVersionToNum(QString(APP_VERSION_SHORT))) {
+        qCritical()<< "Project saved by:" + sVersion + "trying to load by:" + QString(APP_VERSION_SHORT);
+    }
+
+    //TODO - should be a bit more robust
+    QDomElement itemsElem = doc.elementsByTagName("items").at(0).toElement();
+    //background
+    QString sBackground = itemsElem.attribute("background");
+    if(QColor::isValidColor(sBackground))
+       changeBackgroundColor(QColor(sBackground));
+    else if (QFileInfo(sBackground).exists())
+        changeBackgroundImage(sBackground);
+    else  {
+        qCritical()<< "Not recognized background color:"+ sBackground;
+        changeBackgroundColor(Qt::white);
+    }
+    //TODO window position and size
+    //QString sX = itemsElem.attribute("x");
+    //QString sY = itemsElem.attribute("y");
+    QString sW = itemsElem.attribute("w");
+    //setWidth(sW.toInt());
+    QString sH = itemsElem.attribute("h");
+    //setHeight(sH.toInt());
+
+    //items loop
+    QDomNode n = itemsElem.firstChild();
+
+    while(!n.isNull()) {
+        QDomElement e = n.toElement();
+        if (!e.isNull()) {
+            qDebug()<< qPrintable(e.tagName())  << " : " << qPrintable(e.text());
+
+            if (e.tagName() == "label") {
+                DragLabel *wordLabel = new DragLabel(e.attribute("label"), this, this, QColor(e.attribute("color")));
+                wordLabel->move(e.attribute("x").toInt(), e.attribute("y").toInt());
+                wordLabel->show();
+                wordLabel->setAttribute(Qt::WA_DeleteOnClose);
+            } else if (e.tagName() == "square")  {
+                DragSquare *wordSquare = new DragSquare(e.attribute("label"), e.attribute("text"), this, QColor(e.attribute("color")));
+                wordSquare->move(e.attribute("x").toInt(), e.attribute("y").toInt());
+                wordSquare->show();
+                wordSquare->setAttribute(Qt::WA_DeleteOnClose);
+            }
+        }
+        n = n.nextSibling();
+    }
 }
 
 void DragWidget::saveProject(const QString &sFilename)

@@ -6,7 +6,8 @@ HEADERS     = src/draglabel.h \
               src/mainwindow.h \
               src/yelloweditbox.h \
     src/aboutdialog.h \
-    src/weblink.h
+    src/weblink.h \
+    src/version.h
 RESOURCES   = src/semaphored.qrc
 SOURCES     = src/draglabel.cpp \
               src/dragwidget.cpp \
@@ -15,7 +16,8 @@ SOURCES     = src/draglabel.cpp \
               src/mainwindow.cpp \
               src/yelloweditbox.cpp \
     src/aboutdialog.cpp \
-    src/weblink.cpp
+    src/weblink.cpp \
+    src/version.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/$${TARGET}/$${TARGET}

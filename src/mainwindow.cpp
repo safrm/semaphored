@@ -34,6 +34,7 @@
 #include "draglabel.h"
 #include "dragwidget.h"
 #include "aboutdialog.h"
+#include "version.h"
 
 MainWindow * g_pMainGuiWindow =NULL;
 
@@ -303,18 +304,6 @@ void MainWindow::exportCanvasToPdfSlot()
         painter.drawPixmap (0, 0, qpm);
         painter.end();
     }
-}
-
-//converts   X.Y.Z to uint min: 0	max: 4294 967 295 (4)
-uint MainWindow::shortVersionToNum(const QString & sShortVersion)
-{
-    QStringList list = sShortVersion.split(".");
-    if(list.size()!=3) {
-        qCritical(QString("Short version should to be in X.Y.Z format: " + sShortVersion ).toAscii() );
-        return 0;
-    }
-    uint uiVersion = list.at(0).toUInt() * 1000000 + list.at(1).toUInt() * 1000 + list.at(2).toUInt();
-    return uiVersion;
 }
 
 void MainWindow::showAboutDialogSlot()
