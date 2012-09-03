@@ -1,6 +1,10 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
 New:4 - loading from xml
+New:4 - Web
+New:5 - packages
+New:2 - about dialog
+
 --- 1st release ---
 New:3 - settings
 New:2 - toolbars
@@ -13,12 +17,12 @@ New:3 - right spliting
 New:2 - input text dialog + D&D
 New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
 New:2 - show color legend
-New:2 - about dialog
 New:3 - squere scaling automatic/manual?
 New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+New:3 - splash screen
 New:4 - saving to xml
 Chg:2 - addding QtXml
 New:2 - runtime convertion APP_VERSION_SHORT to uint for version/serialization comparation

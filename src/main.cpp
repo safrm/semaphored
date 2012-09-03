@@ -23,6 +23,7 @@
 ****************************************************************************/
 
 #include <QApplication>
+#include <QSplashScreen>
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -30,8 +31,13 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(semaphored);
 
     QApplication app(argc, argv);
+    QPixmap pixmap(":/images/splash.png");
+    QSplashScreen splash(pixmap);
+    splash.show();
 
     MainWindow* mainWin = new MainWindow();
     mainWin->show();
+    usleep(700);
+    splash.finish(mainWin);
     return app.exec();
 }

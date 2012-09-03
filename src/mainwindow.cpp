@@ -54,8 +54,6 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
     //createToolBars();
     //createStatusBar();
-    qWarning(QString::number(MainWindow::shortVersionToNum(QString(APP_VERSION_SHORT))).toLatin1());
-
 
     setCentralWidget(m_canvasWidget);
     setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_VERSION_FULL) + " (" + QString(APP_DATE) +")");
