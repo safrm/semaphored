@@ -31,6 +31,8 @@
 #include "draglabel.h"
 #include "dragwidget.h"
 
+MainWindow * g_pMainGuiWindow =NULL;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     loadProjectAct(NULL),
@@ -41,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     deleteAllAct(NULL),
     m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
 {
+    g_pMainGuiWindow = this;
     //createDockWindows();
     createActions();
     createMenus();
@@ -49,8 +52,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     setCentralWidget(m_canvasWidget);
-    //TODO  setWindowTitle("");
+    setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_VERSION_FULL) + " (" + QString(APP_DATE) +")");
 }
+MainWindow* MainWindow::instance()
+{
+    return  g_pMainGuiWindow;
+}
+
 void MainWindow::createActions()
 {
     loadProjectAct = new QAction(QIcon(":/images/load_project.svg"), tr("&Load project"), this);
@@ -225,4 +233,9 @@ void MainWindow::loadTextFileSlot()
                                                      tr("Text files (*.txt *.*)"));
     if(sFilename.size())
         m_canvasWidget->loadTextFile(sFilename);
+}
+
+DragWidget*  MainWindow::canvasWidget()
+{
+    return m_canvasWidget;
 }

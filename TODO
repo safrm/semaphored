@@ -1,6 +1,5 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
-New:2 - title with version number
 New:4 - saving & loading 1/2
 New:4 - printing
 New:2 - toolbars
@@ -23,6 +22,7 @@ New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+New:2 - title with version number
 New:3 -  automatic versions using appver
 New:3 - 1/2 multiselection : selection visibility
 New:4 - saving & loading 1/2 - menu and actions
