@@ -27,10 +27,13 @@
 #include <QActionGroup>
 #include "draglabel.h"
 #include "yelloweditbox.h"
+#include "dragwidget.h"
+#include "dragsquare.h"
 
-DragLabel::DragLabel(const QString &text, QWidget *parent, const QColor &defaultColor)
+DragLabel::DragLabel(const QString &text, QWidget *parent, DragWidget * canvasWidget, const QColor &defaultColor)
     : QLabel(text, parent),
-      m_RightClickMenu(NULL)
+      m_RightClickMenu(NULL),
+      m_CanvasWidget(canvasWidget)
 {
     changeColor(defaultColor);
     setAutoFillBackground(true);
@@ -117,19 +120,24 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
 
 void DragLabel::changeColorSlot(QAction* action)
 {
-    QColor newColor(Qt::white);
-    if (action == pRedColorAction )
-        newColor = Qt::red;
-    else if (action == pOrangeColorAction)
-        newColor = QColor(254,154,46);//newColor = QColor(255,128,64);
-    else if (action == pGreenColorAction)
-        newColor = Qt::green;
-    else if (action == pWhiteColorAction)
-        newColor = Qt::white;
-    else if (action == pGrayColorAction)
-        newColor = Qt::lightGray;
 
-    changeColor(newColor);
+   QColor newColor(Qt::white);
+   if (action == pRedColorAction )
+       newColor = Qt::red;
+   else if (action == pOrangeColorAction)
+       newColor = QColor(254,154,46);//newColor = QColor(255,128,64);
+   else if (action == pGreenColorAction)
+       newColor = Qt::green;
+   else if (action == pWhiteColorAction)
+       newColor = Qt::white;
+   else if (action == pGrayColorAction)
+       newColor = Qt::lightGray;
+
+   if (m_CanvasWidget->isMultiselecting()) {
+      m_CanvasWidget->changeColorMutliselected(newColor);
+   } else {
+       changeColor(newColor);
+   }
 }
 
 void DragLabel::mouseDoubleClickEvent ( QMouseEvent * event )
@@ -152,7 +160,10 @@ QColor DragLabel::currentColor()
 
 void DragLabel::deleteItemSlot()
 {
-    if(parentWidget()->inherits("DragSquare"))
+    if (m_CanvasWidget->isMultiselecting()) {
+
+    }
+    else if(parentWidget()->inherits("DragSquare"))
        parentWidget()->close();
     else
       close();
@@ -160,8 +171,12 @@ void DragLabel::deleteItemSlot()
 
 void DragLabel::select(bool bSelected)
 {
-    if(bSelected)
-        setLineWidth(4);
+    int iLineWidth(2);
+    if (bSelected)
+      iLineWidth = 4;
+
+    if(parentWidget()->inherits("DragSquare"))
+       qobject_cast<DragSquare*>(parentWidget())->setLineWidth(iLineWidth);
     else
-        setLineWidth(2);
+          setLineWidth(iLineWidth);
 }

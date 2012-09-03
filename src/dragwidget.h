@@ -59,6 +59,9 @@ public:
     void loadTextFile(const QString &sFilename, bool bColorsOn = false);
     void loadProject(const QString &sFilename);
     void saveProject(const QString &sFilename);
+    bool isMultiselecting();
+    void deleteMutliselected();
+    void changeColorMutliselected(const QColor &acolor);
 
 public slots:
     void deleteAllItemsSlot();

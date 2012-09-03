@@ -29,18 +29,18 @@
 
 #include "dragsquare.h"
 #include "draglabel.h"
+#include "dragwidget.h"
 
-DragSquare::DragSquare(const QString &label, const QString &text, QWidget *parent,const QColor &defaultColor )
-    : QFrame(parent)
+DragSquare::DragSquare(const QString &label, const QString &text, DragWidget* canvasWidget, const QColor &defaultColor )
+    : QFrame(canvasWidget)
 {
-
     setAutoFillBackground(true);
     setFrameShape(QFrame::Box);
     setFrameShadow(QFrame::Raised);
 
     QVBoxLayout * mainLayout= new QVBoxLayout(this);
     mainLayout->setContentsMargins(0,0,0,0);
-    labelDragLabel = new DragLabel(label, this, defaultColor);
+    labelDragLabel = new DragLabel(label, this, canvasWidget, defaultColor);
     connect( labelDragLabel, SIGNAL(colorChangedSignal()), this, SLOT(updateColorsSlot()));
     textTextEdit = new QTextEdit(text, this);
     //int iHeight = textTextEdit->fontPointSize();
@@ -104,3 +104,17 @@ QColor DragSquare::currentColor()
     return labelDragLabel->currentColor();
 }
 
+DragLabel* DragSquare::labelWidget()
+{
+    return labelDragLabel;
+}
+/*
+void DragSquare::select(bool bSelected)
+{
+    if(bSelected)
+        setLineWidth(4);
+    else
+        setLineWidth(2);
+}
+
+*/

@@ -9,8 +9,7 @@ New:3 - settings
 New:3 - few shapes for single text
 New:2 - background sizes
 New:2 - background scaling
-New:3 - 1/2 multiselection : multi operations, right rectangle
-New:3 - multi selection painting
+New:3 - 1/n multiselection :
 New:3 - multi move
 New:3 - right spliting
 New:2 - input text dialog + D&D
@@ -22,9 +21,12 @@ New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+New:3 - multiselection: changecolor
+Fix:3 - multiselection rectangle selects wrong way
+New:3 - multiselection delete
 New:2 - title with version number
 New:3 -  automatic versions using appver
-New:3 - 1/2 multiselection : selection visibility
+New:3 - 1/n multiselection : selection visibility
 New:4 - saving & loading 1/2 - menu and actions
 New:5 - doubleclick edits text + press escape cancels it
 New:3 - change color right click menu (exclusive)

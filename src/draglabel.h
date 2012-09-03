@@ -34,13 +34,14 @@ class QDragMoveEvent;
 class QFrame;
 class QMenu;
 class QLineEdit;
+class DragWidget;
 QT_END_NAMESPACE
 
 class DragLabel : public QLabel
 {
     Q_OBJECT
 public:
-    DragLabel(const QString &text, QWidget *parent, const QColor &defaultColor = Qt::white);
+    DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
     void changeColor(const QColor &acolor);
     QColor currentColor();
     QMenu* rightClickMenu();
@@ -68,6 +69,7 @@ private:
     QAction* pGreenColorAction;
     QAction* pOrangeColorAction;
     QAction* pRedColorAction;
+    DragWidget* m_CanvasWidget;
 };
 
 #endif

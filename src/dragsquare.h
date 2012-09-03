@@ -29,16 +29,17 @@
 class DragLabel;
 class QTextEdit;
 class QColor;
+class DragWidget;
 class DragSquare : public QFrame
 {
     Q_OBJECT
 public:
-    explicit DragSquare(const QString &label, const QString &text, QWidget *parent = 0, const QColor &defaultColor = Qt::white);
+    explicit DragSquare(const QString &label, const QString &text, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
     QString label();
     QString text();
     QColor currentColor();
     void changeColor(const QColor &acolor);
-
+    DragLabel* labelWidget();
 
 public slots:
     void updateColorsSlot();

@@ -111,7 +111,7 @@ void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
                  default: titleColor = Qt::red; break;
                 }
             }
-            DragLabel *wordLabel = new DragLabel(line, this, titleColor);
+            DragLabel *wordLabel = new DragLabel(line, this, this, titleColor);
             wordLabel->move(x, y);
             wordLabel->show();
             wordLabel->setAttribute(Qt::WA_DeleteOnClose);
@@ -172,7 +172,7 @@ void DragWidget::dropEvent(QDropEvent *event)
             newSquare->setAttribute(Qt::WA_DeleteOnClose);
             position += QPoint(newSquare->width(), 0);
         } else { //label
-          DragLabel *newLabel = new DragLabel(label, this);
+          DragLabel *newLabel = new DragLabel(label, this, this);
           newLabel->move(position - hotSpot);
           newLabel->changeColor(color);
           newLabel->show();
@@ -215,9 +215,9 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
             }
         }
         //we have selection so we want to clean it
-        if(selectedItems.size()) {
+        if (isMultiselecting()) {
             foreach (DragLabel *widget, selectedItems)
-                 widget->select(false);
+               widget->select(false);
            selectedItems.clear();
            return;
         } else {
@@ -225,14 +225,14 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         selectionStart = event->pos();
         if (!rubberBand)
               rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-          rubberBand->setGeometry(QRect(selectionStart, QSize()));
+          rubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
           rubberBand->show();
         return;
         }
     }
 
     //TODO we have selection and want to work with it
-    if(selectedItems.size()) {
+    if (isMultiselecting()) {
       //QList<QPoint> hotSpots;
       //QMimeData *mimeData = new QMimeData;
       return;
@@ -316,9 +316,16 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
         foreach (QObject *child, children()) {
             if (child->inherits("DragLabel")) {
                 DragLabel *widget = static_cast<const DragLabel *>(child);
-                if(rubberBand->rect().contains(widget->geometry())) {
+                if(rubberBand->geometry().contains(widget->geometry())) {
                     selectedItems += widget;
                     widget->select(true);
+                }
+            } else if (child->inherits("DragSquare")) {
+                DragSquare *widgetSquare = static_cast<const DragSquare *>(child);
+                DragLabel *widgetLabelFromSquare = widgetSquare->labelWidget();
+                if(rubberBand->geometry().contains(widgetSquare->geometry())) {
+                    selectedItems += widgetLabelFromSquare;
+                    widgetLabelFromSquare->select(true);
                 }
             }
         }
@@ -331,7 +338,7 @@ void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
     QPoint pos = event->globalPos();
     QAction* selectedAction = rightClickMenu()->exec(pos);
     if (selectedAction == m_NewLabelAction) {
-        DragLabel *wordLabel = new DragLabel("label", this);
+        DragLabel *wordLabel = new DragLabel("label", this, this);
         wordLabel->move(event->pos());
         wordLabel->show();
         wordLabel->setAttribute(Qt::WA_DeleteOnClose);
@@ -376,6 +383,23 @@ void DragWidget::deleteAllItemsSlot()
     }
 }
 
+void DragWidget::deleteMutliselected()
+{
+    foreach (DragLabel *widget, selectedItems) {
+        widget->select(false);
+        if(widget->parentWidget()->inherits("DragSquare"))
+            widget->parentWidget()->close();
+         else
+           widget->close();
+   }
+   selectedItems.clear();
+}
+void DragWidget::changeColorMutliselected(const QColor &acolor)
+{
+    foreach (DragLabel *widget, selectedItems) {
+         widget->changeColor(acolor);
+    }
+}
 void DragWidget::loadUserBackgroundImage()
 {
     QString supportedFormats("");
@@ -425,4 +449,9 @@ void DragWidget::loadProject(const QString &sFilename)
 
 void DragWidget::saveProject(const QString &sFilename)
 {
+}
+
+bool DragWidget::isMultiselecting()
+{
+    return selectedItems.size() != 0;
 }
