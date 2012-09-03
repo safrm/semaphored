@@ -7,3 +7,4 @@ free and opensourced
 program
 :-)
 Enjoy semaphored!
+http://safrm.net/semaphored

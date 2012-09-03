@@ -1,11 +1,11 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
 New:4 - saving & loading 1/2
-New:4 - printing
 New:2 - toolbars
 New:3 - settings
---- 1st release ---
 
+--- 1st release ---
+New:3 - export as pdf
 New:3 - few shapes for single text
 New:2 - background sizes
 New:2 - background scaling
@@ -21,6 +21,7 @@ New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+New:4 - printing
 New:3 - multiselection: changecolor
 Fix:3 - multiselection rectangle selects wrong way
 New:3 - multiselection delete

@@ -28,6 +28,7 @@
 #include <QMainWindow>
 class QAction;
 class DragWidget;
+class QPrinter;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -44,6 +45,7 @@ public slots:
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
     void loadTextFileSlot();
+    void printCurrentCanvas();
 
 private:
     void createActions();
@@ -56,6 +58,7 @@ private:
     QAction* saveProjectAct;
     QAction* exportAsPictureAct;
     QAction* loadTextFileAct;
+    QAction* printAct;
     QAction* quitAct;
     QAction* deleteAllAct;
     QAction* m_BgColorWhiteAction;

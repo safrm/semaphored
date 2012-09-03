@@ -27,6 +27,9 @@
 #include <QImageWriter>
 #include <QDebug>
 #include <QMessageBox>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
 #include "mainwindow.h"
 #include "draglabel.h"
 #include "dragwidget.h"
@@ -76,6 +79,12 @@ void MainWindow::createActions()
     loadTextFileAct = new QAction(QIcon(":/images/load_text_file.svg"), tr("&Load text file"), this);
     loadTextFileAct->setStatusTip(tr("Load text file"));
     connect(loadTextFileAct, SIGNAL(triggered()), this, SLOT(loadTextFileSlot()));
+
+    printAct = new QAction(QIcon(":/images/print.svg"), tr("&Print..."), this);
+    printAct->setShortcuts(QKeySequence::Print);
+    printAct->setStatusTip(tr("Print the current canvas"));
+    connect(printAct, SIGNAL(triggered()), this, SLOT(printCurrentCanvas()));
+
 
     quitAct = new QAction(QIcon(":/images/quit.svg"), tr("&Quit"), this);
     quitAct->setStatusTip(tr("Quit"));
@@ -139,7 +148,10 @@ void MainWindow::createMenus()
     fileMenu->addAction(loadTextFileAct);
     fileMenu->addAction(exportAsPictureAct);
     fileMenu->addSeparator();
+    fileMenu->addAction(printAct);
+    fileMenu->addSeparator();
     fileMenu->addAction(quitAct);
+
     QMenu* editMenu = menuBar()->addMenu(tr("&Edit"));
     editMenu->addAction(deleteAllAct);
 
@@ -238,4 +250,19 @@ void MainWindow::loadTextFileSlot()
 DragWidget*  MainWindow::canvasWidget()
 {
     return m_canvasWidget;
+}
+
+void MainWindow::printCurrentCanvas()
+{
+    QPrinter printer(QPrinter::HighResolution);
+    QPrintDialog dlg(&printer, this);
+    if (dlg.exec() != QDialog::Accepted)
+      return;
+
+    QPixmap qpm = QPixmap::grabWidget(centralWidget());
+    QPainter painter;
+    qpm = qpm.scaled(printer.pageRect().width(), printer.pageRect().height(), Qt::KeepAspectRatio);
+    painter.begin (&printer);
+    painter.drawPixmap (0, 0, qpm);
+    painter.end();
 }
