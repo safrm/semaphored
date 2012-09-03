@@ -5,7 +5,6 @@ New:2 - toolbars
 New:3 - settings
 
 --- 1st release ---
-New:3 - export as pdf
 New:3 - few shapes for single text
 New:2 - background sizes
 New:2 - background scaling
@@ -21,6 +20,7 @@ New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+New:3 - export as pdf
 New:4 - printing
 New:3 - multiselection: changecolor
 Fix:3 - multiselection rectangle selects wrong way

@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     saveProjectAct(NULL),
     exportAsPictureAct(NULL),
     loadTextFileAct(NULL),
+    printAct(NULL),
+    exportAsPdf(NULL),
     quitAct(NULL),
     deleteAllAct(NULL),
     m_canvasWidget(new DragWidget()) //TODO use size hint in  canvas
@@ -72,19 +74,22 @@ void MainWindow::createActions()
     saveProjectAct->setStatusTip(tr("Save project"));
     connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProjectSlot()));
 
-    exportAsPictureAct = new QAction(QIcon(":/images/export_as_picture.svg"), tr("&Export As picture"), this);
-    exportAsPictureAct->setStatusTip(tr("Export As picture"));
+    exportAsPictureAct = new QAction(QIcon(":/images/export_as_picture.svg"), tr("&Export as a picture"), this);
+    exportAsPictureAct->setStatusTip(tr("Export as a picture"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
 
     loadTextFileAct = new QAction(QIcon(":/images/load_text_file.svg"), tr("&Load text file"), this);
     loadTextFileAct->setStatusTip(tr("Load text file"));
     connect(loadTextFileAct, SIGNAL(triggered()), this, SLOT(loadTextFileSlot()));
 
+    exportAsPdf = new QAction(QIcon(":/images/export_as_pdf.svg"), tr("&Export To PDF"), this);
+    exportAsPdf->setStatusTip(tr("Export To PDF"));
+    connect(exportAsPdf, SIGNAL(triggered()), this, SLOT(exportCanvasToPdf()));
+
     printAct = new QAction(QIcon(":/images/print.svg"), tr("&Print..."), this);
     printAct->setShortcuts(QKeySequence::Print);
     printAct->setStatusTip(tr("Print the current canvas"));
     connect(printAct, SIGNAL(triggered()), this, SLOT(printCurrentCanvas()));
-
 
     quitAct = new QAction(QIcon(":/images/quit.svg"), tr("&Quit"), this);
     quitAct->setStatusTip(tr("Quit"));
@@ -146,8 +151,9 @@ void MainWindow::createMenus()
     fileMenu->addAction(saveProjectAct);
     fileMenu->addSeparator();
     fileMenu->addAction(loadTextFileAct);
-    fileMenu->addAction(exportAsPictureAct);
     fileMenu->addSeparator();
+    fileMenu->addAction(exportAsPictureAct);
+    fileMenu->addAction(exportAsPdf);
     fileMenu->addAction(printAct);
     fileMenu->addSeparator();
     fileMenu->addAction(quitAct);
@@ -265,4 +271,23 @@ void MainWindow::printCurrentCanvas()
     painter.begin (&printer);
     painter.drawPixmap (0, 0, qpm);
     painter.end();
+}
+
+void MainWindow::exportCanvasToPdf()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Export to PDF", QString(), "*.pdf");
+    if (!fileName.isEmpty()) {
+        if (QFileInfo(fileName).suffix().isEmpty())
+            fileName.append(".pdf");
+        QPrinter printer(QPrinter::HighResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName(fileName);
+
+        QPixmap qpm = QPixmap::grabWidget(centralWidget());
+        QPainter painter;
+        qpm = qpm.scaled(printer.pageRect().width(), printer.pageRect().height(), Qt::KeepAspectRatio);
+        painter.begin (&printer);
+        painter.drawPixmap (0, 0, qpm);
+        painter.end();
+    }
 }

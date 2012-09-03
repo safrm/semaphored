@@ -46,6 +46,7 @@ public slots:
     void changeBackgroundColorSlot(QAction* action);
     void loadTextFileSlot();
     void printCurrentCanvas();
+    void exportCanvasToPdf();
 
 private:
     void createActions();
@@ -59,6 +60,7 @@ private:
     QAction* exportAsPictureAct;
     QAction* loadTextFileAct;
     QAction* printAct;
+    QAction* exportAsPdf;
     QAction* quitAct;
     QAction* deleteAllAct;
     QAction* m_BgColorWhiteAction;
