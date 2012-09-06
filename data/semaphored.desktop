@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=semaphored
+Exec=/usr/bin/semaphored
+Icon=semaphored
+Categories=GNOME;Application;
+X-HildonDesk-ShowInToolbar=true
+X-Window-Icon=semaphored
+X-Window-Icon-Dimmed=semaphored
+X-Osso-Type=application/x-executable
+
