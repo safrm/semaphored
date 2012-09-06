@@ -67,27 +67,27 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
     m_RightClickMenu = new QMenu(this);
     QMenu* colorMenu = new QMenu("Color", this);
     QActionGroup* colorGroup = new QActionGroup(this);
-    pRedColorAction = new QAction(QIcon(":/images/red.svg"), tr("&Red"), this);
+    pRedColorAction = new QAction(QIcon(":/icons/red.svg"), tr("&Red"), this);
     pRedColorAction->setCheckable(true);
     if(currentColor()== Qt::red)
         pRedColorAction->setChecked(true);
 
-    pOrangeColorAction = new QAction(QIcon(":/images/orange.svg"), tr("&Orange"), this);
+    pOrangeColorAction = new QAction(QIcon(":/icons/orange.svg"), tr("&Orange"), this);
     pOrangeColorAction->setCheckable(true);
     if(currentColor() == QColor(254,154,46))
         pOrangeColorAction->setChecked(true);
 
-    pGreenColorAction = new QAction(QIcon(":/images/green.svg"), tr("&Green"), this);
+    pGreenColorAction = new QAction(QIcon(":/icons/green.svg"), tr("&Green"), this);
     pGreenColorAction->setCheckable(true);
     if(currentColor()== Qt::green)
         pGreenColorAction->setChecked(true);
 
-    pWhiteColorAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
+    pWhiteColorAction = new QAction(QIcon(":/icons/white.svg"), tr("&White"), this);
     pWhiteColorAction->setCheckable(true);
     if(currentColor()== Qt::white)
         pWhiteColorAction->setChecked(true);
 
-    pGrayColorAction = new QAction(QIcon(":/images/gray.svg"), tr("&Gray"), this);
+    pGrayColorAction = new QAction(QIcon(":/icons/gray.svg"), tr("&Gray"), this);
     pGrayColorAction->setCheckable(true);
     if(currentColor()== Qt::lightGray)
         pGrayColorAction->setChecked(true);
@@ -109,7 +109,7 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
     colorMenu->addAction(pWhiteColorAction);
     colorMenu->addAction(pGrayColorAction);
 
-    QAction* pDeleteAction = new QAction(QIcon(":/images/delete.svg"), tr("&Delete"), this);
+    QAction* pDeleteAction = new QAction(QIcon(":/icons/delete.svg"), tr("&Delete"), this);
     connect(pDeleteAction,SIGNAL(triggered()),this,SLOT(deleteItemSlot()));
 
 

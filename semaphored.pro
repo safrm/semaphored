@@ -64,14 +64,14 @@ qtlibraries.files = \
     qtlibraries.files += \
       $$QTDIR_BIN/QtCore4.dll \
       $$QTDIR_BIN/QtGui4.dll \
-#      $$QTDIR_BIN/QtSvg4.dll \
+      $$QTDIR_BIN/QtSvg4.dll \
       $$QTDIR_BIN/QtXml4.dll \
 #      $$QTDIR_BIN/QtNetwork4.dll
   } else {
       qtlibraries.files += \
       $$QTDIR_BIN/QtCored4.dll \
       $$QTDIR_BIN/QtGuid4.dll \
-#      $$QTDIR_BIN/QtSvgd4.dll \
+      $$QTDIR_BIN/QtSvgd4.dll \
       $$QTDIR_BIN/QtXmld4.dll \
 #      $$QTDIR_BIN/QtNetworkd4.dll
   }

@@ -10,5 +10,14 @@
         <file>images/bg-kanban1-a5h.png</file>
         <file>images/bg-kanban2-a5h.png</file>
         <file>images/splash.png</file>
+        <file>icons/about.svg</file>
+        <file>icons/semaphored.svg</file>
+        <file>icons/def.svg</file>
+        <file>icons/delete.svg</file>
+        <file>icons/export_as_picture.svg</file>
+        <file>icons/load.svg</file>
+        <file>icons/print.svg</file>
+        <file>icons/quit.svg</file>
+        <file>icons/save.svg</file>
     </qresource>
 </RCC>

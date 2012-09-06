@@ -365,10 +365,10 @@ QMenu* DragWidget::rightClickMenu()
     m_RightClickMenu = new QMenu(this);
     QMenu* newMenu = new QMenu("New", this);
 
-    m_NewLabelAction = new QAction(QIcon(":/images/new_label.svg"), tr("&Label"), this);
+    m_NewLabelAction = new QAction(QIcon(":/icons/new_label.svg"), tr("&Label"), this);
     newMenu->addAction(m_NewLabelAction);
 
-    m_NewSquareAction = new QAction(QIcon(":/images/new_square.svg"), tr("&Square"), this);
+    m_NewSquareAction = new QAction(QIcon(":/icons/new_square.svg"), tr("&Square"), this);
     newMenu->addAction(m_NewSquareAction);
 
     m_RightClickMenu->addMenu(newMenu);

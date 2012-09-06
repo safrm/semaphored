@@ -37,7 +37,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
 {
 QLabel * iconLabel = new QLabel();
-iconLabel->setPixmap(QIcon(":/images/tray_icon.svg").pixmap(30,30));
+iconLabel->setPixmap(QIcon(":/icons/tray_icon.svg").pixmap(30,30));
 
 QHBoxLayout *versionLayout = new QHBoxLayout();
 QLabel* pVersionLabel = new QLabel("version: ");
@@ -56,7 +56,7 @@ QString sMailTo = "mailto:semaphored@safrm.net?subject=Semaphored: version: " + 
 WebLink* pSupportemailWebPageLabel = new WebLink("Send email to author",QUrl(sMailTo),this);
 
 QLabel * logoLabel = new QLabel();
-logoLabel->setPixmap(QIcon(":/images/tray_icon.svg").pixmap(143,73));
+logoLabel->setPixmap(QIcon(":/icons/tray_icon.svg").pixmap(143,73));
 
 QHBoxLayout *licenseLayout = new QHBoxLayout();
 licenseLayout->setAlignment(Qt::AlignHCenter);
@@ -87,7 +87,7 @@ mainLayout->addWidget(closeButton,0,Qt::AlignHCenter);
 setLayout(mainLayout);
 
 setWindowTitle("About Semaphored ...");
-setWindowIcon(QIcon(":/images/semaphored.svg"));
+setWindowIcon(QIcon(":/icons/semaphored.svg"));
 setModal(true);
 }
 

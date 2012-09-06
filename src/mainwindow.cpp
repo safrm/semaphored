@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setCentralWidget(m_canvasWidget);
     setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_FULL_VERSION_TAG) + " (" + QString(APP_DATE) +")");
+    setWindowIcon(QIcon(":/icons/semaphored.svg"));
 }
 
 MainWindow* MainWindow::instance()
@@ -70,70 +71,70 @@ MainWindow* MainWindow::instance()
 
 void MainWindow::createActions()
 {
-    loadProjectAct = new QAction(QIcon(":/images/load_project.svg"), tr("&Load project"), this);
+    loadProjectAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project"), this);
     loadProjectAct->setStatusTip(tr("Load project"));
     connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot()));
 
-    saveProjectAct = new QAction(QIcon(":/images/save_project.svg"), tr("&Save project"), this);
+    saveProjectAct = new QAction(QIcon(":/icons/save_project.svg"), tr("&Save project"), this);
     saveProjectAct->setStatusTip(tr("Save project"));
     connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProjectSlot()));
 
-    exportAsPictureAct = new QAction(QIcon(":/images/export_as_picture.svg"), tr("&Export as a picture"), this);
+    exportAsPictureAct = new QAction(QIcon(":/icons/export_as_picture.svg"), tr("&Export as a picture"), this);
     exportAsPictureAct->setStatusTip(tr("Export as a picture"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
 
-    loadTextFileAct = new QAction(QIcon(":/images/load_text_file.svg"), tr("&Load text file"), this);
+    loadTextFileAct = new QAction(QIcon(":/icons/load_text_file.svg"), tr("&Load text file"), this);
     loadTextFileAct->setStatusTip(tr("Load text file"));
     connect(loadTextFileAct, SIGNAL(triggered()), this, SLOT(loadTextFileSlot()));
 
-    exportAsPdf = new QAction(QIcon(":/images/export_as_pdf.svg"), tr("&Export To PDF"), this);
+    exportAsPdf = new QAction(QIcon(":/icons/export_as_pdf.svg"), tr("&Export To PDF"), this);
     exportAsPdf->setStatusTip(tr("Export To PDF"));
     connect(exportAsPdf, SIGNAL(triggered()), this, SLOT(exportCanvasToPdfSlot()));
 
-    printAct = new QAction(QIcon(":/images/print.svg"), tr("&Print..."), this);
+    printAct = new QAction(QIcon(":/icons/print.svg"), tr("&Print..."), this);
     printAct->setShortcuts(QKeySequence::Print);
     printAct->setStatusTip(tr("Print the current canvas"));
     connect(printAct, SIGNAL(triggered()), this, SLOT(printCurrentCanvasSlot()));
 
-    quitAct = new QAction(QIcon(":/images/quit.svg"), tr("&Quit"), this);
+    quitAct = new QAction(QIcon(":/icons/quit.svg"), tr("&Quit"), this);
     quitAct->setStatusTip(tr("Quit"));
     connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    aboutAct = new QAction(QIcon(":/images/about.svg"), tr("&About"), this);
+    aboutAct = new QAction(QIcon(":/icons/about.svg"), tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the application's About box"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(showAboutDialogSlot()));
 
-    deleteAllAct = new QAction(QIcon(":/images/deleteall.svg"), tr("&Delete All"), this);
+    deleteAllAct = new QAction(QIcon(":/icons/deleteall.svg"), tr("&Delete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
     connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
 
     QActionGroup* backgroundColorGroup = new QActionGroup(this);
-    m_BgColorWhiteAction = new QAction(QIcon(":/images/white.svg"), tr("&White"), this);
+    m_BgColorWhiteAction = new QAction(QIcon(":/icons/white.svg"), tr("&White"), this);
     m_BgColorWhiteAction->setCheckable(true);
 
-    m_BgColorGrayAction = new QAction(QIcon(":/images/gray.svg"), tr("&Gray"), this);
+    m_BgColorGrayAction = new QAction(QIcon(":/icons/gray.svg"), tr("&Gray"), this);
     m_BgColorGrayAction->setCheckable(true);
 
-    m_BgColorCyanAction = new QAction(QIcon(":/images/cyan.svg"), tr("&Cyan"), this);
+    m_BgColorCyanAction = new QAction(QIcon(":/icons/cyan.svg"), tr("&Cyan"), this);
     m_BgColorCyanAction->setCheckable(true);
 
-    m_BgDefaultImage1Action = new QAction(QIcon(":/images/default_image1.svg"), tr("&Default background image titles"), this);
+    m_BgDefaultImage1Action = new QAction(QIcon(":/icons/default_image1.svg"), tr("&Default background image titles"), this);
     m_BgDefaultImage1Action->setCheckable(true);
     m_BgDefaultImage1Action->setChecked(true);
 
-    m_BgDefaultImage2Action = new QAction(QIcon(":/images/default_image2.svg"), tr("&Default background image painting"), this);
+    m_BgDefaultImage2Action = new QAction(QIcon(":/icons/default_image2.svg"), tr("&Default background image painting"), this);
     m_BgDefaultImage2Action->setCheckable(true);
 
-    m_BgImageKanban1Action = new QAction(QIcon(":/images/image_kanban_1.svg"), tr("&Background image Kanban 1"), this);
+    m_BgImageKanban1Action = new QAction(QIcon(":/icons/image_kanban_1.svg"), tr("&Background image Kanban 1"), this);
     m_BgImageKanban1Action->setCheckable(true);
-    m_BgImageKanban1HAction = new QAction(QIcon(":/images/image_kanban_1h.svg"), tr("&Background image Kanban 1H"), this);
+    m_BgImageKanban1HAction = new QAction(QIcon(":/icons/image_kanban_1h.svg"), tr("&Background image Kanban 1H"), this);
     m_BgImageKanban1HAction->setCheckable(true);
-    m_BgImageKanban2Action = new QAction(QIcon(":/images/image_kanban_2.svg"), tr("&Background image Kanban 2"), this);
+    m_BgImageKanban2Action = new QAction(QIcon(":/icons/image_kanban_2.svg"), tr("&Background image Kanban 2"), this);
     m_BgImageKanban2Action->setCheckable(true);
-    m_BgImageKanban2HAction = new QAction(QIcon(":/images/image_kanban_2h.svg"), tr("&Background image Kanban 2H"), this);
+    m_BgImageKanban2HAction = new QAction(QIcon(":/icons/image_kanban_2h.svg"), tr("&Background image Kanban 2H"), this);
     m_BgImageKanban2HAction->setCheckable(true);
 
-    m_BgUserImageAction = new QAction(QIcon(":/images/load_background_image.svg"), tr("&User background image"), this);
+    m_BgUserImageAction = new QAction(QIcon(":/icons/load_background_image.svg"), tr("&User background image"), this);
     m_BgUserImageAction->setStatusTip(tr("User background image"));
     m_BgUserImageAction->setCheckable(true);
     //connect(m_BgUserImageAction, SIGNAL(triggered()), m_canvasWidget, SLOT(loadBackgroundImageSlot()));

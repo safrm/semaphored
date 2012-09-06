@@ -37,7 +37,7 @@ message("QMAKE_QT_DLL = " $${QMAKE_QT_DLL})
 
 DEFINES += APPLICATION_NAME=\\\"${QMAKE_TARGET}\\\"
 
-QT          = core gui xml
+QT          = core gui xml svg
 
 # All generated files goes to the same directory
 win32:INSTALL_ROOT= /progs/semaphored
