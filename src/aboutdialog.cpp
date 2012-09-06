@@ -41,7 +41,7 @@ iconLabel->setPixmap(QIcon(":/images/tray_icon.svg").pixmap(30,30));
 
 QHBoxLayout *versionLayout = new QHBoxLayout();
 QLabel* pVersionLabel = new QLabel("version: ");
-QLineEdit* pVersionLineEdit = new QLineEdit(QString(APP_VERSION_FULL) + QString(" ") + QString(APP_DATE));
+QLineEdit* pVersionLineEdit = new QLineEdit(QString(APP_FULL_VERSION_TAG) + QString(" ") + QString(APP_DATE));
 pVersionLineEdit->setReadOnly(true);
 pVersionLineEdit->selectAll();
 versionLayout->addWidget(pVersionLabel);
@@ -52,7 +52,7 @@ WebLink* pChangelogFilelabel = new WebLink("Changelog",QUrl("/usr/share/doc/sema
 
 //webpage
 WebLink* pOfficialWebPageLabel = new WebLink("Semaphored",QUrl("http://safrm.net/semaphored"));
-QString sMailTo = "mailto:semaphored@safrm.net?subject=Semaphored: version: " + QString(APP_VERSION_FULL) + " " + QString(APP_DATE);
+QString sMailTo = "mailto:semaphored@safrm.net?subject=Semaphored: version: " + QString(APP_FULL_VERSION_TAG) + " " + QString(APP_DATE);
 WebLink* pSupportemailWebPageLabel = new WebLink("Send email to author",QUrl(sMailTo),this);
 
 QLabel * logoLabel = new QLabel();

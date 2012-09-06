@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //createStatusBar();
 
     setCentralWidget(m_canvasWidget);
-    setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_VERSION_FULL) + " (" + QString(APP_DATE) +")");
+    setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_FULL_VERSION_TAG) + " (" + QString(APP_DATE) +")");
 }
 
 MainWindow* MainWindow::instance()

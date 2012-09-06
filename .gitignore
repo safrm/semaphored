@@ -1,3 +1,4 @@
+appver.pri
 Makefile
 Makefile.*
 debug/*

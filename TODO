@@ -23,7 +23,7 @@ New:2 - about dialog
 New:3 - splash screen
 New:4 - saving to xml
 Chg:2 - addding QtXml
-New:2 - runtime convertion APP_VERSION_SHORT to uint for version/serialization comparation
+New:2 - runtime convertion APP_SHORT_VERSION_TAG to uint for version/serialization comparation
 New:3 - export as pdf
 New:4 - printing
 New:3 - multiselection: changecolor

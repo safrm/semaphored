@@ -486,8 +486,8 @@ void DragWidget::loadProject(const QString &sFilename)
     }
     //version check
     QString sVersion = docElem.attribute("version");
-    if(Version::shortVersionToNum(sVersion) != Version::shortVersionToNum(QString(APP_VERSION_SHORT))) {
-        qCritical()<< "Project saved by:" + sVersion + "trying to load by:" + QString(APP_VERSION_SHORT);
+    if(Version::shortVersionToNum(sVersion) != Version::shortVersionToNum(QString(APP_SHORT_VERSION_TAG))) {
+        qCritical()<< "Project saved by:" + sVersion + "trying to load by:" + QString(APP_SHORT_VERSION_TAG);
     }
 
     //TODO - should be a bit more robust
@@ -544,7 +544,7 @@ void DragWidget::saveProject(const QString &sFilename)
     }
     QTextStream out(&fileWrite);
     QDomElement root = xmlDocument.createElement("project" );
-    root.setAttribute("version", APP_VERSION_SHORT);
+    root.setAttribute("version", APP_SHORT_VERSION_TAG);
     xmlDocument.appendChild( root );
 
     QDomElement items = xmlDocument.createElement("items");
