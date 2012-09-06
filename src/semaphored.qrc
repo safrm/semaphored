@@ -14,10 +14,26 @@
         <file>icons/semaphored.svg</file>
         <file>icons/def.svg</file>
         <file>icons/delete.svg</file>
-        <file>icons/export_as_picture.svg</file>
-        <file>icons/load.svg</file>
         <file>icons/print.svg</file>
         <file>icons/quit.svg</file>
-        <file>icons/save.svg</file>
+        <file>icons/delete_all.svg</file>
+        <file>icons/load_project.svg</file>
+        <file>icons/save_project.svg</file>
+        <file>icons/load_text_file.svg</file>
+        <file>icons/export_as_pdf.svg</file>
+        <file>icons/cyan.svg</file>
+        <file>icons/gray.svg</file>
+        <file>icons/white.svg</file>
+        <file>icons/new_label.svg</file>
+        <file>icons/new_square.svg</file>
+        <file>icons/export_as_picture.png</file>
+        <file>icons/load_background_image.png</file>
+        <file>icons/bg-kanban1-a5.png</file>
+        <file>icons/bg-kanban1-a5h.png</file>
+        <file>icons/bg-kanban2-a5.png</file>
+        <file>icons/bg-kanban2-a5h.png</file>
+        <file>icons/default_image1.png</file>
+        <file>icons/default_image2.png</file>
+        <file>icons/semaphored.png</file>
     </qresource>
 </RCC>

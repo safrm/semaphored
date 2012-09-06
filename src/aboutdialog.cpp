@@ -37,7 +37,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
 {
 QLabel * iconLabel = new QLabel();
-iconLabel->setPixmap(QIcon(":/icons/tray_icon.svg").pixmap(30,30));
+iconLabel->setPixmap(QIcon(":/images/default.png").pixmap(392,221));
 
 QHBoxLayout *versionLayout = new QHBoxLayout();
 QLabel* pVersionLabel = new QLabel("version: ");
@@ -56,7 +56,7 @@ QString sMailTo = "mailto:semaphored@safrm.net?subject=Semaphored: version: " + 
 WebLink* pSupportemailWebPageLabel = new WebLink("Send email to author",QUrl(sMailTo),this);
 
 QLabel * logoLabel = new QLabel();
-logoLabel->setPixmap(QIcon(":/icons/tray_icon.svg").pixmap(143,73));
+logoLabel->setPixmap(QIcon(":/icons/semaphored.png").pixmap(143,73));
 
 QHBoxLayout *licenseLayout = new QHBoxLayout();
 licenseLayout->setAlignment(Qt::AlignHCenter);
@@ -74,14 +74,16 @@ QPushButton* closeButton = new QPushButton(tr("&Close"));
 connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
 //ALL TOGETHER
 QVBoxLayout *mainLayout = new QVBoxLayout(this);
-mainLayout->addWidget(logoLabel,0,Qt::AlignHCenter);
+mainLayout->addWidget(iconLabel,0,Qt::AlignHCenter);
 mainLayout->addLayout(versionLayout);
 mainLayout->addWidget(pChangelogFilelabel,0,Qt::AlignHCenter);
 mainLayout->addWidget(pOfficialWebPageLabel,0,Qt::AlignHCenter);
 mainLayout->addWidget(pSupportemailWebPageLabel,0,Qt::AlignHCenter);
+mainLayout->addWidget(logoLabel,0,Qt::AlignHCenter);
 mainLayout->addWidget(new QWidget());
 mainLayout->addLayout(licenseLayout, 0);
 mainLayout->addWidget(licenseFilelabel, 0, Qt::AlignHCenter);
+mainLayout->addWidget(logoLabel,0,Qt::AlignHCenter);
 mainLayout->addWidget(new QWidget());
 mainLayout->addWidget(closeButton,0,Qt::AlignHCenter);
 setLayout(mainLayout);

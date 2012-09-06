@@ -79,7 +79,7 @@ void MainWindow::createActions()
     saveProjectAct->setStatusTip(tr("Save project"));
     connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProjectSlot()));
 
-    exportAsPictureAct = new QAction(QIcon(":/icons/export_as_picture.svg"), tr("&Export as a picture"), this);
+    exportAsPictureAct = new QAction(QIcon(":/icons/export_as_picture.png"), tr("&Export as a picture"), this);
     exportAsPictureAct->setStatusTip(tr("Export as a picture"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
 
@@ -104,7 +104,7 @@ void MainWindow::createActions()
     aboutAct->setStatusTip(tr("Show the application's About box"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(showAboutDialogSlot()));
 
-    deleteAllAct = new QAction(QIcon(":/icons/deleteall.svg"), tr("&Delete All"), this);
+    deleteAllAct = new QAction(QIcon(":/icons/delete_all.svg"), tr("&Delete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
     connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
 
@@ -118,23 +118,23 @@ void MainWindow::createActions()
     m_BgColorCyanAction = new QAction(QIcon(":/icons/cyan.svg"), tr("&Cyan"), this);
     m_BgColorCyanAction->setCheckable(true);
 
-    m_BgDefaultImage1Action = new QAction(QIcon(":/icons/default_image1.svg"), tr("&Default background image titles"), this);
+    m_BgDefaultImage1Action = new QAction(QIcon(":/icons/default_image1.png"), tr("&Default background image titles"), this);
     m_BgDefaultImage1Action->setCheckable(true);
     m_BgDefaultImage1Action->setChecked(true);
 
-    m_BgDefaultImage2Action = new QAction(QIcon(":/icons/default_image2.svg"), tr("&Default background image painting"), this);
+    m_BgDefaultImage2Action = new QAction(QIcon(":/icons/default_image2.png"), tr("&Default background image painting"), this);
     m_BgDefaultImage2Action->setCheckable(true);
 
-    m_BgImageKanban1Action = new QAction(QIcon(":/icons/image_kanban_1.svg"), tr("&Background image Kanban 1"), this);
+    m_BgImageKanban1Action = new QAction(QIcon(":/icons/image_kanban_1.png"), tr("&Background image Kanban 1"), this);
     m_BgImageKanban1Action->setCheckable(true);
-    m_BgImageKanban1HAction = new QAction(QIcon(":/icons/image_kanban_1h.svg"), tr("&Background image Kanban 1H"), this);
+    m_BgImageKanban1HAction = new QAction(QIcon(":/icons/image_kanban_1h.png"), tr("&Background image Kanban 1H"), this);
     m_BgImageKanban1HAction->setCheckable(true);
-    m_BgImageKanban2Action = new QAction(QIcon(":/icons/image_kanban_2.svg"), tr("&Background image Kanban 2"), this);
+    m_BgImageKanban2Action = new QAction(QIcon(":/icons/image_kanban_2.png"), tr("&Background image Kanban 2"), this);
     m_BgImageKanban2Action->setCheckable(true);
-    m_BgImageKanban2HAction = new QAction(QIcon(":/icons/image_kanban_2h.svg"), tr("&Background image Kanban 2H"), this);
+    m_BgImageKanban2HAction = new QAction(QIcon(":/icons/image_kanban_2h.png"), tr("&Background image Kanban 2H"), this);
     m_BgImageKanban2HAction->setCheckable(true);
 
-    m_BgUserImageAction = new QAction(QIcon(":/icons/load_background_image.svg"), tr("&User background image"), this);
+    m_BgUserImageAction = new QAction(QIcon(":/icons/load_background_image.png"), tr("&User background image"), this);
     m_BgUserImageAction->setStatusTip(tr("User background image"));
     m_BgUserImageAction->setCheckable(true);
     //connect(m_BgUserImageAction, SIGNAL(triggered()), m_canvasWidget, SLOT(loadBackgroundImageSlot()));
