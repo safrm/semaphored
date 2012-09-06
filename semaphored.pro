@@ -25,30 +25,30 @@ RCC_DIR     = build
 UI_DIR      = build
 
 # install
-INSTALLS += target
 unix:target.path  = /usr/bin/$${TARGET}
 win32:target.path  = /$${TARGET}
+INSTALLS += target
 
-unix:INSTALLS    += desktop
 unix:desktop.path  = /usr/share/applications
 unix:desktop.files  = data/$${TARGET}.desktop
+unix:INSTALLS    += desktop
 
-INSTALLS    += icon
 unix:icon.path   = /usr/share/icons/hicolor/scalable/apps
 win32:icon.path  = /
 unix:icon.files  = data/$${TARGET}.svg
 win32:icon.files  = data/$${TARGET}.ico
+INSTALLS    += icon
 
-INSTALLS    += docs
-unix:docs.path  = /usr/share/doc/$${TARGET}
+unix:readme.path  = /usr/share/doc/semaphored
+win32:readme.path  = /
+readme.files  = README
+readme.commands = sed -i".bkp" \'1 s/Version:.*/Version: $$APP_FULL_VERSION_TAG ($$APP_BUILD_DATE)/\' README && rm -f README.bkp
+INSTALLS    += readme
+
+unix:docs.path  = /usr/share/doc/semaphored
 win32:docs.path  = /
 docs.files  = TODO LICENSE.LGPL
-
-INSTALLS    += README
-unix:readme.path  = /usr/share/doc/$${TARGET}
-win32:readme.path  = /
-readme.target  = README
-readme.commands = sed -i".bkp" \'1 s/Version:.*/Version: $$APP_FULL_VERSION_TAG ($$APP_BUILD_DATE)/\' README && rm -f README.bkp
+INSTALLS    += docs
 
 win32 {
 QTDIR_BIN = $$system(qmake -query QT_INSTALL_BINS)
@@ -92,4 +92,5 @@ OTHER_FILES += \
     README \
     LICENSE.LGPL \
     TODO \
-    src/words.txt
+    src/words.txt \
+    semaphored.spec

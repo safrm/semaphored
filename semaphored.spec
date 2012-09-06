@@ -49,9 +49,10 @@ make install
 %{_bindir}/semaphored
 %{_datadir}/applications/semaphored.desktop
 %{_datadir}/icons/hicolor/scalable/apps/semaphored.svg
+%dir %{_datadir}/doc/semaphored
 %{_datadir}/doc/semaphored/README
-%{_datadir}/doc/seamphored/TODO 
-%{_datadir}/doc/seamphored/LICENSE.LGPL
+%{_datadir}/doc/semaphored/TODO
+%{_datadir}/doc/semaphored/LICENSE.LGPL
 # << files
 
 
