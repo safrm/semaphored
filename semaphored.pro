@@ -60,14 +60,16 @@ qtlibraries.files = \
     $$QTDIR_BIN/libgcc_s_dw2-1.dll
 
   release {
-
+    message(libs:release)
     qtlibraries.files += \
       $$QTDIR_BIN/QtCore4.dll \
       $$QTDIR_BIN/QtGui4.dll \
       $$QTDIR_BIN/QtSvg4.dll \
       $$QTDIR_BIN/QtXml4.dll \
 #      $$QTDIR_BIN/QtNetwork4.dll
-  } else {
+  } 
+  debug { 
+      message(libs:debug)
       qtlibraries.files += \
       $$QTDIR_BIN/QtCored4.dll \
       $$QTDIR_BIN/QtGuid4.dll \

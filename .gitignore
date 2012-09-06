@@ -15,3 +15,5 @@ debian/files
 *.substvars
 rpm/*
 semaphored.changes
+install/*
+release/*

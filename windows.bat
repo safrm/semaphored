@@ -5,6 +5,6 @@ IF NOT EXIST install mkdir install
 set INSTALL_ROOT=%CD%\install
 IF NOT EXIST output mkdir output
 qmake 
-REM make release
-mingw32-make -f Makefile.Release install
+make release install
+REM mingw32-make -f Makefile.Release install
 "C:\Program Files\NSIS\makensis" semaphored.nsi
