@@ -42,7 +42,7 @@ INSTALLS    += icon
 unix:readme.path  = /usr/share/doc/semaphored
 win32:readme.path  = /
 readme.files  = README
-readme.commands = sed -i".bkp" \'1 s/Version:.*/Version: $$APP_FULL_VERSION_TAG ($$APP_BUILD_DATE)/\' README && rm -f README.bkp
+unix:readme.commands = sed -i".bkp" \'1 s/Version:.*/Version: $$APP_FULL_VERSION_TAG ($$APP_BUILD_DATE)/\' README && rm -f README.bkp
 INSTALLS    += readme
 
 unix:docs.path  = /usr/share/doc/semaphored
@@ -64,16 +64,16 @@ qtlibraries.files = \
     qtlibraries.files += \
       $$QTDIR_BIN/QtCore4.dll \
       $$QTDIR_BIN/QtGui4.dll \
-      $$QTDIR_BIN/QtSvg4.dll \
+#      $$QTDIR_BIN/QtSvg4.dll \
       $$QTDIR_BIN/QtXml4.dll \
-      $$QTDIR_BIN/QtNetwork4.dll
+#      $$QTDIR_BIN/QtNetwork4.dll
   } else {
       qtlibraries.files += \
       $$QTDIR_BIN/QtCored4.dll \
       $$QTDIR_BIN/QtGuid4.dll \
-      $$QTDIR_BIN/QtSvgd4.dll \
+#      $$QTDIR_BIN/QtSvgd4.dll \
       $$QTDIR_BIN/QtXmld4.dll \
-      $$QTDIR_BIN/QtNetworkd4.dll
+#      $$QTDIR_BIN/QtNetworkd4.dll
   }
 }
 
