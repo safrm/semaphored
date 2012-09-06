@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.47 r22583"
    sodipodi:docname="drawing.svg"
-   inkscape:export-filename="/media/p/work/mirek/semaphored/drawing.png"
+   inkscape:export-filename="/media/p/work/mirek/semaphored/drawingx.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -73,7 +73,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
      inkscape:cx="390.07911"
-     inkscape:cy="215.69203"
+     inkscape:cy="214.26346"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -133,7 +133,7 @@
            height="105.05586"
            x="183.84776"
            y="136.15382" /></flowRegion><flowPara
-         id="flowPara2832"></flowPara></flowRoot>    <g
+         id="flowPara2832" /></flowRoot>    <g
        sodipodi:type="inkscape:box3d"
        style="opacity:0.5;fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="g3671"
@@ -185,7 +185,7 @@
        sodipodi:cy="263.79074"
        sodipodi:rx="21.071428"
        sodipodi:ry="25.714285"
-       d="m 200.71428,263.79074 a 21.071428,25.714285 0 1 1 -42.14286,0 21.071428,25.714285 0 1 1 42.14286,0 z"
+       d="m 200.71428,263.79074 c 0,14.20161 -9.434,25.71429 -21.07143,25.71429 -11.63743,0 -21.07143,-11.51268 -21.07143,-25.71429 0,-14.20161 9.434,-25.71428 21.07143,-25.71428 11.63743,0 21.07143,11.51267 21.07143,25.71428 z"
        transform="matrix(0.36988332,0.92907822,-0.92907822,0.36988332,264.49245,690.74703)" />
     <path
        sodipodi:type="arc"
@@ -195,7 +195,7 @@
        sodipodi:cy="263.79074"
        sodipodi:rx="21.071428"
        sodipodi:ry="25.714285"
-       d="m 200.71428,263.79074 a 21.071428,25.714285 0 1 1 -42.14286,0 21.071428,25.714285 0 1 1 42.14286,0 z"
+       d="m 200.71428,263.79074 c 0,14.20161 -9.434,25.71429 -21.07143,25.71429 -11.63743,0 -21.07143,-11.51268 -21.07143,-25.71429 0,-14.20161 9.434,-25.71428 21.07143,-25.71428 11.63743,0 21.07143,11.51267 21.07143,25.71428 z"
        transform="matrix(-0.78403952,0.26856348,-0.75219197,-0.61998049,444.4112,1015.5207)" />
     <path
        sodipodi:type="arc"
@@ -205,7 +205,7 @@
        sodipodi:cy="263.79074"
        sodipodi:rx="21.071428"
        sodipodi:ry="25.714285"
-       d="m 200.71428,263.79074 a 21.071428,25.714285 0 1 1 -42.14286,0 21.071428,25.714285 0 1 1 42.14286,0 z"
+       d="m 200.71428,263.79074 c 0,14.20161 -9.434,25.71429 -21.07143,25.71429 -11.63743,0 -21.07143,-11.51268 -21.07143,-25.71429 0,-14.20161 9.434,-25.71428 21.07143,-25.71428 11.63743,0 21.07143,11.51267 21.07143,25.71428 z"
        transform="matrix(0.03870563,0.68021217,-0.51376564,0.66924329,181.57342,618.27137)" />
     <rect
        style="opacity:0.9;fill:#ffee60;fill-opacity:0.9186603;stroke:#000000;stroke-opacity:1"
@@ -217,19 +217,19 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Andale Mono"
-       x="189.78568"
-       y="894.50684"
+       x="271.92853"
+       y="888.79254"
        id="text3722"><tspan
          sodipodi:role="line"
          id="tspan3724"
-         x="189.78568"
-         y="894.50684"
-         style="font-size:20px">to be organized</tspan><tspan
+         x="271.92853"
+         y="888.79254"
+         style="font-size:20px;text-align:center;text-anchor:middle">..to be organized</tspan><tspan
          sodipodi:role="line"
-         x="189.78568"
-         y="919.50684"
-         style="font-size:20px"
-         id="tspan3726"> in a nice way</tspan></text>
+         x="271.92853"
+         y="913.79254"
+         style="font-size:20px;text-align:center;text-anchor:middle"
+         id="tspan3726"> in a nice way.</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot3728"
@@ -240,5 +240,16 @@
            height="45.714287"
            x="306.42856"
            y="226.6479" /></flowRegion><flowPara
-         id="flowPara3734"></flowPara></flowRoot>  </g>
+         id="flowPara3734" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Andale Mono"
+       x="181.42857"
+       y="945.21936"
+       id="text2846"><tspan
+         sodipodi:role="line"
+         id="tspan2848"
+         x="181.42857"
+         y="945.21936"
+         style="font-size:13px;fill:#0000ff">http://semaphored.safrm.net</tspan></text>
+  </g>
 </svg>
