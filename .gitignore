@@ -8,4 +8,10 @@ moc_*.cpp
 qrc_*.cpp
 semaphored
 *.pro.user
-
+build-stamp
+configure-stamp
+debian/semaphored.debhelper.log
+debian/files
+*.substvars
+rpm/*
+semaphored.changes
