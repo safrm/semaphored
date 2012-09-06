@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(semaphored);
 
     QApplication app(argc, argv);
+    app.setAttribute(Qt::AA_DontShowIconsInMenus,false);
     QPixmap pixmap(":/images/splash.png");
     QSplashScreen splash(pixmap);
     splash.show();
