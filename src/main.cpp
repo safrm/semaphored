@@ -37,7 +37,9 @@ int main(int argc, char *argv[])
 
     MainWindow* mainWin = new MainWindow();
     mainWin->show();
+#ifdef Q_OS_UNIX
     usleep(700);
+#endif //Q_OS_UNIX
     splash.finish(mainWin);
     return app.exec();
 }
