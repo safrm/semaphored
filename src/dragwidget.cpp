@@ -495,7 +495,12 @@ void DragWidget::loadProject(const QString &sFilename)
     QDomElement itemsElem = doc.elementsByTagName("items").at(0).toElement();
     //background
     QString sBackground = itemsElem.attribute("background");
+#if (QT_VERSION < QT_VERSION_CHECK(4, 7, 0))
+    QColor TestedColor(sBackground);
+    if (TestedColor.isValid())
+#else
     if(QColor::isValidColor(sBackground))
+#endif
        changeBackgroundColor(QColor(sBackground));
     else if (QFileInfo(sBackground).exists())
         changeBackgroundImage(sBackground);
