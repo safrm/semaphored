@@ -10,4 +10,5 @@ Homepage: http://semaphored.safrm.net/
 Package: semaphored
 Architecture: any
 Depends: libqt4-core, libqt4-gui, libqt4-network, libqt4-xml, libqt4-svg, ${misc:Depends},  ${shlibs:Depends}
-Description: notes dashboard used for planning
+Description: notes dashboard used for planning 
+	it can be used to create valued object charts or kanban dashboards or simple uml static charts

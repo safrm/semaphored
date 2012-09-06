@@ -25,18 +25,18 @@ RCC_DIR     = build
 UI_DIR      = build
 
 # install
-unix:target.path  = /usr/bin/$${TARGET}
-win32:target.path  = /$${TARGET}
+unix:target.path  = /usr/bin/
+win32:target.path  = /
 INSTALLS += target
 
 unix:desktop.path  = /usr/share/applications
-unix:desktop.files  = data/$${TARGET}.desktop
+unix:desktop.files  = data/semaphored.desktop
 unix:INSTALLS    += desktop
 
 unix:icon.path   = /usr/share/icons/hicolor/scalable/apps
 win32:icon.path  = /
-unix:icon.files  = data/$${TARGET}.svg
-win32:icon.files  = data/$${TARGET}.ico
+unix:icon.files  = data/semaphored.svg
+win32:icon.files  = data/semaphored.ico
 INSTALLS    += icon
 
 unix:readme.path  = /usr/share/doc/semaphored
