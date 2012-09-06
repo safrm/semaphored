@@ -1,7 +1,7 @@
 /****************************************************************************
 **
 ** Author: Miroslav Safr <miroslav.safr@gmail.com>
-** Web: http://safrm.net/semaphored
+** Web: http://semaphored.safrm.net/
 ** Source: https://github.com/safrm/semaphored
 **
 ** GNU Lesser General Public License Usage
@@ -51,7 +51,7 @@ versionLayout->addWidget(pVersionLineEdit);
 WebLink* pChangelogFilelabel = new WebLink("Changelog",QUrl("/usr/share/doc/semaphored/TODO"),this);
 
 //webpage
-WebLink* pOfficialWebPageLabel = new WebLink("Semaphored",QUrl("http://safrm.net/semaphored"));
+WebLink* pOfficialWebPageLabel = new WebLink("Semaphored",QUrl("http://semaphored.safrm.net/"));
 QString sMailTo = "mailto:semaphored@safrm.net?subject=Semaphored: version: " + QString(APP_FULL_VERSION_TAG) + " " + QString(APP_DATE);
 WebLink* pSupportemailWebPageLabel = new WebLink("Send email to author",QUrl(sMailTo),this);
 
