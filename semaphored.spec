@@ -1,4 +1,4 @@
-Name:       easybrain
+Name:       semaphored
 Summary:    Graphical tool for presenting waighted uml-like charts or kanban dashboards
 Version:    0.0.1
 Release:    1

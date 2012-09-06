@@ -11,7 +11,7 @@
 
 
 
-PACKAGE = easybrain
+PACKAGE = semaphored
 
 configure: configure-stamp
 configure-stamp:
