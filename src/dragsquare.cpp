@@ -44,7 +44,7 @@ DragSquare::DragSquare(const QString &label, const QString &text, DragWidget* ca
     connect( labelDragLabel, SIGNAL(colorChangedSignal()), this, SLOT(updateColorsSlot()));
     textTextEdit = new QTextEdit(text, this);
     //int iHeight = textTextEdit->fontPointSize();
-    int iWidth = labelDragLabel->width();
+    //int iWidth = labelDragLabel->width();
     textTextEdit->setAutoFillBackground(true);
     textTextEdit->setFrameShape(QFrame::NoFrame);
     labelDragLabel->setFrameShape(QFrame::NoFrame);

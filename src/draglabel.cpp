@@ -56,6 +56,7 @@ void DragLabel::contextMenuEvent( QContextMenuEvent * event )
     event->accept();
     //if(!parent()->inherits("DragSquare")) { //separated
     const QAction* selectedAction = rightClickMenu()->exec(event->globalPos());
+    Q_UNUSED(selectedAction);
 //    if (selectedAction == m_openAct) {
     //}
 }
@@ -142,6 +143,7 @@ void DragLabel::changeColorSlot(QAction* action)
 
 void DragLabel::mouseDoubleClickEvent ( QMouseEvent * event )
 {
+    Q_UNUSED(event);
     emit editSlot();
 }
 

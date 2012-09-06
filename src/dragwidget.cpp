@@ -317,6 +317,7 @@ void DragWidget::mouseMoveEvent(QMouseEvent *event)
 
 void DragWidget::mouseReleaseEvent(QMouseEvent * event)
 {
+    Q_UNUSED(event);
     if(rubberBand && rubberBand->isVisible()) {
         rubberBand->hide();
         foreach (QObject *child, children()) {
@@ -577,8 +578,9 @@ void DragWidget::saveProject(const QString &sFilename)
             tag.setAttribute("y", QString::number(widgetSquare->pos().y()));
             items.appendChild(tag);
         }
-        else
-          ;
+        else {
+            qCritical( "unhandled object type");
+        }
     }
    //save
     out << xmlDocument.toString();

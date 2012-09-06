@@ -22,6 +22,7 @@
 **
 ****************************************************************************/
 #include <QStringList>
+#include <QtDebug>
 #include "version.h"
 
 Version::Version()
@@ -32,7 +33,7 @@ uint Version::shortVersionToNum(const QString & sShortVersion)
 {
     QStringList list = sShortVersion.split(".");
     if(list.size()!=3) {
-        qCritical(QString("Short version should to be in X.Y.Z format: " + sShortVersion ).toAscii() );
+        qCritical() << "Short version should to be in X.Y.Z format: " <<  sShortVersion;
         return 0;
     }
     uint uiVersion = list.at(0).toUInt() * 1000000 + list.at(1).toUInt() * 1000 + list.at(2).toUInt();
