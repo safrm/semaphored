@@ -60,7 +60,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //createStatusBar();
 
     setCentralWidget(m_canvasWidget);
+#ifdef DEBUG
     setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_FULL_VERSION_TAG) + " (" + QString(APP_DATE) +")");
+#else
+    setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_SHORT_VERSION_TAG));
+#endif //DEBUG
+
     setWindowIcon(QIcon(":/icons/semaphored.svg"));
 }
 
