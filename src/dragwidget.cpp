@@ -344,8 +344,7 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
 void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
 {
     event->accept();
-    QPoint pos = event->globalPos();
-    QAction* selectedAction = rightClickMenu()->exec(pos);
+    QAction* selectedAction = rightClickMenu()->exec(event->globalPos());
     if (selectedAction == m_NewLabelAction) {
         DragLabel *wordLabel = new DragLabel("label", this, this);
         wordLabel->move(event->pos());
@@ -364,8 +363,8 @@ void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
 QMenu* DragWidget::rightClickMenu()
 {
   if (!m_RightClickMenu) {
-    m_RightClickMenu = new QMenu(this);
-    QMenu* newMenu = new QMenu("New", this);
+    m_RightClickMenu = new QMenu;
+    QMenu* newMenu = new QMenu("New", m_RightClickMenu);
 
     m_NewLabelAction = new QAction(QIcon(":/icons/new_label.svg"), tr("&Label"), this);
     newMenu->addAction(m_NewLabelAction);
