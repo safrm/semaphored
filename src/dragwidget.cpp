@@ -232,8 +232,8 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
             if (!rubberBand) {
                   rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
                   rubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
+                  rubberBand->show();
             }
-            rubberBand->show();
             return;
         }
     }
@@ -337,6 +337,7 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
                 }
             }
         }
+        delete rubberBand; rubberBand = NULL;
     }
 }
 
