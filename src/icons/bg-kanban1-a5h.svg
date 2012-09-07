@@ -14,7 +14,7 @@
    inkscape:version="0.47 r22583"
    width="50"
    height="45"
-   sodipodi:docname="white.svg">
+   sodipodi:docname="bg-kanban1-a5h.svg">
   <metadata
      id="metadata3080">
     <rdf:RDF>
@@ -37,7 +37,35 @@
        inkscape:persp3d-origin="25 : 15 : 1"
        id="perspective8" />
     <inkscape:perspective
-       id="perspective2833"
+       id="perspective2842"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2842-7"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2873"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2895"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2895-2"
        inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
        inkscape:vp_z="1 : 0.5 : 1"
        inkscape:vp_y="0 : 1000 : 0"
@@ -59,19 +87,37 @@
      showgrid="false"
      inkscape:zoom="5.8"
      inkscape:cx="12.774784"
-     inkscape:cy="26.896551"
+     inkscape:cy="22.241379"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3074" />
-  <path
-     sodipodi:type="arc"
-     style="fill:#ffffff;fill-opacity:0.71291863000000000;fill-rule:nonzero;stroke:#000000;stroke-opacity:1;stroke-width:0.15473254;stroke-miterlimit:4;stroke-dasharray:none"
-     id="path2824"
-     sodipodi:cx="25.775862"
-     sodipodi:cy="24.913794"
-     sodipodi:rx="15.086206"
-     sodipodi:ry="15.086206"
-     d="m 40.862068,24.913794 a 15.086206,15.086206 0 1 1 -30.172413,0 15.086206,15.086206 0 1 1 30.172413,0 z"
-     transform="matrix(1.3249816,0,0,1.260918,-9.1525425,-8.9142508)" />
+  <rect
+     style="fill:#006ea8;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="rect2832"
+     width="40.344826"
+     height="9.1379309"
+     x="5.000001"
+     y="3.3448277" />
+  <rect
+     style="fill:#8db895;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="rect2832-4"
+     width="40.344826"
+     height="9.1379309"
+     x="5.000001"
+     y="13.224136" />
+  <rect
+     style="fill:#006ea8;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="rect2832-4-4"
+     width="40.344826"
+     height="9.1379309"
+     x="5.000001"
+     y="23.672411" />
+  <rect
+     style="fill:#8db895;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="rect2832-4-2"
+     width="40.344826"
+     height="9.1379309"
+     x="5.000001"
+     y="33.5" />
 </svg>

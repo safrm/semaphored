@@ -109,13 +109,13 @@ void MainWindow::createActions()
     connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
 
     QActionGroup* backgroundColorGroup = new QActionGroup(this);
-    m_BgColorWhiteAction = new QAction(QIcon(":/icons/white.svg"), tr("&White"), this);
+    m_BgColorWhiteAction = new QAction(QIcon(":/icons/white-bg.svg"), tr("&White"), this);
     m_BgColorWhiteAction->setCheckable(true);
 
-    m_BgColorGrayAction = new QAction(QIcon(":/icons/gray.svg"), tr("&Gray"), this);
+    m_BgColorGrayAction = new QAction(QIcon(":/icons/gray-bg.svg"), tr("&Gray"), this);
     m_BgColorGrayAction->setCheckable(true);
 
-    m_BgColorCyanAction = new QAction(QIcon(":/icons/cyan.svg"), tr("&Cyan"), this);
+    m_BgColorCyanAction = new QAction(QIcon(":/icons/cyan-bg.svg"), tr("&Cyan"), this);
     m_BgColorCyanAction->setCheckable(true);
 
     m_BgDefaultImage1Action = new QAction(QIcon(":/icons/default_image1.png"), tr("&Default background image titles"), this);
@@ -125,13 +125,13 @@ void MainWindow::createActions()
     m_BgDefaultImage2Action = new QAction(QIcon(":/icons/default_image2.png"), tr("&Default background image painting"), this);
     m_BgDefaultImage2Action->setCheckable(true);
 
-    m_BgImageKanban1Action = new QAction(QIcon(":/icons/image_kanban_1.png"), tr("&Background image Kanban 1"), this);
+    m_BgImageKanban1Action = new QAction(QIcon(":/icons/bg-kanban1-a5.svg"), tr("&Background image Kanban 4 cols"), this);
     m_BgImageKanban1Action->setCheckable(true);
-    m_BgImageKanban1HAction = new QAction(QIcon(":/icons/image_kanban_1h.png"), tr("&Background image Kanban 1H"), this);
+    m_BgImageKanban1HAction = new QAction(QIcon(":/icons/bg-kanban1-a5h.svg"), tr("&Background image Kanban 4 rows"), this);
     m_BgImageKanban1HAction->setCheckable(true);
-    m_BgImageKanban2Action = new QAction(QIcon(":/icons/image_kanban_2.png"), tr("&Background image Kanban 2"), this);
+    m_BgImageKanban2Action = new QAction(QIcon(":/icons/bg-kanban2-a5.svg"), tr("&Background image Kanban 3 cols"), this);
     m_BgImageKanban2Action->setCheckable(true);
-    m_BgImageKanban2HAction = new QAction(QIcon(":/icons/image_kanban_2h.png"), tr("&Background image Kanban 2H"), this);
+    m_BgImageKanban2HAction = new QAction(QIcon(":/icons/bg-kanban2-a5h.svg"), tr("&Background image Kanban 3 rows"), this);
     m_BgImageKanban2HAction->setCheckable(true);
 
     m_BgUserImageAction = new QAction(QIcon(":/icons/load_background_image.png"), tr("&User background image"), this);

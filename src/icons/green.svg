@@ -14,7 +14,7 @@
    inkscape:version="0.47 r22583"
    width="50"
    height="45"
-   sodipodi:docname="gray.svg">
+   sodipodi:docname="green.svg">
   <metadata
      id="metadata3080">
     <rdf:RDF>
@@ -37,7 +37,7 @@
        inkscape:persp3d-origin="25 : 15 : 1"
        id="perspective8" />
     <inkscape:perspective
-       id="perspective2833"
+       id="perspective3606"
        inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
        inkscape:vp_z="1 : 0.5 : 1"
        inkscape:vp_y="0 : 1000 : 0"
@@ -53,20 +53,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="615"
-     inkscape:window-height="491"
+     inkscape:window-width="1385"
+     inkscape:window-height="973"
      id="namedview3076"
      showgrid="false"
      inkscape:zoom="5.8"
      inkscape:cx="12.774784"
-     inkscape:cy="25.689654"
+     inkscape:cy="24.310344"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3074" />
   <path
      sodipodi:type="arc"
-     style="fill:#888888;fill-opacity:0.71291863000000000;fill-rule:nonzero;stroke:none"
+     style="fill:#009900;fill-opacity:0.71291863000000000;fill-rule:nonzero;stroke:none"
      id="path2824"
      sodipodi:cx="25.775862"
      sodipodi:cy="24.913794"

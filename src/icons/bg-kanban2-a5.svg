@@ -14,7 +14,7 @@
    inkscape:version="0.47 r22583"
    width="50"
    height="45"
-   sodipodi:docname="gray.svg">
+   sodipodi:docname="bg-kanban2-a5.svg">
   <metadata
      id="metadata3080">
     <rdf:RDF>
@@ -37,7 +37,7 @@
        inkscape:persp3d-origin="25 : 15 : 1"
        id="perspective8" />
     <inkscape:perspective
-       id="perspective2833"
+       id="perspective3760"
        inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
        inkscape:vp_z="1 : 0.5 : 1"
        inkscape:vp_y="0 : 1000 : 0"
@@ -53,25 +53,39 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="615"
-     inkscape:window-height="491"
+     inkscape:window-width="868"
+     inkscape:window-height="672"
      id="namedview3076"
      showgrid="false"
      inkscape:zoom="5.8"
-     inkscape:cx="12.774784"
-     inkscape:cy="25.689654"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="34.498922"
+     inkscape:cy="25.172413"
+     inkscape:window-x="703"
+     inkscape:window-y="150"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3074" />
-  <path
-     sodipodi:type="arc"
-     style="fill:#888888;fill-opacity:0.71291863000000000;fill-rule:nonzero;stroke:none"
-     id="path2824"
-     sodipodi:cx="25.775862"
-     sodipodi:cy="24.913794"
-     sodipodi:rx="15.086206"
-     sodipodi:ry="15.086206"
-     d="m 40.862068,24.913794 a 15.086206,15.086206 0 1 1 -30.172413,0 15.086206,15.086206 0 1 1 30.172413,0 z"
-     transform="matrix(1.3249816,0,0,1.260918,-9.1525425,-8.9142508)" />
+  <rect
+     style="fill:#006ea8;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="rect2832"
+     width="40.172413"
+     height="18.793104"
+     x="-42.517239"
+     y="5.2834063"
+     transform="matrix(0,-1,1,0,0,0)" />
+  <rect
+     style="fill:#5f6048;fill-opacity:0.71291863;fill-rule:nonzero;stroke:none"
+     id="rect2832-4-4"
+     width="40.344826"
+     height="9.1379309"
+     x="-42.517239"
+     y="35.266163"
+     transform="matrix(0,-1,1,0,0,0)" />
+  <rect
+     style="fill:#8db895;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="rect2832-4-2"
+     width="40.344826"
+     height="9.1379309"
+     x="-42.517239"
+     y="25.09375"
+     transform="matrix(0,-1,1,0,0,0)" />
 </svg>

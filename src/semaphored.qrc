@@ -21,19 +21,25 @@
         <file>icons/save_project.svg</file>
         <file>icons/load_text_file.svg</file>
         <file>icons/export_as_pdf.svg</file>
-        <file>icons/cyan.svg</file>
         <file>icons/gray.svg</file>
         <file>icons/white.svg</file>
         <file>icons/new_label.svg</file>
         <file>icons/new_square.svg</file>
         <file>icons/export_as_picture.png</file>
         <file>icons/load_background_image.png</file>
-        <file>icons/bg-kanban1-a5.png</file>
-        <file>icons/bg-kanban1-a5h.png</file>
-        <file>icons/bg-kanban2-a5.png</file>
-        <file>icons/bg-kanban2-a5h.png</file>
         <file>icons/default_image1.png</file>
         <file>icons/default_image2.png</file>
         <file>icons/semaphored.png</file>
+        <file>icons/bg-kanban1-a5h.svg</file>
+        <file>icons/bg-kanban2-a5.svg</file>
+        <file>icons/bg-kanban2-a5h.svg</file>
+        <file>icons/bg-kanban1-a5.svg</file>
+        <file>icons/green.svg</file>
+        <file>icons/orange.svg</file>
+        <file>icons/red.svg</file>
+        <file>icons/cyan-bg.svg</file>
+        <file>icons/gra.svg</file>
+        <file>icons/gray-bg.svg</file>
+        <file>icons/white-bg.svg</file>
     </qresource>
 </RCC>

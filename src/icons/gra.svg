@@ -14,7 +14,7 @@
    inkscape:version="0.47 r22583"
    width="50"
    height="45"
-   sodipodi:docname="gray.svg">
+   sodipodi:docname="red.svg">
   <metadata
      id="metadata3080">
     <rdf:RDF>
@@ -53,8 +53,8 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="615"
-     inkscape:window-height="491"
+     inkscape:window-width="868"
+     inkscape:window-height="672"
      id="namedview3076"
      showgrid="false"
      inkscape:zoom="5.8"
@@ -66,7 +66,7 @@
      inkscape:current-layer="svg3074" />
   <path
      sodipodi:type="arc"
-     style="fill:#888888;fill-opacity:0.71291863000000000;fill-rule:nonzero;stroke:none"
+     style="fill:#d00000;fill-opacity:0.71291863;fill-rule:nonzero;stroke:none"
      id="path2824"
      sodipodi:cx="25.775862"
      sodipodi:cy="24.913794"
