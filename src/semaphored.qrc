@@ -41,5 +41,6 @@
         <file>icons/gra.svg</file>
         <file>icons/gray-bg.svg</file>
         <file>icons/white-bg.svg</file>
+        <file>icons/color.svg</file>
     </qresource>
 </RCC>

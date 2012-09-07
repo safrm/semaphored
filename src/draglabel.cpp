@@ -66,6 +66,7 @@ QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
   if (!m_RightClickMenu)   {
     m_RightClickMenu = new QMenu(this);
     QMenu* colorMenu = new QMenu("Color", this);
+    colorMenu->setIcon(QIcon(":/icons/color.svg"));
     QActionGroup* colorGroup = new QActionGroup(this);
     pRedColorAction = new QAction(QIcon(":/icons/red.svg"), tr("&Red"), this);
     pRedColorAction->setCheckable(true);
