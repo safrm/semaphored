@@ -227,13 +227,14 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
            selectedItems.clear();
            return;
         } else {
-        //we don't have selection so we try to create it
-        selectionStart = event->pos();
-        if (!rubberBand)
-              rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-          rubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
-          rubberBand->show();
-        return;
+            //we don't have selection so we try to create it
+            selectionStart = event->pos();
+            if (!rubberBand) {
+                  rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
+                  rubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
+            }
+            rubberBand->show();
+            return;
         }
     }
 
