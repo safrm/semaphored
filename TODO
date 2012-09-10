@@ -1,9 +1,7 @@
 TODO - NEXT STEPS (points 1-5)
 -----------------------------
-New:4 - Web
-New:5 - packages
 New:3 - 1/n multiselection : move
---- 1st release ---
+New:4 - line (with arrows) object
 New:3 - settings
 New:2 - toolbars
 New:3 - few shapes for single text
@@ -18,6 +16,9 @@ New:2 - grid on/off
 
 DONE - changelog
 -----------------------------
+--- 1st release 1.0.0 ---
+New:5 - packages: deb,rpm, NSIS-exe
+New:4 - Web: http://semaphored.safrm.net
 New:4 - loading from xml
 New:2 - about dialog
 New:3 - splash screen

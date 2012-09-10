@@ -32,6 +32,7 @@
 #include "draglabel.h"
 #include "dragwidget.h"
 #include "dragsquare.h"
+#include "dragline.h"
 #include "yelloweditbox.h"
 #include "version.h"
 
@@ -48,9 +49,12 @@ DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent),
      m_NewLabelAction(NULL),
      m_NewSquareAction(NULL),
+     m_NewLineAction(NULL),
      selectedItems(),
      selectionStart(),
-     rubberBand(NULL),
+     multiselectRubberBand(NULL),
+     linePainterRubberBand(NULL),
+     m_bPaintLine(false),
      m_BackgroundPicture("")
 {
 
@@ -209,9 +213,19 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
+    if (m_bPaintLine) {
+        selectionStart = event->pos();
+        if (!linePainterRubberBand) {
+              linePainterRubberBand = new QRubberBand(QRubberBand::Line, this);
+              linePainterRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
+              linePainterRubberBand->show();
+        }
+        return;
+    }
+
     QWidget * widget = childAt(event->pos());
     //we pressed out of our objects
-    if (!widget) {
+    if (!widget || !widget->inherits("YellowEditBox")) {
         //cancel YellowBox edit
         //a bit stupid way but easy.. maybe it could restore old text instead of applying new one?
         foreach (QObject *yellowBox, children()) {
@@ -229,10 +243,10 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         } else {
             //we don't have selection so we try to create it
             selectionStart = event->pos();
-            if (!rubberBand) {
-                  rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-                  rubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
-                  rubberBand->show();
+            if (!multiselectRubberBand) {
+                  multiselectRubberBand = new QRubberBand(QRubberBand::Rectangle, this);
+                  multiselectRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
+                  multiselectRubberBand->show();
             }
             return;
         }
@@ -312,32 +326,44 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 }
 void DragWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if(rubberBand)
-        rubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
+    if (m_bPaintLine) {
+       if(linePainterRubberBand)
+            linePainterRubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
+    } else
+        if(multiselectRubberBand)
+            multiselectRubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
+
 }
 
 void DragWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     Q_UNUSED(event);
-    if(rubberBand && rubberBand->isVisible()) {
-        rubberBand->hide();
+    if(multiselectRubberBand && multiselectRubberBand->isVisible()) {
+        multiselectRubberBand->hide();
         foreach (QObject *child, children()) {
             if (child->inherits("DragLabel")) {
                 DragLabel *widget = static_cast<const DragLabel *>(child);
-                if(rubberBand->geometry().contains(widget->geometry())) {
+                if(multiselectRubberBand->geometry().contains(widget->geometry())) {
                     selectedItems += widget;
                     widget->select(true);
                 }
             } else if (child->inherits("DragSquare")) {
                 DragSquare *widgetSquare = static_cast<const DragSquare *>(child);
                 DragLabel *widgetLabelFromSquare = widgetSquare->labelWidget();
-                if(rubberBand->geometry().contains(widgetSquare->geometry())) {
+                if(multiselectRubberBand->geometry().contains(widgetSquare->geometry())) {
                     selectedItems += widgetLabelFromSquare;
                     widgetLabelFromSquare->select(true);
                 }
             }
         }
-        delete rubberBand; rubberBand = NULL;
+        delete multiselectRubberBand; multiselectRubberBand = NULL;
+    } else if(linePainterRubberBand && linePainterRubberBand->isVisible()) {
+        linePainterRubberBand->hide();
+        DragLine *line = new DragLine(selectionStart, event->pos(),this);
+        line->show();
+        line->setAttribute(Qt::WA_DeleteOnClose);
+        m_bPaintLine = false;
+        delete linePainterRubberBand; linePainterRubberBand = NULL;
     }
 }
 
@@ -357,7 +383,13 @@ void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
         wordSqare->show();
         wordSqare->setAttribute(Qt::WA_DeleteOnClose);
         wordSqare->editLabelSlot();
-     }
+    } else if (selectedAction == m_NewLineAction) {
+        //we will paint line now
+        m_bPaintLine = true;
+    } else {
+        qCritical("invalid action processed");
+    }
+
 }
 
 QMenu* DragWidget::rightClickMenu()
@@ -371,6 +403,10 @@ QMenu* DragWidget::rightClickMenu()
 
     m_NewSquareAction = new QAction(QIcon(":/icons/new_square.svg"), tr("&Square"), this);
     newMenu->addAction(m_NewSquareAction);
+
+    m_NewLineAction = new QAction(QIcon(":/icons/new_line.svg"), tr("&Line"), this);
+    newMenu->addAction(m_NewLineAction);
+
 
     m_RightClickMenu->addMenu(newMenu);
   }

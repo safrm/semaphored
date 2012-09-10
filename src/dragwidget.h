@@ -81,10 +81,13 @@ private:
 
     QAction* m_NewLabelAction;
     QAction* m_NewSquareAction;
+    QAction* m_NewLineAction;
 
     QList<DragLabel*> selectedItems;
     QPoint selectionStart;
-    QRubberBand* rubberBand;
+    QRubberBand* multiselectRubberBand;
+    QRubberBand* linePainterRubberBand;
+    bool m_bPaintLine;
     QString m_BackgroundPicture; // "" - default, filename = picture, QColor::isValidColor  - color
 };
 
