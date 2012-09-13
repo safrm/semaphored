@@ -215,11 +215,13 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         return;
     if (m_bPaintLine) {
         selectionStart = event->pos();
-        if (!linePainterRubberBand) {
+        if (!linePainterRubberBand)
               linePainterRubberBand = new QRubberBand(QRubberBand::Line, this);
-              linePainterRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
-              linePainterRubberBand->show();
+        if (!linePainterRubberBand->isVisible()) {
+            linePainterRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
+            linePainterRubberBand->show();
         }
+
         return;
     }
 
@@ -243,10 +245,11 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         } else {
             //we don't have selection so we try to create it
             selectionStart = event->pos();
-            if (!multiselectRubberBand) {
+            if (!multiselectRubberBand)
                   multiselectRubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-                  multiselectRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
-                  multiselectRubberBand->show();
+            if (!multiselectRubberBand->isVisible()) {
+                multiselectRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
+                multiselectRubberBand->show();
             }
             return;
         }
@@ -327,10 +330,10 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 void DragWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_bPaintLine) {
-       if(linePainterRubberBand)
+       if(linePainterRubberBand && linePainterRubberBand->isVisible())
             linePainterRubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
     } else
-        if(multiselectRubberBand)
+        if(multiselectRubberBand && multiselectRubberBand->isVisible())
             multiselectRubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
 
 }
@@ -356,14 +359,12 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
                 }
             }
         }
-        delete multiselectRubberBand; multiselectRubberBand = NULL;
     } else if(linePainterRubberBand && linePainterRubberBand->isVisible()) {
         linePainterRubberBand->hide();
         DragLine *line = new DragLine(selectionStart, event->pos(),this);
         line->show();
         line->setAttribute(Qt::WA_DeleteOnClose);
         m_bPaintLine = false;
-        delete linePainterRubberBand; linePainterRubberBand = NULL;
     }
 }
 

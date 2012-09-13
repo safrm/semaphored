@@ -2,6 +2,7 @@
 #define DRAGLINE_H
 
 #include <QWidget>
+#include <QRect>
 
 class DragLine : public QWidget
 {
@@ -15,6 +16,7 @@ class DragLine : public QWidget
     private:
       QPoint m_LineStart;
       QPoint m_LineEnd;
+      QRect m_Area;
     
 };
 
