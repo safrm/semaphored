@@ -264,12 +264,16 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
     DragLabel *labelChild(NULL);
     DragSquare *squareChild(NULL);
+    DragLine *lineChild(NULL);
 
     //1 label
     if (widget->inherits("DragLabel"))
         labelChild = static_cast<DragLabel*>(widget);
     else if (widget->inherits("DragSquare"))
         squareChild = static_cast<DragSquare*>(widget);
+    else if (widget->inherits("DragLine"))
+        lineChild = static_cast<DragLine*>(widget);
+
 
     if(labelChild) {
         if(widget->parent()->inherits("DragSquare")) {
@@ -325,6 +329,9 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
          if (dropAction == Qt::MoveAction)
              squareChild->close();
     }
+    if(lineChild) {
+       //TODO
+    }
 
 }
 void DragWidget::mouseMoveEvent(QMouseEvent *event)
@@ -345,13 +352,13 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
         multiselectRubberBand->hide();
         foreach (QObject *child, children()) {
             if (child->inherits("DragLabel")) {
-                DragLabel *widget = static_cast<const DragLabel *>(child);
+                DragLabel *widget = static_cast<DragLabel *>(child);
                 if(multiselectRubberBand->geometry().contains(widget->geometry())) {
                     selectedItems += widget;
                     widget->select(true);
                 }
             } else if (child->inherits("DragSquare")) {
-                DragSquare *widgetSquare = static_cast<const DragSquare *>(child);
+                DragSquare *widgetSquare = static_cast<DragSquare *>(child);
                 DragLabel *widgetLabelFromSquare = widgetSquare->labelWidget();
                 if(multiselectRubberBand->geometry().contains(widgetSquare->geometry())) {
                     selectedItems += widgetLabelFromSquare;
@@ -424,6 +431,10 @@ void DragWidget::deleteAllItemsSlot()
         }
         if (child->inherits("DragSquare")) {
             DragSquare *widget = static_cast<DragSquare *>(child);
+            widget->deleteLater();
+        }
+        if (child->inherits("DragLine")) {
+            DragLine *widget = static_cast<DragLine *>(child);
             widget->deleteLater();
         }
     }
@@ -619,6 +630,18 @@ void DragWidget::saveProject(const QString &sFilename)
             tag.setAttribute("text", widgetSquare->text());
             tag.setAttribute("x", QString::number(widgetSquare->pos().x()));
             tag.setAttribute("y", QString::number(widgetSquare->pos().y()));
+            items.appendChild(tag);
+        }
+        else if (child->inherits("DragLine")) {
+            DragLine *widgetLine = static_cast<DragLine *>(child);
+            tag = xmlDocument.createElement("line");
+            //tag.setAttribute("color", widgetLine->currentColor().name());
+            //tag.setAttribute("label", widgetLine->text());
+            //tag.setAttribute("text", widgetLine->text());
+            tag.setAttribute("p1x", QString::number(widgetLine->p1().x()));
+            tag.setAttribute("p1y", QString::number(widgetLine->p1().y()));
+            tag.setAttribute("p2x", QString::number(widgetLine->p2().x()));
+            tag.setAttribute("p2y", QString::number(widgetLine->p2().y()));
             items.appendChild(tag);
         }
         else {

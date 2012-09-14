@@ -3,13 +3,15 @@
 #include <QtGlobal>
 
 DragLine::DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_p1(p1),
+    m_p2(p2)
 {
 
-    m_Area.setTop( qMin(p1.y(),p2.y()));
-    m_Area.setBottom( qMax(p1.y(),p2.y()));
-    m_Area.setLeft(qMin(p1.x(),p2.x()));
-    m_Area.setRight(qMax(p1.x(),p2.x()));
+    m_PaintingArea.setTop( qMin(p1.y(),p2.y()));
+    m_PaintingArea.setBottom( qMax(p1.y(),p2.y()));
+    m_PaintingArea.setLeft(qMin(p1.x(),p2.x()));
+    m_PaintingArea.setRight(qMax(p1.x(),p2.x()));
     //relative to widget
     if(p1.x() <= p2.x()) {
         m_LineStart.setX(0);
@@ -31,15 +33,8 @@ DragLine::DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent) :
     }
 
     setAttribute( Qt::WA_TranslucentBackground, true );
-    //resize(parentWidget()->size());
-    move(m_Area.left(), m_Area.top());
-    resize(m_Area.size().width(), m_Area.size().height());
- /*   setWindowOpacity(0.0);
-    QPalette p(palette());
-    p.setColor(QPalette::Background, Qt::transparent); //Qt::blue
-    setPalette(p);
-    */
-
+    move(m_PaintingArea.left(), m_PaintingArea.top());
+    resize(m_PaintingArea.size().width(), m_PaintingArea.size().height());
 }
 
 void DragLine::paintEvent(QPaintEvent *event)
