@@ -17,3 +17,4 @@ rpm/*
 semaphored.changes
 install/*
 release/*
+debian/changelog

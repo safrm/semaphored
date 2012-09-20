@@ -39,7 +39,7 @@ DragLine::DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent) :
 
 void DragLine::paintEvent(QPaintEvent *event)
 {
-  QPen pen(Qt::black, 2, Qt::SolidLine);
+  QPen pen(Qt::black, 3, Qt::SolidLine);
   QPainter painter(this);
   painter.setPen(pen);
   painter.setBackgroundMode(Qt::TransparentMode);

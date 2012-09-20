@@ -73,6 +73,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void contextMenuEvent ( QContextMenuEvent * event );
+    virtual void paintEvent(QPaintEvent *);
 
 private:
 
@@ -84,9 +85,9 @@ private:
     QAction* m_NewLineAction;
 
     QList<DragLabel*> selectedItems;
-    QPoint selectionStart;
+    QPoint m_selectionStartPoint;
+    QPoint m_selectionEndPoint;
     QRubberBand* multiselectRubberBand;
-    QRubberBand* linePainterRubberBand;
     bool m_bPaintLine;
     QString m_BackgroundPicture; // "" - default, filename = picture, QColor::isValidColor  - color
 };

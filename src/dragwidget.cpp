@@ -51,13 +51,12 @@ DragWidget::DragWidget(QWidget *parent)
      m_NewSquareAction(NULL),
      m_NewLineAction(NULL),
      selectedItems(),
-     selectionStart(),
+     m_selectionStartPoint(),
+     m_selectionEndPoint(),
      multiselectRubberBand(NULL),
-     linePainterRubberBand(NULL),
      m_bPaintLine(false),
      m_BackgroundPicture("")
 {
-
     loadTextFile(QString(":/dictionary/words.txt"), true);
 
     //add few testing squares
@@ -214,14 +213,8 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::RightButton)
         return;
     if (m_bPaintLine) {
-        selectionStart = event->pos();
-        if (!linePainterRubberBand)
-              linePainterRubberBand = new QRubberBand(QRubberBand::Line, this);
-        if (!linePainterRubberBand->isVisible()) {
-            linePainterRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
-            linePainterRubberBand->show();
-        }
-
+        m_selectionStartPoint = event->pos();
+        m_selectionEndPoint = event->pos();
         return;
     }
 
@@ -244,11 +237,11 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
            return;
         } else {
             //we don't have selection so we try to create it
-            selectionStart = event->pos();
+            m_selectionStartPoint = event->pos();
             if (!multiselectRubberBand)
                   multiselectRubberBand = new QRubberBand(QRubberBand::Rectangle, this);
             if (!multiselectRubberBand->isVisible()) {
-                multiselectRubberBand->setGeometry(QRect(selectionStart, QSize(1,1)).normalized());
+                multiselectRubberBand->setGeometry(QRect(m_selectionStartPoint, QSize(1,1)).normalized());
                 multiselectRubberBand->show();
             }
             return;
@@ -337,18 +330,23 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 void DragWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_bPaintLine) {
-       if(linePainterRubberBand && linePainterRubberBand->isVisible())
-            linePainterRubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
+           m_selectionEndPoint = event->pos();
+           update();
     } else
         if(multiselectRubberBand && multiselectRubberBand->isVisible())
-            multiselectRubberBand->setGeometry(QRect(selectionStart, event->pos()).normalized());
+            multiselectRubberBand->setGeometry(QRect(m_selectionStartPoint, event->pos()).normalized());
 
 }
 
 void DragWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     Q_UNUSED(event);
-    if(multiselectRubberBand && multiselectRubberBand->isVisible()) {
+    if( m_bPaintLine) {
+            DragLine *line = new DragLine(m_selectionStartPoint, event->pos(),this);
+            line->show();
+            line->setAttribute(Qt::WA_DeleteOnClose);
+            m_bPaintLine = false;
+    } else if(multiselectRubberBand && multiselectRubberBand->isVisible()) {
         multiselectRubberBand->hide();
         foreach (QObject *child, children()) {
             if (child->inherits("DragLabel")) {
@@ -366,12 +364,6 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
                 }
             }
         }
-    } else if(linePainterRubberBand && linePainterRubberBand->isVisible()) {
-        linePainterRubberBand->hide();
-        DragLine *line = new DragLine(selectionStart, event->pos(),this);
-        line->show();
-        line->setAttribute(Qt::WA_DeleteOnClose);
-        m_bPaintLine = false;
     }
 }
 
@@ -398,6 +390,19 @@ void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
         qCritical("invalid action processed");
     }
 
+}
+
+void DragWidget::paintEvent(QPaintEvent *event)
+{
+   if(m_bPaintLine) {
+        QPen pen(Qt::darkBlue, 3, Qt::DashLine);
+        QPainter painter(this);
+        painter.setPen(pen);
+        //painter.setBackgroundMode(Qt::TransparentMode);
+        //painter.setRenderHint(QPainter::HighQualityAntialiasing);
+        painter.drawLine(m_selectionStartPoint, m_selectionEndPoint);
+    }
+    QWidget::paintEvent(event);
 }
 
 QMenu* DragWidget::rightClickMenu()
