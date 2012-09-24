@@ -164,7 +164,7 @@ QColor DragLabel::currentColor()
 void DragLabel::deleteItemSlot()
 {
     if (m_CanvasWidget->isMultiselecting()) {
-
+       m_CanvasWidget->deleteMutliselected();
     }
     else if(parentWidget()->inherits("DragSquare"))
        parentWidget()->close();
