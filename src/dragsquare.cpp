@@ -108,13 +108,13 @@ DragLabel* DragSquare::labelWidget()
 {
     return labelDragLabel;
 }
-/*
+
 void DragSquare::select(bool bSelected)
 {
-    if(bSelected)
+   if(bSelected)
         setLineWidth(4);
     else
         setLineWidth(2);
 }
 
-*/
+

@@ -174,12 +174,12 @@ void DragLabel::deleteItemSlot()
 
 void DragLabel::select(bool bSelected)
 {
-    int iLineWidth(2);
-    if (bSelected)
-      iLineWidth = 4;
-
     if(parentWidget()->inherits("DragSquare"))
-       qobject_cast<DragSquare*>(parentWidget())->setLineWidth(iLineWidth);
-    else
-          setLineWidth(iLineWidth);
+        qobject_cast<DragSquare*>(parentWidget())->select(bSelected); //qobject_cast<DragSquare*>(parentWidget())->setLineWidth(iLineWidth);
+    else {
+        if(bSelected)
+            setLineWidth(BORDER_WIDTH_SELECTED);
+        else
+            setLineWidth(BORDER_WIDTH_NO_SELECTED);
+    }
 }

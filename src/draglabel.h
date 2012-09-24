@@ -27,6 +27,7 @@
 
 #include <QLabel>
 #include <qnamespace.h>
+#include "abstractdraginterface.h"
 
 QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
@@ -37,15 +38,19 @@ class QLineEdit;
 class DragWidget;
 QT_END_NAMESPACE
 
-class DragLabel : public QLabel
+class DragLabel : public QLabel, public AbstractDragInterface
 {
     Q_OBJECT
+    Q_INTERFACES(AbstractDragInterface)
+
 public:
     DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
-    void changeColor(const QColor &acolor);
-    QColor currentColor();
     QMenu* rightClickMenu();
-    void select(bool bSelected);
+
+    //abstract behaviour
+    virtual QColor currentColor();
+    virtual void changeColor(const QColor &acolor);
+    virtual void select(bool bSelected);
 
 signals:
     void colorChangedSignal();

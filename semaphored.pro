@@ -8,7 +8,8 @@ HEADERS     = src/draglabel.h \
               src/aboutdialog.h \
               src/weblink.h \
               src/version.h \
-    src/dragline.h
+    src/dragline.h \
+    src/abstractdraginterface.h
 RESOURCES   = src/semaphored.qrc
 SOURCES     = src/draglabel.cpp \
               src/dragwidget.cpp \
@@ -19,7 +20,8 @@ SOURCES     = src/draglabel.cpp \
               src/aboutdialog.cpp \
               src/weblink.cpp \
               src/version.cpp \
-    src/dragline.cpp
+    src/dragline.cpp \
+    src/abstractdraginterface.cpp
 
 OBJECTS_DIR = build
 MOC_DIR     = build

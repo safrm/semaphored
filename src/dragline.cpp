@@ -5,7 +5,8 @@
 DragLine::DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent) :
     QWidget(parent),
     m_p1(p1),
-    m_p2(p2)
+    m_p2(p2),
+    m_iLineWidth(LINE_WIDTH_NO_SELECTED)
 {
 
     m_PaintingArea.setTop( qMin(p1.y(),p2.y()));
@@ -39,11 +40,30 @@ DragLine::DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent) :
 
 void DragLine::paintEvent(QPaintEvent *event)
 {
-  QPen pen(Qt::black, 3, Qt::SolidLine);
+  Q_UNUSED(event);
+  QPen pen(Qt::black, m_iLineWidth, Qt::SolidLine);
   QPainter painter(this);
   painter.setPen(pen);
   painter.setBackgroundMode(Qt::TransparentMode);
   painter.setRenderHint(QPainter::HighQualityAntialiasing);
   painter.drawLine(m_LineStart, m_LineEnd);
 }
+void DragLine::changeColor(const QColor &acolor)
+{
+    Q_UNUSED(acolor);
+    //we don't want to change line colors for now
+}
 
+void DragLine::select(bool bSelected)
+{
+  if (bSelected)
+    m_iLineWidth = LINE_WIDTH_SELECTED;
+  else
+    m_iLineWidth = LINE_WIDTH_NO_SELECTED;
+  update();
+}
+
+QColor DragLine::currentColor()
+{
+    return palette().color(backgroundRole());
+}

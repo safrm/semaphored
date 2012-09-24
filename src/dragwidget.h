@@ -84,7 +84,7 @@ private:
     QAction* m_NewSquareAction;
     QAction* m_NewLineAction;
 
-    QList<DragLabel*> selectedItems;
+    QList<QWidget*> selectedItems;
     QPoint m_selectionStartPoint;
     QPoint m_selectionEndPoint;
     QRubberBand* multiselectRubberBand;

@@ -35,6 +35,7 @@
 #include "dragline.h"
 #include "yelloweditbox.h"
 #include "version.h"
+#include "abstractdraginterface.h"
 
 QString DragWidget::BG_IMAGE_DEFAULT_1(":/images/default.png");
 QString DragWidget::BG_IMAGE_DEFAULT_2(":/images/bg-semaphored-a5.png");
@@ -231,8 +232,12 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         }
         //we have selection so we want to clean it
         if (isMultiselecting()) {
-            foreach (DragLabel *widget, selectedItems)
-               widget->select(false);
+          foreach (QWidget *widget, selectedItems) {
+                  if (widget->inherits("AbstractDragInterface")) {
+                       AbstractDragInterface* abstractDrag = qobject_cast<AbstractDragInterface*>(widget);
+                       abstractDrag->select(false);
+              }
+          }
            selectedItems.clear();
            return;
         } else {
@@ -346,21 +351,15 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
             line->show();
             line->setAttribute(Qt::WA_DeleteOnClose);
             m_bPaintLine = false;
-    } else if(multiselectRubberBand && multiselectRubberBand->isVisible()) {
+    } else if( multiselectRubberBand && multiselectRubberBand->isVisible()) {
         multiselectRubberBand->hide();
         foreach (QObject *child, children()) {
-            if (child->inherits("DragLabel")) {
-                DragLabel *widget = static_cast<DragLabel *>(child);
+            if (child->inherits("AbstractDragInterface")) {
+                QWidget* widget = qobject_cast<QWidget*>(child);
                 if(multiselectRubberBand->geometry().contains(widget->geometry())) {
-                    selectedItems += widget;
-                    widget->select(true);
-                }
-            } else if (child->inherits("DragSquare")) {
-                DragSquare *widgetSquare = static_cast<DragSquare *>(child);
-                DragLabel *widgetLabelFromSquare = widgetSquare->labelWidget();
-                if(multiselectRubberBand->geometry().contains(widgetSquare->geometry())) {
-                    selectedItems += widgetLabelFromSquare;
-                    widgetLabelFromSquare->select(true);
+                   selectedItems += widget;
+                   AbstractDragInterface* abstractDrag = qobject_cast<AbstractDragInterface*>(child);
+                   abstractDrag->select(true);
                 }
             }
         }
@@ -447,8 +446,9 @@ void DragWidget::deleteAllItemsSlot()
 
 void DragWidget::deleteMutliselected()
 {
-    foreach (DragLabel *widget, selectedItems) {
-        widget->select(false);
+    foreach (QWidget *widget, selectedItems) {
+        AbstractDragInterface* abstractDrag = qobject_cast<AbstractDragInterface*>(widget);
+        abstractDrag->select(false);
         if(widget->parentWidget()->inherits("DragSquare"))
             widget->parentWidget()->close();
          else
@@ -458,8 +458,8 @@ void DragWidget::deleteMutliselected()
 }
 void DragWidget::changeColorMutliselected(const QColor &acolor)
 {
-    foreach (DragLabel *widget, selectedItems) {
-         widget->changeColor(acolor);
+    foreach (QWidget *widget, selectedItems) {
+         qobject_cast<AbstractDragInterface*>(widget)->changeColor(acolor);
     }
 }
 

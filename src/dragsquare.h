@@ -26,19 +26,26 @@
 #define DRAGSQUARE_H
 
 #include <QFrame>
+#include "abstractdraginterface.h"
+
 class DragLabel;
 class QTextEdit;
-class QColor;
 class DragWidget;
-class DragSquare : public QFrame
+class DragSquare : public QFrame , public AbstractDragInterface
 {
     Q_OBJECT
+    Q_INTERFACES(AbstractDragInterface)
+
 public:
     explicit DragSquare(const QString &label, const QString &text, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
     QString label();
     QString text();
-    QColor currentColor();
-    void changeColor(const QColor &acolor);
+
+    //abstract behaviour
+    virtual QColor currentColor();
+    virtual void changeColor(const QColor &acolor);
+    virtual void select(bool bSelected);
+
     DragLabel* labelWidget();
 
 public slots:
@@ -47,7 +54,6 @@ public slots:
 protected :
     virtual void contextMenuEvent ( QContextMenuEvent * event );
 private:
-
         DragLabel* labelDragLabel;
         QTextEdit* textTextEdit;
     
