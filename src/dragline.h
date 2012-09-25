@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QRect>
 #include "abstractdraginterface.h"
+class QAction;
 
 class DragLine : public QWidget, public AbstractDragInterface
 {
@@ -11,7 +12,7 @@ class DragLine : public QWidget, public AbstractDragInterface
     Q_INTERFACES(AbstractDragInterface)
 
     public:
-      DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent = 0);
+      DragLine(const QPoint & p1, const QPoint & p2, DragWidget *parent);
       const QPoint p1() { return m_p1; }
       const QPoint p2() { return m_p2; }
 
@@ -22,11 +23,17 @@ class DragLine : public QWidget, public AbstractDragInterface
 
     protected:
       void paintEvent(QPaintEvent *event);
+      virtual void contextMenuEvent ( QContextMenuEvent * event );
+
+    private slots:
+      void deleteItemSlot();
+
     private:
       QPoint m_LineStart, m_LineEnd; //relative to painting/selection area
       QRect m_PaintingArea;
       QPoint m_p1, m_p2; //base dragwidget relative
       int m_iLineWidth;
+      QAction* deleteAct;
     
 };
 

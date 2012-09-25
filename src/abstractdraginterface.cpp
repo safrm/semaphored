@@ -1,5 +1,6 @@
 #include "abstractdraginterface.h"
 
-AbstractDragInterface::AbstractDragInterface()
+AbstractDragInterface::AbstractDragInterface(DragWidget* canvasWidget) :
+    m_CanvasWidget(canvasWidget)
 {
 }

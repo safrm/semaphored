@@ -1,12 +1,17 @@
 #include "dragline.h"
+#include "dragwidget.h"
 #include <QPainter>
 #include <QtGlobal>
+#include <QMenu>
+#include <QContextMenuEvent>
 
-DragLine::DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent) :
-    QWidget(parent),
+DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget) :
+    QWidget(canvasWidget),
+    AbstractDragInterface(canvasWidget),
     m_p1(p1),
     m_p2(p2),
-    m_iLineWidth(LINE_WIDTH_NO_SELECTED)
+    m_iLineWidth(LINE_WIDTH_NO_SELECTED),
+    deleteAct(NULL)
 {
 
     m_PaintingArea.setTop( qMin(p1.y(),p2.y()));
@@ -36,6 +41,9 @@ DragLine::DragLine(const QPoint & p1, const QPoint & p2, QWidget *parent) :
     setAttribute( Qt::WA_TranslucentBackground, true );
     move(m_PaintingArea.left(), m_PaintingArea.top());
     resize(m_PaintingArea.size().width(), m_PaintingArea.size().height());
+
+    deleteAct = new QAction(QIcon(":/icons/delete.svg"), tr("&Delete"), this);
+    connect(deleteAct,SIGNAL(triggered()),this,SLOT(deleteItemSlot()));
 }
 
 void DragLine::paintEvent(QPaintEvent *event)
@@ -66,4 +74,20 @@ void DragLine::select(bool bSelected)
 QColor DragLine::currentColor()
 {
     return palette().color(backgroundRole());
+}
+
+void DragLine::contextMenuEvent( QContextMenuEvent * event )
+{
+    event->accept();
+    QMenu menu(this);
+    menu.addAction(deleteAct);
+    menu.exec(event->globalPos());
+}
+
+void DragLine::deleteItemSlot()
+{
+    if (m_CanvasWidget->isMultiselecting()) {
+       m_CanvasWidget->deleteMutliselected();
+    } else
+      close();
 }

@@ -32,7 +32,8 @@
 #include "dragwidget.h"
 
 DragSquare::DragSquare(const QString &label, const QString &text, DragWidget* canvasWidget, const QColor &defaultColor )
-    : QFrame(canvasWidget)
+    : QFrame(canvasWidget),
+      AbstractDragInterface(canvasWidget)
 {
     setAutoFillBackground(true);
     setFrameShape(QFrame::Box);

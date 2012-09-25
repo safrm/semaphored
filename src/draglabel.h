@@ -73,7 +73,6 @@ private:
     QAction* pGreenColorAction;
     QAction* pOrangeColorAction;
     QAction* pRedColorAction;
-    DragWidget* m_CanvasWidget;
 };
 
 #endif

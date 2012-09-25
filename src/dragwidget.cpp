@@ -136,7 +136,7 @@ void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
 
 void DragWidget::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasText()) {
+    if (event->mimeData()->hasText() || event->mimeData()->hasFormat("application/p1-hotspot")) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
@@ -154,6 +154,9 @@ void DragWidget::dropEvent(QDropEvent *event)
     if (sCurrentObjName == "DragLabel") {
     }
     */
+
+    selectedItems.clear(); //they are anyway deleted
+
     if (event->mimeData()->hasText()) {
         const QMimeData *mime = event->mimeData();
         QPoint position = event->pos();
@@ -197,6 +200,38 @@ void DragWidget::dropEvent(QDropEvent *event)
         } else {
             event->acceptProposedAction();
         }
+    } else if (event->mimeData()->hasFormat("application/p1-hotspot")) {
+       //for now we handle line separately
+       const QMimeData *mime = event->mimeData();
+       QPoint position = event->pos();
+       QPoint hotSpot, p1, p2;
+
+       QList<QByteArray> hotSpotPos = mime->data("application/x-hotspot").split(' ');
+       if (hotSpotPos.size() == 2) {
+           hotSpot.setX(hotSpotPos.first().toInt());
+           hotSpot.setY(hotSpotPos.last().toInt());
+       }
+       QList<QByteArray> p1Pos = mime->data("application/p1-hotspot").split(' ');
+       if (hotSpotPos.size() == 2) {
+           p1.setX(p1Pos.first().toInt());
+           p1.setY(p1Pos.last().toInt());
+       }
+       QList<QByteArray> p2Pos = mime->data("application/p2-hotspot").split(' ');
+       if (hotSpotPos.size() == 2) {
+           p2.setX(p2Pos.first().toInt());
+           p2.setY(p2Pos.last().toInt());
+       }
+       DragLine *newLine = new DragLine(p1,p2, this);
+       newLine->move(position - hotSpot);
+       newLine->show();
+       newLine->setAttribute(Qt::WA_DeleteOnClose);
+       position += QPoint(newLine->width(), 0);
+       if (event->source() == this) {
+           event->setDropAction(Qt::MoveAction);
+           event->accept();
+       } else {
+           event->acceptProposedAction();
+       }
     } else {
         event->ignore();
     }
@@ -221,7 +256,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
     QWidget * widget = childAt(event->pos());
     //we pressed out of our objects
-    if (!widget || !widget->inherits("YellowEditBox")) {
+    if (!widget) { //|| !widget->inherits("YellowEditBox")) {
         //cancel YellowBox edit
         //a bit stupid way but easy.. maybe it could restore old text instead of applying new one?
         foreach (QObject *yellowBox, children()) {
@@ -246,7 +281,8 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
             if (!multiselectRubberBand)
                   multiselectRubberBand = new QRubberBand(QRubberBand::Rectangle, this);
             if (!multiselectRubberBand->isVisible()) {
-                multiselectRubberBand->setGeometry(QRect(m_selectionStartPoint, QSize(1,1)).normalized());
+                //multiselectRubberBand->setGeometry(QRect(m_selectionStartPoint, QSize(1,1)).normalized());
+                multiselectRubberBand->setGeometry(m_selectionStartPoint.x(),m_selectionStartPoint.y(),0,0);
                 multiselectRubberBand->show();
             }
             return;
@@ -305,30 +341,46 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     if (squareChild) {
         QPoint hotSpot = event->pos() - squareChild->pos();
 
-         QMimeData *mimeData = new QMimeData;
-         mimeData->setText(squareChild->label());
-         mimeData->setHtml(squareChild->text());
-         mimeData->setData("application/x-hotspot",
-                           QByteArray::number(hotSpot.x())
-                           + " " + QByteArray::number(hotSpot.y()));
-         mimeData->setColorData(squareChild->currentColor());
+        QMimeData *mimeData = new QMimeData;
+        mimeData->setText(squareChild->label());
+        mimeData->setHtml(squareChild->text());
+        mimeData->setData("application/x-hotspot", QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
+        mimeData->setColorData(squareChild->currentColor());
 
+        QPixmap pixmap(squareChild->size());
+        squareChild->render(&pixmap);
 
-         QPixmap pixmap(squareChild->size());
-         squareChild->render(&pixmap);
+        QDrag *drag = new QDrag(this);
+        drag->setMimeData(mimeData);
+        drag->setPixmap(pixmap);
+        drag->setHotSpot(hotSpot);
 
-         QDrag *drag = new QDrag(this);
-         drag->setMimeData(mimeData);
-         drag->setPixmap(pixmap);
-         drag->setHotSpot(hotSpot);
+        Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 
-         Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
-
-         if (dropAction == Qt::MoveAction)
+        if (dropAction == Qt::MoveAction)
              squareChild->close();
     }
     if(lineChild) {
-       //TODO
+       QPoint hotSpot = event->pos() - lineChild->pos();
+
+       QMimeData *mimeData = new QMimeData;
+       mimeData->setData("application/x-hotspot", QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
+       mimeData->setData("application/p1-hotspot", QByteArray::number(lineChild->p1().x()) + " " + QByteArray::number(lineChild->p1().y()));
+       mimeData->setData("application/p2-hotspot",QByteArray::number(lineChild->p2().x()) + " " + QByteArray::number(lineChild->p2().y()));
+
+       QPixmap pixmap(lineChild->size());
+       pixmap.fill( Qt::transparent );
+       lineChild->render(&pixmap);
+
+       QDrag *drag = new QDrag(this);
+       drag->setMimeData(mimeData);
+       drag->setPixmap(pixmap);
+       drag->setHotSpot(hotSpot);
+
+       Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+
+       if (dropAction == Qt::MoveAction)
+            lineChild->close();
     }
 
 }
@@ -340,7 +392,6 @@ void DragWidget::mouseMoveEvent(QMouseEvent *event)
     } else
         if(multiselectRubberBand && multiselectRubberBand->isVisible())
             multiselectRubberBand->setGeometry(QRect(m_selectionStartPoint, event->pos()).normalized());
-
 }
 
 void DragWidget::mouseReleaseEvent(QMouseEvent * event)

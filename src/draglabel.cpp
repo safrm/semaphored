@@ -32,8 +32,8 @@
 
 DragLabel::DragLabel(const QString &text, QWidget *parent, DragWidget * canvasWidget, const QColor &defaultColor)
     : QLabel(text, parent),
-      m_RightClickMenu(NULL),
-      m_CanvasWidget(canvasWidget)
+      AbstractDragInterface(canvasWidget),
+      m_RightClickMenu(NULL)
 {
     changeColor(defaultColor);
     setAutoFillBackground(true);

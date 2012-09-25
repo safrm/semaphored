@@ -1,11 +1,12 @@
 #ifndef ABSTRACTDRAGINTERFACE_H
 #define ABSTRACTDRAGINTERFACE_H
 #include <QColor>
+class  DragWidget;
 
 class AbstractDragInterface
 {
 public:
-    AbstractDragInterface();
+    explicit AbstractDragInterface(DragWidget* canvasWidget);
     virtual ~AbstractDragInterface() { };
 
     virtual QColor currentColor() = 0;
@@ -16,6 +17,9 @@ public:
            LINE_WIDTH_NO_SELECTED = 3,
            BORDER_WIDTH_SELECTED  = 4,
            LINE_WIDTH_SELECTED = 6 };
+    protected:
+        DragWidget* m_CanvasWidget;
+
 
 };
 Q_DECLARE_INTERFACE(AbstractDragInterface, "semaphored.AbstractDragInterface/1.0")
