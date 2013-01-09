@@ -10,14 +10,16 @@ New:2 - background scaling
 New:3 - right spliting
 New:2 - input text dialog + D&D
 New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
-New:2 - show color legend
-New:3 - squere scaling automatic/manual?
+New:2 - show color legend (editable)
 New:2 - grid on/off
 New:2 - loading/saving remote projects
 New:4 - abstract Draggable item
+New:2 - git interface (pull, push, conflict)
+New:3 - 2 views for squre small/full
 
 DONE - changelog
 -----------------------------
+New:3 - squere scaling automatic/manual?
 New:3 - line move preview, context menu
 New:3 - 1/n multiselection : delete
 New:4 - line finish

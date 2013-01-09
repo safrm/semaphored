@@ -74,6 +74,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void contextMenuEvent ( QContextMenuEvent * event );
     virtual void paintEvent(QPaintEvent *);
+    virtual void resizeEvent(QResizeEvent * event );
 
 private:
 

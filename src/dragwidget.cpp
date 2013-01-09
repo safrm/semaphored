@@ -548,7 +548,10 @@ void DragWidget::changeBackgroundImage(const QString  &sFilename)
             QImage newImage(sFilename);
             if(!newImage.isNull()) {
                 QPalette pal = palette();
-                pal.setBrush(backgroundRole(), QBrush(newImage));
+                //QPixmap pixmap;
+                //pixmap.load("image.jpg");
+                //widget->setPixmap(pixmap);
+                pal.setBrush(backgroundRole(), QBrush(newImage.scaled(size(),Qt::IgnoreAspectRatio)));
                 setPalette(pal);
                 m_BackgroundPicture = sFilename;
             }  else {
@@ -710,5 +713,13 @@ void DragWidget::saveProject(const QString &sFilename)
 
 bool DragWidget::isMultiselecting()
 {
-    return selectedItems.size() != 0;
+    return selectedItems.size() != 0 ;
+}
+
+void DragWidget::resizeEvent ( QResizeEvent * event )
+{
+    QPalette pal = palette();
+    pal.setBrush(backgroundRole(), QBrush(QImage(m_BackgroundPicture).scaled(size(),Qt::IgnoreAspectRatio)));
+    setPalette(pal);
+    QWidget::resizeEvent(event);
 }
