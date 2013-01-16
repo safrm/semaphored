@@ -24,19 +24,37 @@
 
 #include <QApplication>
 #include <QSplashScreen>
+#include <QProcess>
 #include "mainwindow.h"
+#include "commandlineargs.h"
 
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(semaphored);
 
     QApplication app(argc, argv);
+
+    QString sProjectFullFileName("");
+    foreach (const QString &FileToOpen, CommandLineArgs::getInstance()->filesToOpenList()) {
+        if (sProjectFullFileName.isEmpty())
+            sProjectFullFileName = FileToOpen;
+        else { //recursive instance creation
+            QStringList argumentsForNewInstance = CommandLineArgs::getInstance()->switchesArgs();
+            argumentsForNewInstance.append(FileToOpen);
+            QProcess::startDetached(QApplication::applicationFilePath(), argumentsForNewInstance);
+        }
+    }
+    //otherwise load default project
+    if (sProjectFullFileName.isEmpty())
+        sProjectFullFileName = ":/demo-projects/kanban1.sem";
+
     app.setAttribute(Qt::AA_DontShowIconsInMenus,false);
     QPixmap pixmap(":/images/splash.png");
     QSplashScreen splash(pixmap);
     splash.show();
 
     MainWindow* mainWin = new MainWindow();
+    mainWin->loadProjectSlot(sProjectFullFileName);
     mainWin->show();
 #ifdef Q_OS_UNIX
     usleep(700);

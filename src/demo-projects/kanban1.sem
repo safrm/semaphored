@@ -1,0 +1,10 @@
+<project version="1.1.0">
+ <items w="720" x="0" y="18" h="445" background=":/images/bg-kanban1-a5.png">
+  <square x="13" y="59" color="#fe9a2e" label="this has to wait" text="this has to wait"/>
+  <label x="569" y="58" color="#ff0000" label="get some coffee"/>
+  <label x="371" y="61" color="#fe9a2e" label="I have to make few screensots"/>
+  <label x="189" y="63" color="#c0c0c0" label="update my ubuntu"/>
+  <label x="188" y="99" color="#ff0000" label="get some good idea"/>
+  <label x="394" y="101" color="#00ff00" label="release some stuff"/>
+ </items>
+</project>

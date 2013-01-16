@@ -9,7 +9,8 @@ HEADERS     = src/draglabel.h \
               src/weblink.h \
               src/version.h \
     src/dragline.h \
-    src/abstractdraginterface.h
+    src/abstractdraginterface.h \
+    src/commandlineargs.h
 RESOURCES   = src/semaphored.qrc
 SOURCES     = src/draglabel.cpp \
               src/dragwidget.cpp \
@@ -21,7 +22,8 @@ SOURCES     = src/draglabel.cpp \
               src/weblink.cpp \
               src/version.cpp \
     src/dragline.cpp \
-    src/abstractdraginterface.cpp
+    src/abstractdraginterface.cpp \
+    src/commandlineargs.cpp
 
 OBJECTS_DIR = build
 MOC_DIR     = build
@@ -98,5 +100,6 @@ OTHER_FILES += \
     README \
     LICENSE.LGPL \
     TODO \
-    src/words.txt \
+    src/texts/words.txt \
+    src/demo-projects/words.txt \
     semaphored.spec

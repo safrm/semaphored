@@ -1,7 +1,4 @@
 <RCC>
-    <qresource prefix="/dictionary">
-        <file>words.txt</file>
-    </qresource>
     <qresource prefix="/">
         <file>images/default.png</file>
         <file>images/bg-semaphored-a5.png</file>
@@ -43,5 +40,7 @@
         <file>icons/gray-bg.svg</file>
         <file>icons/white-bg.svg</file>
         <file>icons/color.svg</file>
+        <file>demo-projects/kanban1.sem</file>
+        <file>texts/words.txt</file>
     </qresource>
 </RCC>

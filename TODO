@@ -5,7 +5,6 @@ New:2 - line with arrows object
 New:3 - settings
 New:2 - toolbars
 New:3 - few shapes for single text
-New:2 - background sizes
 New:3 - right spliting
 New:2 - input text dialog + D&D
 New:4 - exclusive scaling  -1, 0, +1, +2 , +3 on mouse  wheel
@@ -14,17 +13,25 @@ New:2 - grid on/off
 New:2 - loading/saving remote projects
 New:4 - abstract Draggable item 2/2
 New:2 - git interface (pull, push, conflict)
+New:2 - refresh timer
 New:3 - 2 views for squre small/full
 New:2 - backup/export with date
-New:2 - double instances for solving conflicts
 New:2 - time/point field
-New:2 - create desktop link for file
+New:4 - run minimized cmdline feature
+New:4 - run in tray cmdline feature
+New:4 - update time cmdline feature
 
 --- for release 1.2.0 ---
-New:1 - commandline parameters to open file
+New:2 - background sizes + menu
+New:2 - background fixed size +menu
+New:2 - double instances for solving conflicts
+New:2 - create desktop link for file
+New:2 - save as/save/save with timestamp
+New:1 - file/project name in title
 
 DONE - changelog
 -----------------------------
+New:1 - commandline parameters to open file
 New:3 - squere scaling automatic/manual?
 New:2 - background scaling
 --- release 1.1.0 ---

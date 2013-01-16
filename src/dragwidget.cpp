@@ -58,7 +58,7 @@ DragWidget::DragWidget(QWidget *parent)
      m_bPaintLine(false),
      m_BackgroundPicture("")
 {
-    loadTextFile(QString(":/dictionary/words.txt"), true);
+    loadTextFile(QString(":/texts/words.txt"), true);
 
     //add few testing squares
     DragSquare *wordSqare = new DragSquare("test","content", this);

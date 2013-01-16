@@ -41,7 +41,7 @@ public:
 signals:
     
 public slots:
-    void loadProjectSlot();
+    void loadProjectSlot(const QString& sFullFileName);
     void saveProjectSlot();
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
