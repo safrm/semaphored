@@ -44,6 +44,8 @@ signals:
 public slots:
     void loadProjectSlot();
     void saveProjectSlot();
+    void backupProjectWithTimeStampSlot();
+    void saveProjectAsSlot();
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
     void loadTextFileSlot();
@@ -60,6 +62,8 @@ private:
 
     QAction* loadProjectAct;
     QAction* saveProjectAct;
+    QAction* backupProjectWithTimeStampAct;
+    QAction* saveProjectAsAct;
     QAction* exportAsPictureAct;
     QAction* loadTextFileAct;
     QAction* printAct;
@@ -79,6 +83,7 @@ private:
     QAction* m_BgUserImageAction;
     DragWidget* m_canvasWidget;
     AboutDialog* m_aboutDialog;
+    QString m_sOpenedFile;
 };
 
 #endif // MAINWINDOW_H

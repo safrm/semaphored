@@ -30,6 +30,7 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QPainter>
+#include <QDateTime>
 #include "mainwindow.h"
 #include "draglabel.h"
 #include "dragwidget.h"
@@ -42,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     loadProjectAct(NULL),
     saveProjectAct(NULL),
+    backupProjectWithTimeStampAct(NULL),
+    saveProjectAsAct(NULL),
     exportAsPictureAct(NULL),
     loadTextFileAct(NULL),
     printAct(NULL),
@@ -50,7 +53,8 @@ MainWindow::MainWindow(QWidget *parent) :
     aboutAct(NULL),
     deleteAllAct(NULL),
     m_canvasWidget(new DragWidget()), //TODO use size hint in  canvas
-    m_aboutDialog(NULL)
+    m_aboutDialog(NULL),
+    m_sOpenedFile("")
 {
     g_pMainGuiWindow = this;
     //createDockWindows();
@@ -77,12 +81,20 @@ MainWindow* MainWindow::instance()
 void MainWindow::createActions()
 {
     loadProjectAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project"), this);
-    loadProjectAct->setStatusTip(tr("Load project"));
+    loadProjectAct->setStatusTip(tr("Load project.."));
     connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot()));
 
     saveProjectAct = new QAction(QIcon(":/icons/save_project.svg"), tr("&Save project"), this);
     saveProjectAct->setStatusTip(tr("Save project"));
     connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProjectSlot()));
+
+    saveProjectAsAct = new QAction(QIcon(":/icons/save_project_as.svg"), tr("&Save project as .."), this);
+    saveProjectAsAct->setStatusTip(tr("Save project to different file"));
+    connect(saveProjectAsAct, SIGNAL(triggered()), this, SLOT(saveProjectAsSlot()));
+
+    backupProjectWithTimeStampAct = new QAction(QIcon(":/icons/backup_project_ts.svg"), tr("&Backup project with timestamp"), this);
+    backupProjectWithTimeStampAct->setStatusTip(tr("Backup project with timestamp"));
+    connect(backupProjectWithTimeStampAct, SIGNAL(triggered()), this, SLOT(backupProjectWithTimeStampSlot()));
 
     exportAsPictureAct = new QAction(QIcon(":/icons/export_as_picture.png"), tr("&Export as a picture"), this);
     exportAsPictureAct->setStatusTip(tr("Export as a picture"));
@@ -163,6 +175,8 @@ void MainWindow::createMenus()
     QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(loadProjectAct);
     fileMenu->addAction(saveProjectAct);
+    fileMenu->addAction(backupProjectWithTimeStampAct);
+    fileMenu->addAction(saveProjectAsAct);
     fileMenu->addSeparator();
     fileMenu->addAction(loadTextFileAct);
     fileMenu->addSeparator();
@@ -208,11 +222,20 @@ void MainWindow::loadProjectSlot()
 
 void MainWindow::loadProject(const QString& sFilename)
 {
-    setWindowTitle(sFilename);
+    if (!sFilename.startsWith(":/"))  {//files from resources
+      m_sOpenedFile = sFilename;
+      setWindowTitle(m_sOpenedFile);
+      //TODO better logic, open file, new file
+    }
     m_canvasWidget->loadProject(sFilename);
 }
-
 void MainWindow::saveProjectSlot()
+{
+    if(!m_sOpenedFile.isEmpty())
+        m_canvasWidget->saveProject(m_sOpenedFile);
+}
+
+void MainWindow::saveProjectAsSlot()
 {
     QString sFilename = QFileDialog::getSaveFileName(this, "Save project as: ", "untitled.sem",
                                                      tr("Semaphored project files (*.sem)"));
@@ -220,8 +243,20 @@ void MainWindow::saveProjectSlot()
         QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
         if(ext != "sem")
             sFilename += ".sem";
-        setWindowTitle(sFilename);
-        m_canvasWidget->saveProject(sFilename);
+        m_sOpenedFile = sFilename;
+        setWindowTitle(m_sOpenedFile);
+        m_canvasWidget->saveProject(m_sOpenedFile);
+    }
+}
+
+void MainWindow::backupProjectWithTimeStampSlot()
+{
+    if(!m_sOpenedFile.isEmpty()) {
+        QString sBackupFile = m_sOpenedFile;
+        sBackupFile.chop(4); //
+        sBackupFile += QDateTime::currentDateTime().toString("-yyyy_MM_dd-hh_mm");
+        sBackupFile += ".sem";
+        m_canvasWidget->saveProject(sBackupFile);
     }
 }
 

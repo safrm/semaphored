@@ -15,22 +15,22 @@ New:4 - abstract Draggable item 2/2
 New:2 - git interface (pull, push, conflict)
 New:2 - refresh timer
 New:3 - 2 views for squre small/full
-New:2 - backup/export with date
 New:2 - time/point field
 New:4 - run minimized cmdline feature
 New:4 - run in tray cmdline feature
 New:4 - update time cmdline feature
-New:2 - new project form template
+New:2 - new projects form template
+New:4 - Actions linked: save, backup..->setDisabled
 
 --- for release 1.2.0 ---
 New:2 - background sizes + menu
 New:2 - background fixed size +menu
 New:2 - double instances for solving conflicts
 New:2 - create desktop link for file
-New:2 - save as/save/save with timestamp
 
 DONE - changelog
 -----------------------------
+New:2 - save as/save/backup with timestamp
 New:1 - file/project name in title
 Fix:2 Load Project from menu did not work
 New:1 - commandline parameters to open file
