@@ -78,7 +78,7 @@ void MainWindow::createActions()
 {
     loadProjectAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project"), this);
     loadProjectAct->setStatusTip(tr("Load project"));
-    connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot(const QString&)));
+    connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot()));
 
     saveProjectAct = new QAction(QIcon(":/icons/save_project.svg"), tr("&Save project"), this);
     saveProjectAct->setStatusTip(tr("Save project"));
@@ -195,20 +195,20 @@ void MainWindow::createMenus()
     QMenu* helpMenu =  menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
 }
-
-void MainWindow::loadProjectSlot(const QString& sFullFileName)
+void MainWindow::loadProjectSlot()
 {
-    QString sFilename(sFullFileName);
-    if(sFullFileName.isEmpty()) {
-        sFilename = QFileDialog::getOpenFileName(this, "Load project from file ", QString(),
-                                                     tr("Semaphored project files (*.sem)"));
-        if(!sFilename.size())
-            return;
-        if(QMessageBox::question(this, tr("Load project"),
-                                                 tr("Do you want to <b>load project</b> %1 ? \nUnsaved changes in current project will be lost.").arg(sFilename),
-                                                 QMessageBox::Yes | QMessageBox::No |QMessageBox::Cancel) != QMessageBox::Yes)
-            return;
-    }
+    QString sFilename = QFileDialog::getOpenFileName(this, "Load project from file ", QString(),
+                                                 tr("Semaphored project files (*.sem)"));
+    if(sFilename.size())
+       if(QMessageBox::question(this, tr("Load project"),
+                                             tr("Do you want to <b>load project</b> %1 ? \nUnsaved changes in current project will be lost.").arg(sFilename),
+                                             QMessageBox::Yes | QMessageBox::No |QMessageBox::Cancel) == QMessageBox::Yes)
+            loadProject(sFilename);
+}
+
+void MainWindow::loadProject(const QString& sFilename)
+{
+    setWindowTitle(sFilename);
     m_canvasWidget->loadProject(sFilename);
 }
 
@@ -220,6 +220,7 @@ void MainWindow::saveProjectSlot()
         QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
         if(ext != "sem")
             sFilename += ".sem";
+        setWindowTitle(sFilename);
         m_canvasWidget->saveProject(sFilename);
     }
 }

@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     splash.show();
 
     MainWindow* mainWin = new MainWindow();
-    mainWin->loadProjectSlot(sProjectFullFileName);
+    mainWin->loadProject(sProjectFullFileName);
     mainWin->show();
 #ifdef Q_OS_UNIX
     usleep(700);

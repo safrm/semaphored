@@ -37,11 +37,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     DragWidget* canvasWidget();
     static MainWindow *instance();
+    void loadProject(const QString & sFilename);
 
 signals:
     
 public slots:
-    void loadProjectSlot(const QString& sFullFileName);
+    void loadProjectSlot();
     void saveProjectSlot();
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);

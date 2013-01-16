@@ -20,6 +20,7 @@ New:2 - time/point field
 New:4 - run minimized cmdline feature
 New:4 - run in tray cmdline feature
 New:4 - update time cmdline feature
+New:2 - new project form template
 
 --- for release 1.2.0 ---
 New:2 - background sizes + menu
@@ -27,10 +28,11 @@ New:2 - background fixed size +menu
 New:2 - double instances for solving conflicts
 New:2 - create desktop link for file
 New:2 - save as/save/save with timestamp
-New:1 - file/project name in title
 
 DONE - changelog
 -----------------------------
+New:1 - file/project name in title
+Fix:2 Load Project from menu did not work
 New:1 - commandline parameters to open file
 New:3 - squere scaling automatic/manual?
 New:2 - background scaling
