@@ -32,6 +32,7 @@ New:2 - create desktop link for file
 
 DONE - changelog
 -----------------------------
+New:3 - create simple desktop link for app
 New:2 - open project in another instance
 New:2 - save as/save/backup with timestamp
 New:1 - file/project name in title

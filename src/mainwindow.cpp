@@ -37,6 +37,7 @@
 #include "aboutdialog.h"
 #include "version.h"
 #include "commandlineargs.h"
+#include "desktopfile.h"
 
 MainWindow * g_pMainGuiWindow =NULL;
 
@@ -52,8 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
     printAct(NULL),
     exportAsPdf(NULL),
     quitAct(NULL),
-    aboutAct(NULL),
     deleteAllAct(NULL),
+    createDesktopLink(NULL),
+    aboutAct(NULL),
     m_canvasWidget(new DragWidget()), //TODO use size hint in  canvas
     m_aboutDialog(NULL),
     m_sOpenedFile("")
@@ -123,10 +125,6 @@ void MainWindow::createActions()
     quitAct->setStatusTip(tr("Quit"));
     connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    aboutAct = new QAction(QIcon(":/icons/about.svg"), tr("&About"), this);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(showAboutDialogSlot()));
-
     deleteAllAct = new QAction(QIcon(":/icons/delete_all.svg"), tr("&Delete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
     connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
@@ -174,6 +172,15 @@ void MainWindow::createActions()
     backgroundColorGroup->addAction(m_BgUserImageAction);
     backgroundColorGroup->setExclusive(true);
     connect(backgroundColorGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundColorSlot(QAction*)));
+
+
+    createDesktopLink = new QAction(QIcon(":/icons/crate_link.svg"), tr("&Create desktop link"), this);
+    createDesktopLink->setStatusTip(tr("Create desktop link"));
+    connect(createDesktopLink, SIGNAL(triggered()), this, SLOT(createDesktopLinkSlot()));
+
+    aboutAct = new QAction(QIcon(":/icons/about.svg"), tr("&About"), this);
+    aboutAct->setStatusTip(tr("Show the application's About box"));
+    connect(aboutAct, SIGNAL(triggered()), this, SLOT(showAboutDialogSlot()));
 }
 
 void MainWindow::createMenus()
@@ -213,6 +220,9 @@ void MainWindow::createMenus()
     backgroundMenu->addAction(m_BgUserImageAction);
 
     menuBar()->addSeparator();
+    QMenu* settingsMenu =  menuBar()->addMenu(tr("&Settings"));
+    settingsMenu->addAction(createDesktopLink);
+
     QMenu* helpMenu =  menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
 }
@@ -366,6 +376,9 @@ void MainWindow::exportCanvasToPdfSlot()
         painter.drawPixmap (0, 0, qpm);
         painter.end();
     }
+}
+void MainWindow::createDesktopLinkSlot() {
+    DesktopFile::CreateDesktopFile();
 }
 
 void MainWindow::showAboutDialogSlot()

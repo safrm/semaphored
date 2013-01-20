@@ -53,6 +53,7 @@ public slots:
     void printCurrentCanvasSlot();
     void exportCanvasToPdfSlot();
     void showAboutDialogSlot();
+    void createDesktopLinkSlot();
 
 private:
     void createActions();
@@ -71,7 +72,6 @@ private:
     QAction* printAct;
     QAction* exportAsPdf;
     QAction* quitAct;
-    QAction* aboutAct;
     QAction* deleteAllAct;
     QAction* m_BgColorWhiteAction;
     QAction* m_BgColorGrayAction ;
@@ -83,6 +83,8 @@ private:
     QAction* m_BgImageKanban2Action;
     QAction* m_BgImageKanban2HAction;
     QAction* m_BgUserImageAction;
+    QAction* createDesktopLink;
+    QAction* aboutAct;
     DragWidget* m_canvasWidget;
     AboutDialog* m_aboutDialog;
     QString m_sOpenedFile;

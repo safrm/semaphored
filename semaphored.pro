@@ -10,7 +10,8 @@ HEADERS     = src/draglabel.h \
               src/version.h \
     src/dragline.h \
     src/abstractdraginterface.h \
-    src/commandlineargs.h
+    src/commandlineargs.h \
+    src/desktopfile.h
 RESOURCES   = src/semaphored.qrc
 SOURCES     = src/draglabel.cpp \
               src/dragwidget.cpp \
@@ -23,7 +24,8 @@ SOURCES     = src/draglabel.cpp \
               src/version.cpp \
     src/dragline.cpp \
     src/abstractdraginterface.cpp \
-    src/commandlineargs.cpp
+    src/commandlineargs.cpp \
+    src/desktopfile.cpp
 
 OBJECTS_DIR = build
 MOC_DIR     = build

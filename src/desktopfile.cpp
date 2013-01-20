@@ -21,10 +21,23 @@
 ** http://www.gnu.org/copyleft/gpl.html.
 **
 ****************************************************************************/
+#include <QString>
+#include <QApplication>
+#include <QDesktopServices>
+#include <QFile>
+#include "desktopfile.h"
 
-#include "abstractdraginterface.h"
 
-AbstractDragInterface::AbstractDragInterface(DragWidget* canvasWidget) :
-    m_CanvasWidget(canvasWidget)
+void DesktopFile::CreateDesktopFile()
 {
+    //TODO - More arguments
+    QString sDesktopFileName = "semaphored"; //QFile(QApplication::applicationFilePath()).fileName();
+#ifdef Q_WS_WIN
+    sDesktopFileName += ".lnk";
+#endif //Q_WS_WIN
+//#ifdef Q_WS_X11
+//#endif //Q_WS_X11
+    QFile Executable(QApplication::applicationFilePath());
+    Executable.link(QDesktopServices::storageLocation(QDesktopServices::DesktopLocation) + "/" + sDesktopFileName);
 }
+
