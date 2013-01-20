@@ -24,7 +24,6 @@
 
 #include <QApplication>
 #include <QSplashScreen>
-#include <QProcess>
 #include "mainwindow.h"
 #include "commandlineargs.h"
 
@@ -39,9 +38,7 @@ int main(int argc, char *argv[])
         if (sProjectFullFileName.isEmpty())
             sProjectFullFileName = FileToOpen;
         else { //recursive instance creation
-            QStringList argumentsForNewInstance = CommandLineArgs::getInstance()->switchesArgs();
-            argumentsForNewInstance.append(FileToOpen);
-            QProcess::startDetached(QApplication::applicationFilePath(), argumentsForNewInstance);
+            CommandLineArgs::getInstance()->startNewInstance(FileToOpen);
         }
     }
     //otherwise load default project

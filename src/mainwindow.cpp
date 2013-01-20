@@ -36,12 +36,14 @@
 #include "dragwidget.h"
 #include "aboutdialog.h"
 #include "version.h"
+#include "commandlineargs.h"
 
 MainWindow * g_pMainGuiWindow =NULL;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     loadProjectAct(NULL),
+    loadProjectInNewInstanceAct(NULL),
     saveProjectAct(NULL),
     backupProjectWithTimeStampAct(NULL),
     saveProjectAsAct(NULL),
@@ -83,6 +85,10 @@ void MainWindow::createActions()
     loadProjectAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project"), this);
     loadProjectAct->setStatusTip(tr("Load project.."));
     connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot()));
+
+    loadProjectInNewInstanceAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project in new instance"), this);
+    loadProjectInNewInstanceAct->setStatusTip(tr("Load project in new instance.."));
+    connect(loadProjectInNewInstanceAct, SIGNAL(triggered()), this, SLOT(loadProjectInNewInstanceSlot()));
 
     saveProjectAct = new QAction(QIcon(":/icons/save_project.svg"), tr("&Save project"), this);
     saveProjectAct->setStatusTip(tr("Save project"));
@@ -174,6 +180,7 @@ void MainWindow::createMenus()
 {
     QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(loadProjectAct);
+    fileMenu->addAction(loadProjectInNewInstanceAct);
     fileMenu->addAction(saveProjectAct);
     fileMenu->addAction(backupProjectWithTimeStampAct);
     fileMenu->addAction(saveProjectAsAct);
@@ -218,6 +225,14 @@ void MainWindow::loadProjectSlot()
                                              tr("Do you want to <b>load project</b> %1 ? \nUnsaved changes in current project will be lost.").arg(sFilename),
                                              QMessageBox::Yes | QMessageBox::No |QMessageBox::Cancel) == QMessageBox::Yes)
             loadProject(sFilename);
+}
+
+void MainWindow::loadProjectInNewInstanceSlot()
+{
+    QString sFilename = QFileDialog::getOpenFileName(this, "Load project in new instance from file ", QString(),
+                                                 tr("Semaphored project files (*.sem)"));
+    if (sFilename.size())
+        CommandLineArgs::getInstance()->startNewInstance(sFilename);
 }
 
 void MainWindow::loadProject(const QString& sFilename)

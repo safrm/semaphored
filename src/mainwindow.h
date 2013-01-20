@@ -43,6 +43,7 @@ signals:
     
 public slots:
     void loadProjectSlot();
+    void loadProjectInNewInstanceSlot();
     void saveProjectSlot();
     void backupProjectWithTimeStampSlot();
     void saveProjectAsSlot();
@@ -61,6 +62,7 @@ private:
 //    void createDockWindows();
 
     QAction* loadProjectAct;
+    QAction* loadProjectInNewInstanceAct;
     QAction* saveProjectAct;
     QAction* backupProjectWithTimeStampAct;
     QAction* saveProjectAsAct;

@@ -1,6 +1,7 @@
 #ifndef COMMANDLINEARGS_H
 #define COMMANDLINEARGS_H
 class QStringList;
+class QString;
 class CommandLineArgs
 {
 public:
@@ -8,8 +9,8 @@ public:
     static CommandLineArgs* getInstance();
     static void printUsage();
     static void printUsageShort();
+    void startNewInstance(const QString & sFileToOpen);
     const QStringList& filesToOpenList();
-    const QStringList& switchesArgs();
 
 private:
     static CommandLineArgs* instance;

@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QStringList>
 #include <QFileInfo>
+#include <QProcess>
 #include <stdio.h>
 
 #include "commandlineargs.h"
@@ -64,11 +65,13 @@ void CommandLineArgs::printUsageShort()
     printf("USAGE: %s --help or -? shows full help\n", QApplication::applicationName().toLatin1().data());
     qFatal("");
 }
+void CommandLineArgs::startNewInstance(const QString & sFileToOpen)
+{
+    QStringList argumentsForNewInstance = SwitchesArgs;
+    argumentsForNewInstance.append(sFileToOpen);
+    QProcess::startDetached(QApplication::applicationFilePath(), argumentsForNewInstance);
+}
 const QStringList& CommandLineArgs::filesToOpenList()
 {
     return FilesToOpenList;
-}
-const QStringList& CommandLineArgs::switchesArgs()
-{
-    return SwitchesArgs;
 }
