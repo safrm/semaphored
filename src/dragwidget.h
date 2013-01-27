@@ -52,7 +52,13 @@ public:
     static QString BG_IMAGE_KANBAN_1H;
     static QString BG_IMAGE_KANBAN_2;
     static QString BG_IMAGE_KANBAN_2H;
+    static QString BG_IMAGE_KANBAN_3;
+    static QString BG_IMAGE_KANBAN_3H;
     static QSize DEFAULT_SIZE;
+    static int SIZE_A4_SHORT;
+    static int SIZE_A4_LONG;
+    static int SIZE_A5_SHORT;
+    static int SIZE_A5_LONG;
     void changeBackgroundColor(const QColor &acolor);
     void changeBackgroundImage(const QString  &sFilename);
     void loadUserBackgroundImage();
@@ -62,6 +68,7 @@ public:
     bool isMultiselecting();
     void deleteMutliselected();
     void changeColorMutliselected(const QColor &acolor);
+    void setFixedSizeBg(bool bFixed);
 
 public slots:
     void deleteAllItemsSlot();
@@ -91,6 +98,7 @@ private:
     QRubberBand* multiselectRubberBand;
     bool m_bPaintLine;
     QString m_BackgroundPicture; // "" - default, filename = picture, QColor::isValidColor  - color
+    bool m_bFixedBgSize;
 };
 
 #endif

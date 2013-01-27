@@ -80,14 +80,14 @@ void CommandLineArgs::printUsage()
     //TODO
     printf("USAGE: %s: \n", QApplication::applicationName().toLatin1().data());
     printf("    parameters list                     \n");
-    qFatal("");
+    qFatal(" ");
 }
 
 void CommandLineArgs::printUsageShort()
 {
     //TODO
     printf("USAGE: %s --help or -? shows full help\n", QApplication::applicationName().toLatin1().data());
-    qFatal("");
+    qFatal(" ");
 }
 void CommandLineArgs::startNewInstance(const QString & sFileToOpen)
 {

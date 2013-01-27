@@ -43,7 +43,13 @@ QString DragWidget::BG_IMAGE_KANBAN_1(":/images/bg-kanban1-a5.png");
 QString DragWidget::BG_IMAGE_KANBAN_1H(":/images/bg-kanban1-a5h.png");
 QString DragWidget::BG_IMAGE_KANBAN_2(":/images/bg-kanban2-a5.png");
 QString DragWidget::BG_IMAGE_KANBAN_2H(":/images/bg-kanban2-a5h.png");
+QString DragWidget::BG_IMAGE_KANBAN_3(":/images/bg-kanban3-a5.png");
+QString DragWidget::BG_IMAGE_KANBAN_3H(":/images/bg-kanban3-a5h.png");
 QSize DragWidget::DEFAULT_SIZE(720,445); //A5
+int DragWidget::SIZE_A5_SHORT(445);
+int DragWidget::SIZE_A5_LONG(720);
+int DragWidget::SIZE_A4_SHORT(720);
+int DragWidget::SIZE_A4_LONG(890);
 QMenu * DragWidget::m_RightClickMenu(NULL);
 
 DragWidget::DragWidget(QWidget *parent)
@@ -56,7 +62,8 @@ DragWidget::DragWidget(QWidget *parent)
      m_selectionEndPoint(),
      multiselectRubberBand(NULL),
      m_bPaintLine(false),
-     m_BackgroundPicture("")
+     m_BackgroundPicture(""),
+     m_bFixedBgSize(false)
 {
     loadTextFile(QString(":/texts/words.txt"), true);
 
@@ -542,7 +549,7 @@ void DragWidget::changeBackgroundImage(const QString  &sFilename)
     QString supportedFormats("");
     foreach(QByteArray name,QImageWriter::supportedImageFormats())
         supportedFormats +=  name + " ";
-    if(sFilename.size()) {
+    if (sFilename.size()) {
         QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
         if(QImageWriter::supportedImageFormats().contains(ext)) {
             QImage newImage(sFilename);
@@ -551,7 +558,10 @@ void DragWidget::changeBackgroundImage(const QString  &sFilename)
                 //QPixmap pixmap;
                 //pixmap.load("image.jpg");
                 //widget->setPixmap(pixmap);
-                pal.setBrush(backgroundRole(), QBrush(newImage.scaled(size(),Qt::IgnoreAspectRatio)));
+                if (m_bFixedBgSize)
+                    pal.setBrush(backgroundRole(), QBrush(newImage));
+                else
+                    pal.setBrush(backgroundRole(), QBrush(newImage.scaled(size(),Qt::IgnoreAspectRatio)));
                 setPalette(pal);
                 m_BackgroundPicture = sFilename;
             }  else {
@@ -719,7 +729,21 @@ bool DragWidget::isMultiselecting()
 void DragWidget::resizeEvent ( QResizeEvent * event )
 {
     QPalette pal = palette();
-    pal.setBrush(backgroundRole(), QBrush(QImage(m_BackgroundPicture).scaled(size(),Qt::IgnoreAspectRatio)));
+    if (m_bFixedBgSize)
+        pal.setBrush(backgroundRole(), QBrush(QImage(m_BackgroundPicture)));
+    else
+        pal.setBrush(backgroundRole(), QBrush(QImage(m_BackgroundPicture).scaled(size(),Qt::IgnoreAspectRatio)));
     setPalette(pal);
     QWidget::resizeEvent(event);
+}
+
+void DragWidget::setFixedSizeBg(bool bFixed)
+{
+    m_bFixedBgSize = bFixed;
+    if (m_bFixedBgSize)
+        setFixedSize(size());
+    else {
+        setMinimumSize(DEFAULT_SIZE);
+        setMaximumSize(QSize(QWIDGETSIZE_MAX,QWIDGETSIZE_MAX));
+    }
 }

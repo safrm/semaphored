@@ -49,11 +49,13 @@ public slots:
     void saveProjectAsSlot();
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
+    void changeBackgroundFixed(bool checked );
+    void changeBackgroundSizeSlot(QAction* action);
     void loadTextFileSlot();
     void printCurrentCanvasSlot();
     void exportCanvasToPdfSlot();
     void showAboutDialogSlot();
-    void createDesktopLinkSlot();
+    void createDesktopLinkSlot();    
 
 private:
     void createActions();
@@ -82,7 +84,18 @@ private:
     QAction* m_BgImageKanban1HAction;
     QAction* m_BgImageKanban2Action;
     QAction* m_BgImageKanban2HAction;
+    QAction* m_BgImageKanban3Action;
+    QAction* m_BgImageKanban3HAction;
     QAction* m_BgUserImageAction;
+    QAction* m_BgFixedSize;
+    QAction* m_BgSizeDefault;
+    QAction* m_BgSize_A5_portrait;
+    QAction* m_BgSize_A5_landscape;
+    QAction* m_BgSize_A4_portrait;
+    QAction* m_BgSize_A4_landscape;
+    QAction* m_BgSize_800_600;
+    QAction* m_BgSize_1024_768;
+    QAction* m_BgSize_1280_768;
     QAction* createDesktopLink;
     QAction* aboutAct;
     DragWidget* m_canvasWidget;

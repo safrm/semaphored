@@ -1,6 +1,6 @@
 #this is small fix for releasing
-win32:CONFIG += release
-win32:CONFIG -= debug
+#win32:CONFIG += release
+#win32:CONFIG -= debug
 
 #appver, win/lin version system
 APP_FULL_VERSION_TAG=NA

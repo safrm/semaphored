@@ -31,6 +31,7 @@
 #include <QPrintDialog>
 #include <QPainter>
 #include <QDateTime>
+#include <QGridLayout>
 #include "mainwindow.h"
 #include "draglabel.h"
 #include "dragwidget.h"
@@ -66,7 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
     //createToolBars();
     //createStatusBar();
-
     setCentralWidget(m_canvasWidget);
 #ifdef DEBUG
     setWindowTitle(QString(APPLICATION_NAME) + "-" + QString(APP_FULL_VERSION_TAG) + " (" + QString(APP_DATE) +")");
@@ -146,14 +146,19 @@ void MainWindow::createActions()
     m_BgDefaultImage2Action = new QAction(QIcon(":/icons/default_image2.png"), tr("&Default background image painting"), this);
     m_BgDefaultImage2Action->setCheckable(true);
 
-    m_BgImageKanban1Action = new QAction(QIcon(":/icons/bg-kanban1-a5.svg"), tr("&Background image Kanban 4 cols"), this);
+    m_BgImageKanban1Action = new QAction(QIcon(":/icons/bg-kanban1-a5.svg"), tr("&Kanban BTID 4 cols"), this);
     m_BgImageKanban1Action->setCheckable(true);
-    m_BgImageKanban1HAction = new QAction(QIcon(":/icons/bg-kanban1-a5h.svg"), tr("&Background image Kanban 4 rows"), this);
+    m_BgImageKanban1HAction = new QAction(QIcon(":/icons/bg-kanban1-a5h.svg"), tr("&Kanban BTID 4 rows"), this);
     m_BgImageKanban1HAction->setCheckable(true);
-    m_BgImageKanban2Action = new QAction(QIcon(":/icons/bg-kanban2-a5.svg"), tr("&Background image Kanban 3 cols"), this);
+    m_BgImageKanban2Action = new QAction(QIcon(":/icons/bg-kanban2-a5.svg"), tr("&Kanban TID 3 cols"), this);
     m_BgImageKanban2Action->setCheckable(true);
-    m_BgImageKanban2HAction = new QAction(QIcon(":/icons/bg-kanban2-a5h.svg"), tr("&Background image Kanban 3 rows"), this);
+    m_BgImageKanban2HAction = new QAction(QIcon(":/icons/bg-kanban2-a5h.svg"), tr("&Kanban TID 3 rows"), this);
     m_BgImageKanban2HAction->setCheckable(true);
+    m_BgImageKanban3Action = new QAction(QIcon(":/icons/bg-kanban3-a5.svg"), tr("&Kanban NSID 4 cols"), this);
+    m_BgImageKanban3Action->setCheckable(true);
+    m_BgImageKanban3HAction = new QAction(QIcon(":/icons/bg-kanban3-a5h.svg"), tr("&Kanban NSID 4 rows"), this);
+    m_BgImageKanban3HAction->setCheckable(true);
+
 
     m_BgUserImageAction = new QAction(QIcon(":/icons/load_background_image.png"), tr("&User background image"), this);
     m_BgUserImageAction->setStatusTip(tr("User background image"));
@@ -169,10 +174,50 @@ void MainWindow::createActions()
     backgroundColorGroup->addAction(m_BgImageKanban1HAction);
     backgroundColorGroup->addAction(m_BgImageKanban2Action);
     backgroundColorGroup->addAction(m_BgImageKanban2HAction);
+    backgroundColorGroup->addAction(m_BgImageKanban3Action);
+    backgroundColorGroup->addAction(m_BgImageKanban3HAction);
     backgroundColorGroup->addAction(m_BgUserImageAction);
     backgroundColorGroup->setExclusive(true);
     connect(backgroundColorGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundColorSlot(QAction*)));
 
+    QActionGroup* backgroundSizeGroup = new QActionGroup(this);
+    m_BgFixedSize = new QAction(QIcon(":/icons/size.png"), tr("&Fixed size"), this);
+    m_BgFixedSize->setCheckable(true);
+    connect(m_BgFixedSize, SIGNAL(triggered ( bool )), this, SLOT(changeBackgroundFixed(bool )));
+
+    m_BgSizeDefault = new QAction(QIcon(":/icons/size.png"), tr("&Default backgound size"), this);
+    m_BgSizeDefault->setCheckable(true);
+
+    m_BgSize_A5_landscape = new QAction(QIcon(":/icons/size.png"), tr("&A5 landscape"), this);
+    m_BgSize_A5_landscape->setCheckable(true);
+
+    m_BgSize_A5_portrait = new QAction(QIcon(":/icons/size.png"), tr("&A5 portrait"), this);
+    m_BgSize_A5_portrait->setCheckable(true);
+
+    m_BgSize_A4_landscape = new QAction(QIcon(":/icons/size.png"), tr("&A4 landscape"), this);
+    m_BgSize_A4_landscape->setCheckable(true);
+
+    m_BgSize_A4_portrait = new QAction(QIcon(":/icons/size.png"), tr("&A4 portrait"), this);
+    m_BgSize_A4_portrait->setCheckable(true);
+
+    m_BgSize_800_600 = new QAction(QIcon(":/icons/size.png"), tr("&800x600"), this);
+    m_BgSize_800_600->setCheckable(true);
+
+    m_BgSize_1024_768 = new QAction(QIcon(":/icons/size.png"), tr("&1024x768"), this);
+    m_BgSize_1024_768->setCheckable(true);
+
+    m_BgSize_1280_768 = new QAction(QIcon(":/icons/size.png"), tr("&1280x768"), this);
+    m_BgSize_1280_768->setCheckable(true);
+
+    backgroundSizeGroup->addAction(m_BgSizeDefault);
+    backgroundSizeGroup->addAction(m_BgSize_A5_landscape);
+    backgroundSizeGroup->addAction(m_BgSize_A5_portrait);
+    backgroundSizeGroup->addAction(m_BgSize_A4_landscape);
+    backgroundSizeGroup->addAction(m_BgSize_A4_portrait);
+    backgroundSizeGroup->addAction(m_BgSize_800_600);
+    backgroundSizeGroup->addAction(m_BgSize_1024_768);
+    backgroundSizeGroup->addAction(m_BgSize_1280_768);
+    connect(backgroundSizeGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundSizeSlot(QAction*)));
 
     createDesktopLink = new QAction(QIcon(":/icons/crate_link.svg"), tr("&Create desktop link"), this);
     createDesktopLink->setStatusTip(tr("Create desktop link"));
@@ -209,15 +254,29 @@ void MainWindow::createMenus()
     backgroundMenu->addAction(m_BgColorGrayAction);
     backgroundMenu->addAction(m_BgColorCyanAction);
     backgroundMenu->addSeparator();
-    backgroundMenu->addAction(m_BgDefaultImage1Action);
-    backgroundMenu->addAction(m_BgDefaultImage2Action);
-    backgroundMenu->addSeparator();
-    backgroundMenu->addAction(m_BgImageKanban1Action);
-    backgroundMenu->addAction(m_BgImageKanban1HAction);
-    backgroundMenu->addAction(m_BgImageKanban2Action);
-    backgroundMenu->addAction(m_BgImageKanban2HAction);
+    QMenu* defaultImagesMenu = backgroundMenu->addMenu(tr("&Default images"));
+    defaultImagesMenu->addAction(m_BgDefaultImage1Action);
+    defaultImagesMenu->addAction(m_BgDefaultImage2Action);
+    QMenu* kanbanImagesMenu = backgroundMenu->addMenu(tr("&Kanban dashboards"));
+    kanbanImagesMenu->addAction(m_BgImageKanban1Action);
+    kanbanImagesMenu->addAction(m_BgImageKanban1HAction);
+    kanbanImagesMenu->addAction(m_BgImageKanban2Action);
+    kanbanImagesMenu->addAction(m_BgImageKanban2HAction);
+    kanbanImagesMenu->addAction(m_BgImageKanban3Action);
+    kanbanImagesMenu->addAction(m_BgImageKanban3HAction);
     backgroundMenu->addSeparator();
     backgroundMenu->addAction(m_BgUserImageAction);
+    backgroundMenu->addSeparator();
+    QMenu* sizeMenu = backgroundMenu->addMenu(tr("&Size"));
+    sizeMenu->addAction(m_BgSizeDefault);
+    sizeMenu->addAction(m_BgSize_A5_landscape);
+    sizeMenu->addAction(m_BgSize_A5_portrait);
+    sizeMenu->addAction(m_BgSize_A4_landscape);
+    sizeMenu->addAction(m_BgSize_A4_portrait);
+    sizeMenu->addAction(m_BgSize_800_600);
+    sizeMenu->addAction(m_BgSize_1024_768);
+    sizeMenu->addAction(m_BgSize_1280_768);
+    backgroundMenu->addAction(m_BgFixedSize);
 
     menuBar()->addSeparator();
     QMenu* settingsMenu =  menuBar()->addMenu(tr("&Settings"));
@@ -326,11 +385,41 @@ void MainWindow::changeBackgroundColorSlot(QAction * action)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2);
    else if (action == m_BgImageKanban2HAction)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2H);
+    else if (action == m_BgImageKanban3Action)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3);
+   else if (action == m_BgImageKanban3HAction)
+        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3H);
     else if (action == m_BgUserImageAction) {
         m_canvasWidget->loadUserBackgroundImage();
    }
 }
 
+void  MainWindow::changeBackgroundFixed(bool checked )
+{
+    m_canvasWidget->setFixedSizeBg(checked);
+}
+
+void MainWindow::changeBackgroundSizeSlot(QAction * action)
+{
+    QSize newSize(m_canvasWidget->size());
+    if (action == m_BgSizeDefault)
+        ;
+    else if (action == m_BgSize_A5_portrait)
+        newSize = QSize(DragWidget::SIZE_A5_SHORT,DragWidget::SIZE_A5_LONG);
+    else if (action == m_BgSize_A5_landscape)
+        newSize = QSize(DragWidget::SIZE_A5_LONG,DragWidget::SIZE_A5_SHORT);
+    else if (action == m_BgSize_A4_portrait)
+        newSize = QSize(DragWidget::SIZE_A4_SHORT,DragWidget::SIZE_A4_LONG);
+    else if (action == m_BgSize_A4_landscape)
+        newSize = QSize(DragWidget::SIZE_A4_LONG,DragWidget::SIZE_A4_SHORT);
+    else if (action == m_BgSize_800_600)
+        newSize = QSize(800,600);
+    else if (action == m_BgSize_1024_768)
+        newSize = QSize(1024,768);
+    else if (action == m_BgSize_1280_768)
+        newSize = QSize(1280,768);
+    resize(newSize);
+}
 void MainWindow::loadTextFileSlot()
 {
     QString sFilename = QFileDialog::getOpenFileName(this, "Load source test file: ",QString(),

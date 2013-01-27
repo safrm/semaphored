@@ -18,3 +18,4 @@ semaphored.changes
 install/*
 release/*
 debian/changelog
+*.autosave

@@ -3,9 +3,11 @@
         <file>images/default.png</file>
         <file>images/bg-semaphored-a5.png</file>
         <file>images/bg-kanban1-a5.png</file>
-        <file>images/bg-kanban2-a5.png</file>
         <file>images/bg-kanban1-a5h.png</file>
+        <file>images/bg-kanban2-a5.png</file>
         <file>images/bg-kanban2-a5h.png</file>
+        <file>images/bg-kanban3-a5.png</file>
+        <file>images/bg-kanban3-a5h.png</file>
         <file>images/splash.png</file>
         <file>icons/about.svg</file>
         <file>icons/semaphored.svg</file>
@@ -29,9 +31,11 @@
         <file>icons/default_image2.png</file>
         <file>icons/semaphored.png</file>
         <file>icons/bg-kanban1-a5h.svg</file>
+        <file>icons/bg-kanban1-a5.svg</file>
         <file>icons/bg-kanban2-a5.svg</file>
         <file>icons/bg-kanban2-a5h.svg</file>
-        <file>icons/bg-kanban1-a5.svg</file>
+        <file>icons/bg-kanban3-a5.svg</file>
+        <file>icons/bg-kanban3-a5h.svg</file>
         <file>icons/green.svg</file>
         <file>icons/orange.svg</file>
         <file>icons/red.svg</file>
