@@ -38,12 +38,12 @@ public:
     DragWidget* canvasWidget();
     static MainWindow *instance();
     void loadProject(const QString & sFilename);
-
 signals:
     
 public slots:
     void loadProjectSlot();
     void loadProjectInNewInstanceSlot();
+    void reloadProjectSlot();
     void saveProjectSlot();
     void backupProjectWithTimeStampSlot();
     void saveProjectAsSlot();
@@ -66,6 +66,7 @@ private:
 
     QAction* loadProjectAct;
     QAction* loadProjectInNewInstanceAct;
+    QAction* reloadProjectAct;
     QAction* saveProjectAct;
     QAction* backupProjectWithTimeStampAct;
     QAction* saveProjectAsAct;

@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     loadProjectAct(NULL),
     loadProjectInNewInstanceAct(NULL),
+    reloadProjectAct(NULL),
     saveProjectAct(NULL),
     backupProjectWithTimeStampAct(NULL),
     saveProjectAsAct(NULL),
@@ -86,30 +87,42 @@ void MainWindow::createActions()
 {
     loadProjectAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project"), this);
     loadProjectAct->setStatusTip(tr("Load project.."));
+    loadProjectAct->setShortcut(tr("F3"));
     connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot()));
 
     loadProjectInNewInstanceAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project in new instance"), this);
     loadProjectInNewInstanceAct->setStatusTip(tr("Load project in new instance.."));
     connect(loadProjectInNewInstanceAct, SIGNAL(triggered()), this, SLOT(loadProjectInNewInstanceSlot()));
 
+    reloadProjectAct = new QAction(QIcon(":/icons/reload_project.svg"), tr("&Reload project"), this);
+    reloadProjectAct->setStatusTip(tr("Reload project.."));
+    reloadProjectAct->setShortcut(tr("Ctrl+R"));
+    connect(reloadProjectAct, SIGNAL(triggered()), this, SLOT(reloadProjectSlot()));
+
     saveProjectAct = new QAction(QIcon(":/icons/save_project.svg"), tr("&Save project"), this);
     saveProjectAct->setStatusTip(tr("Save project"));
+    saveProjectAct->setShortcut(tr("Ctrl+S"));
+    saveProjectAct->setShortcut(tr("F2"));
     connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProjectSlot()));
 
     saveProjectAsAct = new QAction(QIcon(":/icons/save_project_as.svg"), tr("&Save project as .."), this);
     saveProjectAsAct->setStatusTip(tr("Save project to different file"));
+    saveProjectAsAct->setShortcut(tr("Ctrl+Shift+S"));
     connect(saveProjectAsAct, SIGNAL(triggered()), this, SLOT(saveProjectAsSlot()));
 
     backupProjectWithTimeStampAct = new QAction(QIcon(":/icons/backup_project_ts.svg"), tr("&Backup project with timestamp"), this);
     backupProjectWithTimeStampAct->setStatusTip(tr("Backup project with timestamp"));
+    backupProjectWithTimeStampAct->setShortcut(tr("Ctrl+B"));
     connect(backupProjectWithTimeStampAct, SIGNAL(triggered()), this, SLOT(backupProjectWithTimeStampSlot()));
 
     exportAsPictureAct = new QAction(QIcon(":/icons/export_as_picture.png"), tr("&Export as a picture"), this);
     exportAsPictureAct->setStatusTip(tr("Export as a picture"));
+    exportAsPictureAct->setShortcut(tr("Ctrl+E"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
 
     loadTextFileAct = new QAction(QIcon(":/icons/load_text_file.svg"), tr("&Load text file"), this);
     loadTextFileAct->setStatusTip(tr("Load text file"));
+    loadTextFileAct->setShortcut(tr("Ctrl+L"));
     connect(loadTextFileAct, SIGNAL(triggered()), this, SLOT(loadTextFileSlot()));
 
     exportAsPdf = new QAction(QIcon(":/icons/export_as_pdf.svg"), tr("&Export To PDF"), this);
@@ -123,6 +136,7 @@ void MainWindow::createActions()
 
     quitAct = new QAction(QIcon(":/icons/quit.svg"), tr("&Quit"), this);
     quitAct->setStatusTip(tr("Quit"));
+    quitAct->setShortcut(tr("Ctrl+Q"));
     connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
 
     deleteAllAct = new QAction(QIcon(":/icons/delete_all.svg"), tr("&Delete All"), this);
@@ -233,7 +247,9 @@ void MainWindow::createMenus()
     QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(loadProjectAct);
     fileMenu->addAction(loadProjectInNewInstanceAct);
+    fileMenu->addAction(reloadProjectAct);
     fileMenu->addAction(saveProjectAct);
+    fileMenu->addSeparator();
     fileMenu->addAction(backupProjectWithTimeStampAct);
     fileMenu->addAction(saveProjectAsAct);
     fileMenu->addSeparator();
@@ -313,6 +329,13 @@ void MainWindow::loadProject(const QString& sFilename)
     }
     m_canvasWidget->loadProject(sFilename);
 }
+
+void MainWindow::reloadProjectSlot()
+{
+    if (m_sOpenedFile.size()) //we load only real files
+        m_canvasWidget->loadProject(m_sOpenedFile);
+}
+
 void MainWindow::saveProjectSlot()
 {
     if(!m_sOpenedFile.isEmpty())

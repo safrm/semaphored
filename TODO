@@ -34,15 +34,18 @@ New:2 - create desktop link for file
 New:4 - maximize in center
 New:3 - solving conflicts with double instances
 Fix:3 - Default background size
+New:4 - open file check if it can can be loaded
 
 --- for release 1.2.0 ---
 New:4 - run in tray cmdline feature
-New:1 - reload project
 New:1 - integrated git commands pull/ commit&push
 New:1 - load/save ordering for git/timestamp
+New:2 - fixed size saving
 
 DONE - changelog
 ----------------------------
+New:1 - reload project
+New:5 - shortcuts for main actions: load,save,export,quit
 New:2 - background fixed size +menu
 New:2 - double instances for solving conflicts
 New:2 - maximize
