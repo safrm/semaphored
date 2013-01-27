@@ -11,6 +11,8 @@ public:
     static void printUsageShort();
     void startNewInstance(const QString & sFileToOpen);
     const QStringList& filesToOpenList();
+    bool m_bMaximized;
+    bool m_bMinimizedInTray;
 
 private:
     static CommandLineArgs* instance;

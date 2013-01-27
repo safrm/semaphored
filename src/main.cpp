@@ -52,7 +52,12 @@ int main(int argc, char *argv[])
 
     MainWindow* mainWin = new MainWindow();
     mainWin->loadProject(sProjectFullFileName);
-    mainWin->show();
+    if (!CommandLineArgs::getInstance()->m_bMinimizedInTray) {
+        if (!CommandLineArgs::getInstance()->m_bMaximized)
+            mainWin->showMaximized();
+        else
+            mainWin->show();
+    }
 #ifdef Q_OS_UNIX
     usleep(700);
 #endif //Q_OS_UNIX

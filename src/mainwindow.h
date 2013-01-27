@@ -26,10 +26,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSystemTrayIcon>
+
 class QAction;
 class DragWidget;
 class QPrinter;
 class AboutDialog;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -56,6 +59,16 @@ public slots:
     void exportCanvasToPdfSlot();
     void showAboutDialogSlot();
     void createDesktopLinkSlot();    
+
+protected slots:
+    void slotPlaceToTray();
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+
+signals:
+  void signalPlaceToTray();
+
+protected:
+  virtual void changeEvent(QEvent *ev);
 
 private:
     void createActions();
@@ -102,6 +115,8 @@ private:
     DragWidget* m_canvasWidget;
     AboutDialog* m_aboutDialog;
     QString m_sOpenedFile;
+    QSystemTrayIcon* m_pTrayIcon;
+
 };
 
 #endif // MAINWINDOW_H

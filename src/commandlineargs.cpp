@@ -35,7 +35,9 @@ CommandLineArgs* CommandLineArgs::instance = NULL;
 
 CommandLineArgs::CommandLineArgs() :
     FilesToOpenList(),
-    SwitchesArgs()
+    SwitchesArgs(),
+    m_bMaximized(false),
+    m_bMinimizedInTray(false)
 {
     QString arg("");
     QStringListIterator argsIterator(qApp->arguments());
@@ -49,9 +51,9 @@ CommandLineArgs::CommandLineArgs() :
         //options
         if (arg.startsWith("-")) {
             if (arg.startsWith("-m")) {
-                ;//TODO run minimized
+                m_bMaximized = false;
             } else if (arg.startsWith("-t")) {
-                ;//TODO tray
+                m_bMinimizedInTray = true;
             } else {
                 qCritical() << "Unknown parameter:" << arg;
             }
@@ -65,7 +67,6 @@ CommandLineArgs::CommandLineArgs() :
             }
        }
     }
-            //cout << javaStyleIterator.next().toLocal8Bit().constData()
 }
 
 CommandLineArgs* CommandLineArgs::getInstance()
@@ -80,6 +81,9 @@ void CommandLineArgs::printUsage()
     //TODO
     printf("USAGE: %s: \n", QApplication::applicationName().toLatin1().data());
     printf("    parameters list                     \n");
+    printf("-t  --tray      start minimized in tray\n");
+    printf("-m  --maximized start with maximized window\n");
+    printf("<files>         project files to load\n");
     qFatal(" ");
 }
 

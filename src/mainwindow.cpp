@@ -32,6 +32,8 @@
 #include <QPainter>
 #include <QDateTime>
 #include <QGridLayout>
+#include <QEvent>
+
 #include "mainwindow.h"
 #include "draglabel.h"
 #include "dragwidget.h"
@@ -76,6 +78,12 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif //DEBUG
 
     setWindowIcon(QIcon(":/icons/semaphored.svg"));
+
+    m_pTrayIcon = new QSystemTrayIcon(QIcon(":/icons/semaphored.svg"),this);
+    connect(this, SIGNAL(signalPlaceToTray()),this, SLOT(slotPlaceToTray()),Qt::QueuedConnection);
+    connect(m_pTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+            this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+    m_pTrayIcon->show();
 }
 
 MainWindow* MainWindow::instance()
@@ -489,6 +497,7 @@ void MainWindow::exportCanvasToPdfSlot()
         painter.end();
     }
 }
+
 void MainWindow::createDesktopLinkSlot() {
     DesktopFile::CreateDesktopFile();
 }
@@ -499,4 +508,38 @@ void MainWindow::showAboutDialogSlot()
         m_aboutDialog = new AboutDialog(this);
     }
     m_aboutDialog->show();
+}
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::WindowStateChange) {
+        if (isMinimized()) {
+              emit signalPlaceToTray();
+              event->ignore();
+              return;
+        }
+    }
+    QMainWindow::changeEvent(event);
+}
+
+void MainWindow::slotPlaceToTray()
+{
+    hide();
+}
+
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason) {
+    case QSystemTrayIcon::Trigger:
+    case QSystemTrayIcon::DoubleClick:
+            if (isVisible())
+              hide();
+            else
+              showNormal();
+            break;
+    case QSystemTrayIcon::MiddleClick:
+        break;
+    default:
+            ;
+    }
 }
