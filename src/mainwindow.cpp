@@ -93,13 +93,14 @@ MainWindow* MainWindow::instance()
 
 void MainWindow::createActions()
 {
-    loadProjectAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project"), this);
-    loadProjectAct->setStatusTip(tr("Load project.."));
-    loadProjectAct->setShortcut(tr("F3"));
+    loadProjectAct = new QAction(QIcon(":/icons/load_project.svg"), tr("L&oad project.."), this);
+    loadProjectAct->setStatusTip(tr("Load project from file"));
+    loadProjectAct->setShortcut(tr("Ctrl+O"));
     connect(loadProjectAct, SIGNAL(triggered()), this, SLOT(loadProjectSlot()));
 
-    loadProjectInNewInstanceAct = new QAction(QIcon(":/icons/load_project.svg"), tr("&Load project in new instance"), this);
-    loadProjectInNewInstanceAct->setStatusTip(tr("Load project in new instance.."));
+    loadProjectInNewInstanceAct = new QAction(QIcon(":/icons/load_project.svg"), tr("Load project in new &instance.."), this);
+    loadProjectInNewInstanceAct->setStatusTip(tr("Load project in new instance"));
+    loadProjectInNewInstanceAct->setShortcut(tr("Shift+Ctrl+O"));
     connect(loadProjectInNewInstanceAct, SIGNAL(triggered()), this, SLOT(loadProjectInNewInstanceSlot()));
 
     reloadProjectAct = new QAction(QIcon(":/icons/reload_project.svg"), tr("&Reload project"), this);
@@ -110,10 +111,9 @@ void MainWindow::createActions()
     saveProjectAct = new QAction(QIcon(":/icons/save_project.svg"), tr("&Save project"), this);
     saveProjectAct->setStatusTip(tr("Save project"));
     saveProjectAct->setShortcut(tr("Ctrl+S"));
-    saveProjectAct->setShortcut(tr("F2"));
     connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProjectSlot()));
 
-    saveProjectAsAct = new QAction(QIcon(":/icons/save_project_as.svg"), tr("&Save project as .."), this);
+    saveProjectAsAct = new QAction(QIcon(":/icons/save_project_as.svg"), tr("Save project &as .."), this);
     saveProjectAsAct->setStatusTip(tr("Save project to different file"));
     saveProjectAsAct->setShortcut(tr("Ctrl+Shift+S"));
     connect(saveProjectAsAct, SIGNAL(triggered()), this, SLOT(saveProjectAsSlot()));
@@ -123,21 +123,22 @@ void MainWindow::createActions()
     backupProjectWithTimeStampAct->setShortcut(tr("Ctrl+B"));
     connect(backupProjectWithTimeStampAct, SIGNAL(triggered()), this, SLOT(backupProjectWithTimeStampSlot()));
 
-    exportAsPictureAct = new QAction(QIcon(":/icons/export_as_picture.png"), tr("&Export as a picture"), this);
+    exportAsPictureAct = new QAction(QIcon(":/icons/export_as_picture.png"), tr("&Export as a picture.."), this);
     exportAsPictureAct->setStatusTip(tr("Export as a picture"));
     exportAsPictureAct->setShortcut(tr("Ctrl+E"));
     connect(exportAsPictureAct, SIGNAL(triggered()), this, SLOT(exportAsPictureSlot()));
 
-    loadTextFileAct = new QAction(QIcon(":/icons/load_text_file.svg"), tr("&Load text file"), this);
+    loadTextFileAct = new QAction(QIcon(":/icons/load_text_file.svg"), tr("&Load text file.."), this);
     loadTextFileAct->setStatusTip(tr("Load text file"));
     loadTextFileAct->setShortcut(tr("Ctrl+L"));
     connect(loadTextFileAct, SIGNAL(triggered()), this, SLOT(loadTextFileSlot()));
 
-    exportAsPdf = new QAction(QIcon(":/icons/export_as_pdf.svg"), tr("&Export To PDF"), this);
+    exportAsPdf = new QAction(QIcon(":/icons/export_as_pdf.svg"), tr("Export &To PDF.."), this);
     exportAsPdf->setStatusTip(tr("Export To PDF"));
+    exportAsPdf->setShortcut(tr("Ctrl+Shift+P"));
     connect(exportAsPdf, SIGNAL(triggered()), this, SLOT(exportCanvasToPdfSlot()));
 
-    printAct = new QAction(QIcon(":/icons/print.svg"), tr("&Print..."), this);
+    printAct = new QAction(QIcon(":/icons/print.svg"), tr("&Print.."), this);
     printAct->setShortcuts(QKeySequence::Print);
     printAct->setStatusTip(tr("Print the current canvas"));
     connect(printAct, SIGNAL(triggered()), this, SLOT(printCurrentCanvasSlot()));
@@ -147,8 +148,9 @@ void MainWindow::createActions()
     quitAct->setShortcut(tr("Ctrl+Q"));
     connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    deleteAllAct = new QAction(QIcon(":/icons/delete_all.svg"), tr("&Delete All"), this);
+    deleteAllAct = new QAction(QIcon(":/icons/delete_all.svg"), tr("D&elete All"), this);
     deleteAllAct->setStatusTip(tr("Delete all"));
+    deleteAllAct->setShortcut(tr("Ctrl+E"));
     connect(deleteAllAct, SIGNAL(triggered()), m_canvasWidget, SLOT(deleteAllItemsSlot()));
 
     QActionGroup* backgroundColorGroup = new QActionGroup(this);
@@ -258,8 +260,8 @@ void MainWindow::createMenus()
     fileMenu->addAction(loadProjectAct);
     fileMenu->addAction(loadProjectInNewInstanceAct);
     fileMenu->addAction(reloadProjectAct);
-    fileMenu->addAction(saveProjectAct);
     fileMenu->addSeparator();
+    fileMenu->addAction(saveProjectAct);
     fileMenu->addAction(backupProjectWithTimeStampAct);
     fileMenu->addAction(saveProjectAsAct);
     fileMenu->addSeparator();

@@ -170,7 +170,7 @@ void DragWidget::dropEvent(QDropEvent *event)
         QPoint position = event->pos();
         QPoint hotSpot;
         QColor color(Qt::white);
-
+        QByteArray timestamp = mime->data("application/timestamp");
 
         QList<QByteArray> hotSpotPos = mime->data("application/x-hotspot").split(' ');
         if (hotSpotPos.size() == 2) {
@@ -187,6 +187,8 @@ void DragWidget::dropEvent(QDropEvent *event)
         if(mime->hasHtml()) {
             QString text = mime->html();
             DragSquare *newSquare = new DragSquare(label, text, this);
+            if(!timestamp.isEmpty())
+                newSquare->setTimeStamp(timestamp.toLongLong());
             newSquare->move(position - hotSpot);
             newSquare->changeColor(color);
             newSquare->show();
@@ -194,6 +196,8 @@ void DragWidget::dropEvent(QDropEvent *event)
             position += QPoint(newSquare->width(), 0);
         } else { //label
           DragLabel *newLabel = new DragLabel(label, this, this);
+          if(!timestamp.isEmpty())
+              newLabel->setTimeStamp(timestamp.toLongLong());
           newLabel->move(position - hotSpot);
           newLabel->changeColor(color);
           newLabel->show();
@@ -211,6 +215,7 @@ void DragWidget::dropEvent(QDropEvent *event)
     } else if (event->mimeData()->hasFormat("application/p1-hotspot")) {
        //for now we handle line separately
        const QMimeData *mime = event->mimeData();
+       QByteArray timestamp = mime->data("application/timestamp");
        QPoint position = event->pos();
        QPoint hotSpot, p1, p2;
 
@@ -230,6 +235,8 @@ void DragWidget::dropEvent(QDropEvent *event)
            p2.setY(p2Pos.last().toInt());
        }
        DragLine *newLine = new DragLine(p1,p2, this);
+       if(!timestamp.isEmpty())
+           newLine->setTimeStamp(timestamp.toLongLong());
        newLine->move(position - hotSpot);
        newLine->show();
        newLine->setAttribute(Qt::WA_DeleteOnClose);
@@ -326,6 +333,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
           QPoint hotSpot = event->pos() - labelChild->pos();
 
             QMimeData *mimeData = new QMimeData;
+            mimeData->setData("application/timestamp", QByteArray::number(labelChild->creationTimeStamp()));
             mimeData->setText(labelChild->text());
             mimeData->setData("application/x-hotspot",
                               QByteArray::number(hotSpot.x())
@@ -354,6 +362,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         QMimeData *mimeData = new QMimeData;
         mimeData->setText(squareChild->label());
         mimeData->setHtml(squareChild->text());
+        mimeData->setData("application/timestamp", QByteArray::number(squareChild->creationTimeStamp()));
         mimeData->setData("application/x-hotspot", QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
         mimeData->setColorData(squareChild->currentColor());
 
@@ -374,6 +383,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
        QPoint hotSpot = event->pos() - lineChild->pos();
 
        QMimeData *mimeData = new QMimeData;
+       mimeData->setData("application/timestamp", QByteArray::number(lineChild->creationTimeStamp()));
        mimeData->setData("application/x-hotspot", QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
        mimeData->setData("application/p1-hotspot", QByteArray::number(lineChild->p1().x()) + " " + QByteArray::number(lineChild->p1().y()));
        mimeData->setData("application/p2-hotspot",QByteArray::number(lineChild->p2().x()) + " " + QByteArray::number(lineChild->p2().y()));
@@ -648,15 +658,23 @@ void DragWidget::loadProject(const QString &sFilename)
 
             if (e.tagName() == "label") {
                 DragLabel *wordLabel = new DragLabel(e.attribute("label"), this, this, QColor(e.attribute("color")));
+                wordLabel->setTimeStamp(e.attribute("created").toLongLong());
                 wordLabel->move(e.attribute("x").toInt(), e.attribute("y").toInt());
                 wordLabel->show();
                 wordLabel->setAttribute(Qt::WA_DeleteOnClose);
             } else if (e.tagName() == "square")  {
                 DragSquare *wordSquare = new DragSquare(e.attribute("label"), e.attribute("text"), this, QColor(e.attribute("color")));
+                wordSquare->setTimeStamp(e.attribute("created").toLongLong());
                 wordSquare->move(e.attribute("x").toInt(), e.attribute("y").toInt());
                 wordSquare->show();
                 wordSquare->setAttribute(Qt::WA_DeleteOnClose);
-            }
+            }  else if (e.tagName() == "line")  {
+                DragLine *line = new DragLine(QPoint(e.attribute("p1x").toInt(),e.attribute("p1y").toInt()),QPoint(e.attribute("p2x").toInt(),e.attribute("p2y").toInt()), this);
+                line->setTimeStamp(e.attribute("created").toLongLong());
+                //line->move(e.attribute("x").toInt(), e.attribute("y").toInt());
+                line->show();
+                line->setAttribute(Qt::WA_DeleteOnClose);
+        }
         }
         n = n.nextSibling();
     }
@@ -684,40 +702,48 @@ void DragWidget::saveProject(const QString &sFilename)
 
     QDomElement tag;
     foreach (QObject *child, children()) {
-        if (child->inherits("DragLabel")) {
-            DragLabel *widgetLabel = static_cast<DragLabel *>(child);
-            tag = xmlDocument.createElement("label");
-            tag.setAttribute("color", widgetLabel->currentColor().name());
-            tag.setAttribute("label", widgetLabel->text());
-            tag.setAttribute("x", QString::number(widgetLabel->pos().x()));
-            tag.setAttribute("y", QString::number(widgetLabel->pos().y()));
-            items.appendChild(tag);
-        }
-        else if (child->inherits("DragSquare")) {
-            DragSquare *widgetSquare = static_cast<DragSquare *>(child);
-            tag = xmlDocument.createElement("square");
-            tag.setAttribute("color", widgetSquare->currentColor().name());
-            tag.setAttribute("label", widgetSquare->text());
-            tag.setAttribute("text", widgetSquare->text());
-            tag.setAttribute("x", QString::number(widgetSquare->pos().x()));
-            tag.setAttribute("y", QString::number(widgetSquare->pos().y()));
-            items.appendChild(tag);
-        }
-        else if (child->inherits("DragLine")) {
-            DragLine *widgetLine = static_cast<DragLine *>(child);
-            tag = xmlDocument.createElement("line");
-            //tag.setAttribute("color", widgetLine->currentColor().name());
-            //tag.setAttribute("label", widgetLine->text());
-            //tag.setAttribute("text", widgetLine->text());
-            tag.setAttribute("p1x", QString::number(widgetLine->p1().x()));
-            tag.setAttribute("p1y", QString::number(widgetLine->p1().y()));
-            tag.setAttribute("p2x", QString::number(widgetLine->p2().x()));
-            tag.setAttribute("p2y", QString::number(widgetLine->p2().y()));
-            items.appendChild(tag);
-        }
-        else {
-            qCritical( "unhandled object type");
-        }
+        //if (child->inherits("AbstractDragInterface")) {
+            if (child->inherits("DragLabel")) {
+                DragLabel *widgetLabel = static_cast<DragLabel *>(child);
+                tag = xmlDocument.createElement("label");
+                tag.setAttribute("created", QString::number(widgetLabel->creationTimeStamp()));
+                tag.setAttribute("color", widgetLabel->currentColor().name());
+                tag.setAttribute("label", widgetLabel->text());
+                tag.setAttribute("x", QString::number(widgetLabel->pos().x()));
+                tag.setAttribute("y", QString::number(widgetLabel->pos().y()));
+
+                items.appendChild(tag);
+            }
+            else if (child->inherits("DragSquare")) {
+                DragSquare *widgetSquare = static_cast<DragSquare *>(child);
+                tag = xmlDocument.createElement("square");
+                tag.setAttribute("created", QString::number(widgetSquare->creationTimeStamp()));
+                tag.setAttribute("color", widgetSquare->currentColor().name());
+                tag.setAttribute("label", widgetSquare->text());
+                tag.setAttribute("text", widgetSquare->text());
+                tag.setAttribute("x", QString::number(widgetSquare->pos().x()));
+                tag.setAttribute("y", QString::number(widgetSquare->pos().y()));
+                items.appendChild(tag);
+            }
+            else if (child->inherits("DragLine")) {
+                DragLine *widgetLine = static_cast<DragLine *>(child);
+                tag = xmlDocument.createElement("line");
+                //tag.setAttribute("color", widgetLine->currentColor().name());
+                //tag.setAttribute("label", widgetLine->text());
+                //tag.setAttribute("text", widgetLine->text());
+                tag.setAttribute("created", QString::number(widgetLine->creationTimeStamp()));
+                tag.setAttribute("p1x", QString::number(widgetLine->p1().x()));
+                tag.setAttribute("p1y", QString::number(widgetLine->p1().y()));
+                tag.setAttribute("p2x", QString::number(widgetLine->p2().x()));
+                tag.setAttribute("p2y", QString::number(widgetLine->p2().y()));
+                items.appendChild(tag);
+            }
+            else {
+                qCritical( "Unknown AbstractDragInterface type");
+            }
+      /*} else {
+            qCritical( "Unknown Object type");
+        }*/
     }
    //save
     out << xmlDocument.toString();

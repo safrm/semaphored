@@ -53,13 +53,13 @@ int main(int argc, char *argv[])
     MainWindow* mainWin = new MainWindow();
     mainWin->loadProject(sProjectFullFileName);
     if (!CommandLineArgs::getInstance()->m_bMinimizedInTray) {
-        if (!CommandLineArgs::getInstance()->m_bMaximized)
+        if (CommandLineArgs::getInstance()->m_bMaximized)
             mainWin->showMaximized();
         else
             mainWin->show();
     }
 #ifdef Q_OS_UNIX
-    usleep(700);
+   // usleep(700);
 #endif //Q_OS_UNIX
     splash.finish(mainWin);
     return app.exec();

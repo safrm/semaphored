@@ -67,7 +67,7 @@ copyrightLabel->setText(sCopyright);
 WebLink* webPageLabel = new WebLink("safrm.net",QUrl("http://www.safrm.net"),this);
 licenseLayout->addWidget(webPageLabel);
 licenseLayout->addWidget(copyrightLabel);
-WebLink* licenseFilelabel = new WebLink("License",QUrl("/usr/share/doc/semaphored/LICENSE.LGPL"),this);
+WebLink* licenseFilelabel = new WebLink("License LGPL 2.1",QUrl("/usr/share/doc/semaphored/LICENSE.LGPL"),this);
 
 //BUTTONS
 QPushButton* closeButton = new QPushButton(tr("&Close"));

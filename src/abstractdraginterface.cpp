@@ -22,9 +22,29 @@
 **
 ****************************************************************************/
 
+#include <QDateTime>
 #include "abstractdraginterface.h"
 
+QString AbstractDragInterface::TIMESTAMP_FORMAT("yyyyMMdd_hhmmss");
+
 AbstractDragInterface::AbstractDragInterface(DragWidget* canvasWidget) :
-    m_CanvasWidget(canvasWidget)
+    m_CanvasWidget(canvasWidget),
+    m_i64TimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch())
 {
+}
+void AbstractDragInterface::setTimeStamp(qint64 mSecsSinceEpoch)
+{
+    m_i64TimeStamp = mSecsSinceEpoch;
+}
+
+QString AbstractDragInterface::creationTimeStampString()
+{
+    QDateTime timeStamp;
+    timeStamp.setMSecsSinceEpoch(m_i64TimeStamp);
+    return  timeStamp.toString(AbstractDragInterface::TIMESTAMP_FORMAT);
+}
+
+qint64 AbstractDragInterface::creationTimeStamp()
+{
+    return m_i64TimeStamp;
 }
