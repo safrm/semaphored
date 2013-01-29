@@ -46,6 +46,7 @@ QString DragWidget::BG_IMAGE_KANBAN_2H(":/images/bg-kanban2-a5h.png");
 QString DragWidget::BG_IMAGE_KANBAN_3(":/images/bg-kanban3-a5.png");
 QString DragWidget::BG_IMAGE_KANBAN_3H(":/images/bg-kanban3-a5h.png");
 QSize DragWidget::DEFAULT_SIZE(720,445); //A5
+QSize DragWidget::MINIMUM_SIZE(100,100);
 int DragWidget::SIZE_A5_SHORT(445);
 int DragWidget::SIZE_A5_LONG(720);
 int DragWidget::SIZE_A4_SHORT(720);
@@ -285,8 +286,10 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         } else {
             //we don't have selection so we try to create it
             m_selectionStartPoint = event->pos();
-            if (!multiselectRubberBand)
+            if (!multiselectRubberBand) {
                   multiselectRubberBand = new QRubberBand(QRubberBand::Rectangle, this);
+                  Q_ASSERT(multiselectRubberBand);
+            }
             if (!multiselectRubberBand->isVisible()) {
                 //multiselectRubberBand->setGeometry(QRect(m_selectionStartPoint, QSize(1,1)).normalized());
                 multiselectRubberBand->setGeometry(m_selectionStartPoint.x(),m_selectionStartPoint.y(),0,0);
@@ -627,12 +630,13 @@ void DragWidget::loadProject(const QString &sFilename)
         changeBackgroundColor(Qt::white);
     }
     //TODO window position and size
-    //QString sX = itemsElem.attribute("x");
-    //QString sY = itemsElem.attribute("y");
     QString sW = itemsElem.attribute("w");
-    //setWidth(sW.toInt());
     QString sH = itemsElem.attribute("h");
-    //setHeight(sH.toInt());
+    setFixedSize(sW.toInt(),sH.toInt());
+
+    QString sFixedSize = itemsElem.attribute("fixed_size");
+    setFixedSizeBg(sFixedSize.toInt()==1);
+
 
     //items loop
     QDomNode n = itemsElem.firstChild();
@@ -673,11 +677,9 @@ void DragWidget::saveProject(const QString &sFilename)
 
     QDomElement items = xmlDocument.createElement("items");
     items.setAttribute("background", m_BackgroundPicture );
-    //items.setAttribute("geometry", QString(saveGeometry().toHex()));
-    items.setAttribute("x", QString::number(pos().x()));
-    items.setAttribute("y", QString::number(pos().y()));
     items.setAttribute("w", QString::number(size().width()));
     items.setAttribute("h", QString::number(size().height()));
+    items.setAttribute("fixed_size", QString::number(m_bFixedBgSize));
     root.appendChild(items);
 
     QDomElement tag;
@@ -743,7 +745,8 @@ void DragWidget::setFixedSizeBg(bool bFixed)
     if (m_bFixedBgSize)
         setFixedSize(size());
     else {
-        setMinimumSize(DEFAULT_SIZE);
+        setMinimumSize(MINIMUM_SIZE);
         setMaximumSize(QSize(QWIDGETSIZE_MAX,QWIDGETSIZE_MAX));
     }
+    emit changeFixedSize(bFixed);
 }

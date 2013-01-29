@@ -206,6 +206,8 @@ void MainWindow::createActions()
     m_BgFixedSize = new QAction(QIcon(":/icons/size.png"), tr("&Fixed size"), this);
     m_BgFixedSize->setCheckable(true);
     connect(m_BgFixedSize, SIGNAL(triggered ( bool )), this, SLOT(changeBackgroundFixed(bool )));
+    connect(m_canvasWidget, SIGNAL(changeFixedSize ( bool )), m_BgFixedSize, SLOT(setChecked(bool )));
+
 
     m_BgSizeDefault = new QAction(QIcon(":/icons/size.png"), tr("&Default backgound size"), this);
     m_BgSizeDefault->setCheckable(true);

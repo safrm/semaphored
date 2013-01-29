@@ -55,6 +55,7 @@ public:
     static QString BG_IMAGE_KANBAN_3;
     static QString BG_IMAGE_KANBAN_3H;
     static QSize DEFAULT_SIZE;
+    static QSize MINIMUM_SIZE;
     static int SIZE_A4_SHORT;
     static int SIZE_A4_LONG;
     static int SIZE_A5_SHORT;
@@ -72,6 +73,9 @@ public:
 
 public slots:
     void deleteAllItemsSlot();
+
+signals:
+    void changeFixedSize(bool);
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *event);
