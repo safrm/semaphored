@@ -348,8 +348,10 @@ void MainWindow::reloadProjectSlot()
 
 void MainWindow::saveProjectSlot()
 {
-    if(!m_sOpenedFile.isEmpty())
+    if (!m_sOpenedFile.isEmpty())
         m_canvasWidget->saveProject(m_sOpenedFile);
+    else
+        saveProjectAsSlot();
 }
 
 void MainWindow::saveProjectAsSlot()

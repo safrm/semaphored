@@ -39,12 +39,14 @@ New:1 - integrated git commands pull/ commit&push
 New:3 - send exmort by email
 New:4 - drag and drop text file 
 New:4 - export to txt 
+New:1 - shift enter to text
 
 --- for release 1.2.0 ---
 New:1 - load/save ordering for git/timestamp
 
 DONE - changelog
 ----------------------------
+Fix:4 - saving default file does not do anything
 New:2 - fixed size saving
 Fix:4 - minimal size
 New:4 - run in tray, maximized cmdline features
