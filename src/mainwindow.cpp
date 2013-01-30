@@ -183,6 +183,11 @@ void MainWindow::createActions()
     m_BgImageKanban3HAction = new QAction(QIcon(":/icons/bg-kanban3-a5h.svg"), tr("&Kanban NSID 4 rows"), this);
     m_BgImageKanban3HAction->setCheckable(true);
 
+    m_BgImageReview1Action = new QAction(QIcon(":/icons/bg-review1-a5.svg"), tr("&Review board 4 cols"), this);
+    m_BgImageReview1Action->setCheckable(true);
+    m_BgImageReview2Action = new QAction(QIcon(":/icons/bg-review2-a5.svg"), tr("&Double review board 6 cols"), this);
+    m_BgImageReview2Action->setCheckable(true);
+
 
     m_BgUserImageAction = new QAction(QIcon(":/icons/load_background_image.png"), tr("&User background image"), this);
     m_BgUserImageAction->setStatusTip(tr("User background image"));
@@ -200,6 +205,8 @@ void MainWindow::createActions()
     backgroundColorGroup->addAction(m_BgImageKanban2HAction);
     backgroundColorGroup->addAction(m_BgImageKanban3Action);
     backgroundColorGroup->addAction(m_BgImageKanban3HAction);
+    backgroundColorGroup->addAction(m_BgImageReview1Action);
+    backgroundColorGroup->addAction(m_BgImageReview2Action);
     backgroundColorGroup->addAction(m_BgUserImageAction);
     backgroundColorGroup->setExclusive(true);
     connect(backgroundColorGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundColorSlot(QAction*)));
@@ -245,7 +252,7 @@ void MainWindow::createActions()
     backgroundSizeGroup->addAction(m_BgSize_1280_768);
     connect(backgroundSizeGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundSizeSlot(QAction*)));
 
-    createDesktopLink = new QAction(QIcon(":/icons/crate_link.svg"), tr("&Create desktop link"), this);
+    createDesktopLink = new QAction(QIcon(":/icons/create_link.svg"), tr("&Create desktop link"), this);
     createDesktopLink->setStatusTip(tr("Create desktop link"));
     connect(createDesktopLink, SIGNAL(triggered()), this, SLOT(createDesktopLinkSlot()));
 
@@ -292,10 +299,13 @@ void MainWindow::createMenus()
     kanbanImagesMenu->addAction(m_BgImageKanban2HAction);
     kanbanImagesMenu->addAction(m_BgImageKanban3Action);
     kanbanImagesMenu->addAction(m_BgImageKanban3HAction);
+    QMenu* reviewImagesMenu = backgroundMenu->addMenu(tr("&Review dashboards"));
+    reviewImagesMenu->addAction(m_BgImageReview1Action);
+    reviewImagesMenu->addAction(m_BgImageReview2Action);
     backgroundMenu->addSeparator();
     backgroundMenu->addAction(m_BgUserImageAction);
     backgroundMenu->addSeparator();
-    QMenu* sizeMenu = backgroundMenu->addMenu(tr("&Size"));
+    QMenu* sizeMenu = backgroundMenu->addMenu(QIcon(":/icons/sizes.svg"), tr("&Size"));
     sizeMenu->addAction(m_BgSizeDefault);
     sizeMenu->addAction(m_BgSize_A5_landscape);
     sizeMenu->addAction(m_BgSize_A5_portrait);
@@ -426,6 +436,10 @@ void MainWindow::changeBackgroundColorSlot(QAction * action)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3);
    else if (action == m_BgImageKanban3HAction)
         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3H);
+    else if (action == m_BgImageReview1Action)
+         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_REVIEW_1);
+    else if (action == m_BgImageReview2Action)
+         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_REVIEW_2);
     else if (action == m_BgUserImageAction) {
         m_canvasWidget->loadUserBackgroundImage();
    }

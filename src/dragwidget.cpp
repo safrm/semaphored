@@ -46,6 +46,8 @@ QString DragWidget::BG_IMAGE_KANBAN_2(":/images/bg-kanban2-a5.png");
 QString DragWidget::BG_IMAGE_KANBAN_2H(":/images/bg-kanban2-a5h.png");
 QString DragWidget::BG_IMAGE_KANBAN_3(":/images/bg-kanban3-a5.png");
 QString DragWidget::BG_IMAGE_KANBAN_3H(":/images/bg-kanban3-a5h.png");
+QString DragWidget::BG_IMAGE_REVIEW_1(":/images/bg-review1-a5.png");
+QString DragWidget::BG_IMAGE_REVIEW_2(":/images/bg-review2-a5.png");
 QSize DragWidget::DEFAULT_SIZE(720,445); //A5
 QSize DragWidget::MINIMUM_SIZE(100,100);
 int DragWidget::SIZE_A5_SHORT(445);

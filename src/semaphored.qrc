@@ -40,11 +40,19 @@
         <file>icons/orange.svg</file>
         <file>icons/red.svg</file>
         <file>icons/cyan-bg.svg</file>
-        <file>icons/gra.svg</file>
         <file>icons/gray-bg.svg</file>
         <file>icons/white-bg.svg</file>
         <file>icons/color.svg</file>
         <file>demo-projects/kanban1.sem</file>
         <file>texts/words.txt</file>
+        <file>icons/reload_project.svg</file>
+        <file>icons/backup_project_ts.svg</file>
+        <file>icons/save_project_as.svg</file>
+        <file>icons/sizes.svg</file>
+        <file>images/bg-review1-a5.png</file>
+        <file>images/bg-review2-a5.png</file>
+        <file>icons/bg-review1-a5.svg</file>
+        <file>icons/bg-review2-a5.svg</file>
+        <file>icons/create_link.svg</file>
     </qresource>
 </RCC>

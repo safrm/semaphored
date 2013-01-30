@@ -100,6 +100,8 @@ private:
     QAction* m_BgImageKanban2HAction;
     QAction* m_BgImageKanban3Action;
     QAction* m_BgImageKanban3HAction;
+    QAction* m_BgImageReview1Action;
+    QAction* m_BgImageReview2Action;
     QAction* m_BgUserImageAction;
     QAction* m_BgFixedSize;
     QAction* m_BgSizeDefault;

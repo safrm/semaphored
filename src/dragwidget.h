@@ -54,6 +54,8 @@ public:
     static QString BG_IMAGE_KANBAN_2H;
     static QString BG_IMAGE_KANBAN_3;
     static QString BG_IMAGE_KANBAN_3H;
+    static QString BG_IMAGE_REVIEW_1;
+    static QString BG_IMAGE_REVIEW_2;
     static QSize DEFAULT_SIZE;
     static QSize MINIMUM_SIZE;
     static int SIZE_A4_SHORT;
