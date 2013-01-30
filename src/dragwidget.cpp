@@ -28,6 +28,7 @@
 #include <QDomDocument>
 #include <QTextStream>
 #include <QFile>
+#include <QtAlgorithms>
 
 #include "draglabel.h"
 #include "dragwidget.h"
@@ -52,6 +53,11 @@ int DragWidget::SIZE_A5_LONG(720);
 int DragWidget::SIZE_A4_SHORT(720);
 int DragWidget::SIZE_A4_LONG(890);
 QMenu * DragWidget::m_RightClickMenu(NULL);
+
+bool dtscomp(QDomElement& left, QDomElement & right) {
+  return left.attribute("created").toLongLong() < right.attribute("created").toLongLong();
+}
+
 
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent),
@@ -700,9 +706,9 @@ void DragWidget::saveProject(const QString &sFilename)
     items.setAttribute("fixed_size", QString::number(m_bFixedBgSize));
     root.appendChild(items);
 
+    QList<QDomElement> sortedList;
     QDomElement tag;
     foreach (QObject *child, children()) {
-        //if (child->inherits("AbstractDragInterface")) {
             if (child->inherits("DragLabel")) {
                 DragLabel *widgetLabel = static_cast<DragLabel *>(child);
                 tag = xmlDocument.createElement("label");
@@ -711,8 +717,7 @@ void DragWidget::saveProject(const QString &sFilename)
                 tag.setAttribute("label", widgetLabel->text());
                 tag.setAttribute("x", QString::number(widgetLabel->pos().x()));
                 tag.setAttribute("y", QString::number(widgetLabel->pos().y()));
-
-                items.appendChild(tag);
+                sortedList.append(tag);
             }
             else if (child->inherits("DragSquare")) {
                 DragSquare *widgetSquare = static_cast<DragSquare *>(child);
@@ -723,29 +728,27 @@ void DragWidget::saveProject(const QString &sFilename)
                 tag.setAttribute("text", widgetSquare->text());
                 tag.setAttribute("x", QString::number(widgetSquare->pos().x()));
                 tag.setAttribute("y", QString::number(widgetSquare->pos().y()));
-                items.appendChild(tag);
+                sortedList.append(tag);
             }
             else if (child->inherits("DragLine")) {
                 DragLine *widgetLine = static_cast<DragLine *>(child);
                 tag = xmlDocument.createElement("line");
-                //tag.setAttribute("color", widgetLine->currentColor().name());
-                //tag.setAttribute("label", widgetLine->text());
-                //tag.setAttribute("text", widgetLine->text());
                 tag.setAttribute("created", QString::number(widgetLine->creationTimeStamp()));
                 tag.setAttribute("p1x", QString::number(widgetLine->p1().x()));
                 tag.setAttribute("p1y", QString::number(widgetLine->p1().y()));
                 tag.setAttribute("p2x", QString::number(widgetLine->p2().x()));
                 tag.setAttribute("p2y", QString::number(widgetLine->p2().y()));
-                items.appendChild(tag);
+                sortedList.append(tag);
             }
             else {
                 qCritical( "Unknown AbstractDragInterface type");
             }
-      /*} else {
-            qCritical( "Unknown Object type");
-        }*/
     }
-   //save
+    //to keep as small diff in git as possible
+    qSort(sortedList.begin(), sortedList.end(), dtscomp);
+    foreach(tag, sortedList)
+      items.appendChild(tag);
+    //save
     out << xmlDocument.toString();
 }
 

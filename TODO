@@ -42,12 +42,12 @@ New:1 - shift enter to text
 New:5 - reload/save UI disable
 
 --- for release 1.2.0 ---
-New:1 - ordering for git: save ordering
 New:4 - review backgrounds
 New:2 - 2 new icons for saving
 
 DONE - changelog
 ----------------------------
+New:1 - ordering for git: save ordering
 Fix:1 - saved line position after move is not changed
 Fix:1 - line loading
 New:1 - ordering for git: timestamp - creation,drag&drop,save,load
