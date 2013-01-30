@@ -20,7 +20,6 @@ New:4 - run minimized cmdline feature
 New:4 - update time cmdline feature
 New:2 - new projects form template
 New:4 - Actions linked: save, backup..->setDisabled
-New:2 - 2 new icons for saving
 New:4 - testing for movinng and saving
 New:4 - custom timers for scrum
 New:4 - test for moving by 2 people
@@ -44,10 +43,12 @@ New:5 - reload/save UI disable
 
 --- for release 1.2.0 ---
 New:1 - ordering for git: save ordering
-Fix:1 - saved line position after move is not changed
+New:4 - review backgrounds
+New:2 - 2 new icons for saving
 
 DONE - changelog
 ----------------------------
+Fix:1 - saved line position after move is not changed
 Fix:1 - line loading
 New:1 - ordering for git: timestamp - creation,drag&drop,save,load
 Fix:3 - maximized flag another way around

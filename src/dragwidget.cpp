@@ -234,10 +234,10 @@ void DragWidget::dropEvent(QDropEvent *event)
            p2.setX(p2Pos.first().toInt());
            p2.setY(p2Pos.last().toInt());
        }
-       DragLine *newLine = new DragLine(p1,p2, this);
+       QPoint movingDiff = position - hotSpot - p1;
+       DragLine *newLine = new DragLine(p1+movingDiff, p2+movingDiff, this);
        if(!timestamp.isEmpty())
            newLine->setTimeStamp(timestamp.toLongLong());
-       newLine->move(position - hotSpot);
        newLine->show();
        newLine->setAttribute(Qt::WA_DeleteOnClose);
        position += QPoint(newLine->width(), 0);
