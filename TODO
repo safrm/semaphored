@@ -36,17 +36,16 @@ Fix:3 - Default background size
 New:4 - open file check if it can can be loaded
 New:1 - integrated git commands pull/ commit&push
 New:3 - send exmort by email
-New:4 - drag and drop text file 
+New:4 - drag and drop text file
 New:4 - export to txt 
-New:1 - shift enter to text
 New:5 - reload/save UI disable
-New:5 - shift enter for text (&#xd;&#xa;)
 
 --- for release 1.2.0 ---
 New:5 - calendar backgrounds
 
 DONE - changelog
 ----------------------------
+New:1 - shift enter to text (&#xd;&#xa;)
 Fix:3 - unique TS for loading from file
 New:4 - review backgrounds
 New:2 - few new icons: saving, reload..

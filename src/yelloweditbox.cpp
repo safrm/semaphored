@@ -56,6 +56,8 @@ void YellowEditBox::keyPressEvent(QKeyEvent *e)
 {
   if (e->key() == Qt::Key_Escape)
       close();
+  else if ((e->modifiers()& Qt::ShiftModifier) && (e->key() == Qt::Key_Return))
+        insert(QString(QChar::LineSeparator));
   else
       QLineEdit::keyPressEvent(e);
 }
