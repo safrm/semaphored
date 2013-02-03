@@ -30,6 +30,8 @@
 #include <QFile>
 #include <QtAlgorithms>
 
+#include <unistd.h>
+
 #include "draglabel.h"
 #include "dragwidget.h"
 #include "dragsquare.h"
@@ -138,6 +140,7 @@ void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
                 }
             }
             DragLabel *wordLabel = new DragLabel(line, this, this, titleColor);
+            usleep(1000); //to have unique TS
             wordLabel->move(x, y);
             wordLabel->show();
             wordLabel->setAttribute(Qt::WA_DeleteOnClose);

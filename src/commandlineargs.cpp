@@ -34,10 +34,10 @@
 CommandLineArgs* CommandLineArgs::instance = NULL;
 
 CommandLineArgs::CommandLineArgs() :
-    FilesToOpenList(),
-    SwitchesArgs(),
     m_bMaximized(false),
-    m_bMinimizedInTray(false)
+    m_bMinimizedInTray(false),
+    FilesToOpenList(),
+    SwitchesArgs()
 {
     QString arg("");
     QStringListIterator argsIterator(qApp->arguments());

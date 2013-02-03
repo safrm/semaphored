@@ -40,11 +40,14 @@ New:4 - drag and drop text file
 New:4 - export to txt 
 New:1 - shift enter to text
 New:5 - reload/save UI disable
+New:5 - shift enter for text (&#xd;&#xa;)
 
 --- for release 1.2.0 ---
+New:5 - calendar backgrounds
 
 DONE - changelog
 ----------------------------
+Fix:3 - unique TS for loading from file
 New:4 - review backgrounds
 New:2 - few new icons: saving, reload..
 New:1 - ordering for git: save ordering
