@@ -28,7 +28,6 @@ New:2 - scalable simple text for headlines
 New:3 - line with shift keeps 90degree
 New:2 - images:product backlog, not done, in progress, ready for test, done
 New:2 - images:story, todo, in process, to verify, done
-New:1 - reload file in interval
 New:2 - create desktop link for file
 New:4 - maximize in center
 New:3 - solving conflicts with double instances
@@ -39,12 +38,14 @@ New:3 - send exmort by email
 New:4 - drag and drop text file
 New:4 - export to txt 
 New:5 - reload/save UI disable
+New:5 - calendar backgrounds
 
 --- for release 1.2.0 ---
-New:5 - calendar backgrounds
+New:1 - reload file in interval
 
 DONE - changelog
 ----------------------------
+New:1 - reload file in interval - UI stub
 New:1 - shift enter to text (&#xd;&#xa;)
 Fix:3 - unique TS for loading from file
 New:4 - review backgrounds

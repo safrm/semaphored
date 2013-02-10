@@ -27,6 +27,7 @@
 
 #include <QMainWindow>
 #include <QSystemTrayIcon>
+#include <QMap>
 
 class QAction;
 class DragWidget;
@@ -41,6 +42,7 @@ public:
     DragWidget* canvasWidget();
     static MainWindow *instance();
     void loadProject(const QString & sFilename);
+    void setIntervalReload(int insterval);
 signals:
     
 public slots:
@@ -54,6 +56,7 @@ public slots:
     void changeBackgroundColorSlot(QAction* action);
     void changeBackgroundFixed(bool checked );
     void changeBackgroundSizeSlot(QAction* action);
+    void changeIntervalReloadSlot(QAction* action);
     void loadTextFileSlot();
     void printCurrentCanvasSlot();
     void exportCanvasToPdfSlot();
@@ -112,7 +115,8 @@ private:
     QAction* m_BgSize_800_600;
     QAction* m_BgSize_1024_768;
     QAction* m_BgSize_1280_768;
-    QAction* createDesktopLink;
+    QAction* createDesktopLinkAct;
+    QMap<int, QAction*> automaticReloadIntervalActMap;
     QAction* aboutAct;
     DragWidget* m_canvasWidget;
     AboutDialog* m_aboutDialog;

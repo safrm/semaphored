@@ -33,6 +33,7 @@
 #include <QDateTime>
 #include <QGridLayout>
 #include <QEvent>
+#include <QPair>
 
 #include "mainwindow.h"
 #include "draglabel.h"
@@ -58,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     exportAsPdf(NULL),
     quitAct(NULL),
     deleteAllAct(NULL),
-    createDesktopLink(NULL),
+    createDesktopLinkAct(NULL),
     aboutAct(NULL),
     m_canvasWidget(new DragWidget()), //TODO use size hint in  canvas
     m_aboutDialog(NULL),
@@ -252,9 +253,27 @@ void MainWindow::createActions()
     backgroundSizeGroup->addAction(m_BgSize_1280_768);
     connect(backgroundSizeGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeBackgroundSizeSlot(QAction*)));
 
-    createDesktopLink = new QAction(QIcon(":/icons/create_link.svg"), tr("&Create desktop link"), this);
-    createDesktopLink->setStatusTip(tr("Create desktop link"));
-    connect(createDesktopLink, SIGNAL(triggered()), this, SLOT(createDesktopLinkSlot()));
+    QActionGroup* reloadIntervalGroup = new QActionGroup(this);
+    reloadIntervalGroup->setExclusive(true);
+    connect(reloadIntervalGroup, SIGNAL(triggered(QAction *)), this, SLOT(changeIntervalReloadSlot(QAction*)));
+
+    QAction* intervalReloadAct(NULL);
+    typedef QPair<int, QString> TimeInterval;
+    foreach (const TimeInterval &interval, QList<TimeInterval>()
+             << qMakePair(   0, tr("OFF"))   << qMakePair(  10, tr("10s"))
+             << qMakePair(  60, tr("1min"))  << qMakePair( 300, tr("5min"))
+             << qMakePair( 900, tr("15min")) << qMakePair(3600, tr("1h"))) {
+        intervalReloadAct = new QAction(interval.second, this);
+        intervalReloadAct->setCheckable(true);
+        if(interval.first == 0) //default is off
+            intervalReloadAct->setChecked(true);
+        automaticReloadIntervalActMap.insert(interval.first, intervalReloadAct );
+        reloadIntervalGroup->addAction(intervalReloadAct);
+    }
+
+    createDesktopLinkAct = new QAction(QIcon(":/icons/create_link.svg"), tr("&Create desktop link"), this);
+    createDesktopLinkAct->setStatusTip(tr("Create desktop link"));
+    connect(createDesktopLinkAct, SIGNAL(triggered()), this, SLOT(createDesktopLinkSlot()));
 
     aboutAct = new QAction(QIcon(":/icons/about.svg"), tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the application's About box"));
@@ -282,7 +301,6 @@ void MainWindow::createMenus()
 
     QMenu* editMenu = menuBar()->addMenu(tr("&Edit"));
     editMenu->addAction(deleteAllAct);
-
     //menuBar()->addMenu(tr("&View"));
     QMenu* backgroundMenu = menuBar()->addMenu(tr("&Background"));
     backgroundMenu->addAction(m_BgColorWhiteAction);
@@ -318,7 +336,11 @@ void MainWindow::createMenus()
 
     menuBar()->addSeparator();
     QMenu* settingsMenu =  menuBar()->addMenu(tr("&Settings"));
-    settingsMenu->addAction(createDesktopLink);
+    QMenu* automaticReloadMenu =settingsMenu->addMenu("Automatic project reload");
+    foreach (QAction* action, automaticReloadIntervalActMap)
+        automaticReloadMenu->addAction(action);
+    settingsMenu->addSeparator();
+    settingsMenu->addAction(createDesktopLinkAct);
 
     QMenu* helpMenu =  menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
@@ -477,6 +499,17 @@ void MainWindow::loadTextFileSlot()
                                                      tr("Text files (*.txt *.*)"));
     if(sFilename.size())
         m_canvasWidget->loadTextFile(sFilename);
+}
+
+void MainWindow::changeIntervalReloadSlot(QAction * action)
+{
+    int i = automaticReloadIntervalActMap.key(action, 0);
+    setIntervalReload(i);
+}
+
+void MainWindow::setIntervalReload(int interval)
+{
+   //todo New:1 - reload file in interval
 }
 
 DragWidget*  MainWindow::canvasWidget()
