@@ -33,6 +33,7 @@ class QAction;
 class DragWidget;
 class QPrinter;
 class AboutDialog;
+class QTimer;
 
 class MainWindow : public QMainWindow
 {
@@ -42,7 +43,6 @@ public:
     DragWidget* canvasWidget();
     static MainWindow *instance();
     void loadProject(const QString & sFilename);
-    void setIntervalReload(int insterval);
 signals:
     
 public slots:
@@ -57,11 +57,12 @@ public slots:
     void changeBackgroundFixed(bool checked );
     void changeBackgroundSizeSlot(QAction* action);
     void changeIntervalReloadSlot(QAction* action);
+    void intervalReloadSlot();
     void loadTextFileSlot();
     void printCurrentCanvasSlot();
     void exportCanvasToPdfSlot();
     void showAboutDialogSlot();
-    void createDesktopLinkSlot();    
+    void createDesktopLinkSlot();
 
 protected slots:
     void slotPlaceToTray();
@@ -122,7 +123,7 @@ private:
     AboutDialog* m_aboutDialog;
     QString m_sOpenedFile;
     QSystemTrayIcon* m_pTrayIcon;
-
+    QTimer *intervalReloadTimer;
 };
 
 #endif // MAINWINDOW_H

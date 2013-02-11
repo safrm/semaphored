@@ -155,6 +155,7 @@ void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
 
 void DragWidget::dragEnterEvent(QDragEnterEvent *event)
 {
+
     if (event->mimeData()->hasText() || event->mimeData()->hasFormat("application/p1-hotspot")) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);

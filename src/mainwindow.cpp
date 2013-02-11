@@ -34,6 +34,7 @@
 #include <QGridLayout>
 #include <QEvent>
 #include <QPair>
+#include <QTimer>
 
 #include "mainwindow.h"
 #include "draglabel.h"
@@ -43,7 +44,7 @@
 #include "commandlineargs.h"
 #include "desktopfile.h"
 
-MainWindow * g_pMainGuiWindow =NULL;
+MainWindow * g_pMainGuiWindow = NULL;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -63,7 +64,8 @@ MainWindow::MainWindow(QWidget *parent) :
     aboutAct(NULL),
     m_canvasWidget(new DragWidget()), //TODO use size hint in  canvas
     m_aboutDialog(NULL),
-    m_sOpenedFile("")
+    m_sOpenedFile(""),
+    intervalReloadTimer(NULL)
 {
     g_pMainGuiWindow = this;
     //createDockWindows();
@@ -366,7 +368,7 @@ void MainWindow::loadProjectInNewInstanceSlot()
 
 void MainWindow::loadProject(const QString& sFilename)
 {
-    if (!sFilename.startsWith(":/"))  {//files from resources
+    if (!sFilename.startsWith(":/")) { //files from resources
       m_sOpenedFile = sFilename;
       setWindowTitle(m_sOpenedFile);
       //TODO better logic, open file, new file
@@ -504,12 +506,22 @@ void MainWindow::loadTextFileSlot()
 void MainWindow::changeIntervalReloadSlot(QAction * action)
 {
     int i = automaticReloadIntervalActMap.key(action, 0);
-    setIntervalReload(i);
+    if(i) {
+        if (!intervalReloadTimer) {
+            intervalReloadTimer = new QTimer(this);
+            connect(intervalReloadTimer, SIGNAL(timeout()), this, SLOT(intervalReloadSlot()));
+        }
+        intervalReloadTimer->setInterval(i*1000);
+        intervalReloadTimer->start();
+    } else if (intervalReloadTimer) {
+        intervalReloadTimer->stop();
+    }
 }
 
-void MainWindow::setIntervalReload(int interval)
+void MainWindow::intervalReloadSlot()
 {
-   //todo New:1 - reload file in interval
+    if (!m_sOpenedFile.isEmpty())
+        loadProject(m_sOpenedFile);
 }
 
 DragWidget*  MainWindow::canvasWidget()
