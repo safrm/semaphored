@@ -39,12 +39,11 @@ New:4 - drag and drop text file
 New:4 - export to txt 
 New:5 - reload/save UI disable
 New:5 - calendar backgrounds
-
---- for release 1.2.0 ---
 New:1 - reload file in interval - UI lock, extra command
 
 DONE - changelog
 ----------------------------
+--- release 1.2.0 ---
 New:1 - reload file in interval - working base functionality
 New:1 - reload file in interval - UI stub
 New:1 - shift enter to text (&#xd;&#xa;)
