@@ -2,7 +2,7 @@
 **
 ** Author: Miroslav Safr <miroslav.safr@gmail.com>
 ** Web: http://semaphored.safrm.net/
-** Source: https://github.com/safrm/semaphored
+** Source: http://safrm.net/projects/semaphored
 **
 ** GNU Lesser General Public License Usage
 ** This file may be used under the terms of the GNU Lesser General Public
