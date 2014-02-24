@@ -263,7 +263,7 @@ void DragWidget::dropEvent(QDropEvent *event)
         event->ignore();
     }
     foreach (QObject *child, children()) {
-        if (child->inherits("QWidget")) {
+        if (child->inherits("AbstractDragInterface")) {
             QWidget *widget = static_cast<QWidget *>(child);
             if (!widget->isVisible())
                widget->deleteLater();
