@@ -26,12 +26,27 @@
 #include "abstractdraginterface.h"
 
 QString AbstractDragInterface::TIMESTAMP_FORMAT("yyyyMMdd_hhmmss");
+#if QT_VERSION < 0x040700
+qint64 toMSecsSinceEpoch()
+{
+    static const int MSECS_PER_DAY=86400000;
+    int days = QDate(1970, 1, 1).daysTo(QDateTime::currentDateTime().date());
+    qint64 msecs = qint64(QTime().secsTo(QDateTime::currentDateTime().time())) * 1000;
+    msecs += (qint64(days) * MSECS_PER_DAY);
+    return msecs;
+}
+#endif
 
 AbstractDragInterface::AbstractDragInterface(DragWidget* canvasWidget) :
     m_CanvasWidget(canvasWidget),
+#if QT_VERSION >= 0x040700
     m_i64TimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch())
+#else
+    m_i64TimeStamp(toMSecsSinceEpoch())
+#endif
 {
 }
+
 void AbstractDragInterface::setTimeStamp(qint64 mSecsSinceEpoch)
 {
     m_i64TimeStamp = mSecsSinceEpoch;
