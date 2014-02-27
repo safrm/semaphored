@@ -27,9 +27,12 @@
 
 QString AbstractDragInterface::TIMESTAMP_FORMAT("yyyyMMdd_hhmmss");
 #if QT_VERSION < 0x040700
-qint64 toMSecsSinceEpoch()
+namespace
 {
     static const int MSECS_PER_DAY=86400000;
+}
+qint64 toMSecsSinceEpoch()
+{
     int days = QDate(1970, 1, 1).daysTo(QDateTime::currentDateTime().date());
     qint64 msecs = qint64(QTime().secsTo(QDateTime::currentDateTime().time())) * 1000;
     msecs += (qint64(days) * MSECS_PER_DAY);
@@ -55,7 +58,21 @@ void AbstractDragInterface::setTimeStamp(qint64 mSecsSinceEpoch)
 QString AbstractDragInterface::creationTimeStampString()
 {
     QDateTime timeStamp;
+#if QT_VERSION >= 0x040700
     timeStamp.setMSecsSinceEpoch(m_i64TimeStamp);
+#else
+    // Qt < 4.7
+    qint64 msecs = m_i64TimeStamp;
+    int ddays = msecs / MSECS_PER_DAY;
+    msecs %= MSECS_PER_DAY;
+    if (msecs < 0) {
+        // negative
+        --ddays;
+        msecs += MSECS_PER_DAY;
+    }
+    timeStamp.setDate(QDate(1970, 1, 1).addDays(ddays));
+    timeStamp.setTime(QTime().addMSecs(msecs));
+#endif
     return  timeStamp.toString(AbstractDragInterface::TIMESTAMP_FORMAT);
 }
 
