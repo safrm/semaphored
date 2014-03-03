@@ -101,7 +101,6 @@ OTHER_FILES += \
     debian/control \
     README \
     LICENSE.LGPL \
-    TODO \
     src/texts/words.txt \
     src/demo-projects/words.txt \
     semaphored.spec
