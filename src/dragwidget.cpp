@@ -29,6 +29,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QtAlgorithms>
+#include <QSvgGenerator>
 
 #include <unistd.h>
 
@@ -785,3 +786,22 @@ void DragWidget::setFixedSizeBg(bool bFixed)
     }
     emit changeFixedSize(bFixed);
 }
+
+void DragWidget::exportToPicture(const QString &sFilename)
+{
+    QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
+    if (ext == "svg") {
+        QSvgGenerator generator;
+        generator.setFileName(sFilename);
+        generator.setSize(size());
+        generator.setViewBox(QRect(0, 0, width(), height()));
+        generator.setTitle(sFilename);
+        generator.setDescription("SVG drawing created by semaphored.");
+        QPainter painter( &generator );
+        render( &painter );
+    }  else {
+        QPixmap pix = QPixmap::grabWidget(this);
+        pix.save(sFilename, ext);
+    }
+}
+

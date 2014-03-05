@@ -71,10 +71,11 @@ public:
     bool isMultiselecting();
     void deleteMutliselected();
     void changeColorMutliselected(const QColor &acolor);
-    void setFixedSizeBg(bool bFixed);
+    void exportToPicture(const QString &sFilename);
 
 public slots:
     void deleteAllItemsSlot();
+    void setFixedSizeBg(bool bFixed);
 
 signals:
     void changeFixedSize(bool);

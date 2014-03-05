@@ -217,7 +217,7 @@ void MainWindow::createActions()
     QActionGroup* backgroundSizeGroup = new QActionGroup(this);
     m_BgFixedSize = new QAction(QIcon(":/icons/size.png"), tr("&Fixed size"), this);
     m_BgFixedSize->setCheckable(true);
-    connect(m_BgFixedSize, SIGNAL(triggered ( bool )), this, SLOT(changeBackgroundFixed(bool )));
+    connect(m_BgFixedSize, SIGNAL(triggered ( bool )), canvasWidget(), SLOT(setFixedSizeBg(bool )));
     connect(m_canvasWidget, SIGNAL(changeFixedSize ( bool )), m_BgFixedSize, SLOT(setChecked(bool )));
 
 
@@ -350,7 +350,7 @@ void MainWindow::createMenus()
 void MainWindow::loadProjectSlot()
 {
     QString sFilename = QFileDialog::getOpenFileName(this, "Load project from file ", QString(),
-                                                 tr("Semaphored project files (*.sem)"));
+                                                 tr("Semaphored project files (*.sem);;All files (*)"));
     if(sFilename.size())
        if(QMessageBox::question(this, tr("Load project"),
                                              tr("Do you want to <b>load project</b> %1 ? \nUnsaved changes in current project will be lost.").arg(sFilename),
@@ -361,7 +361,7 @@ void MainWindow::loadProjectSlot()
 void MainWindow::loadProjectInNewInstanceSlot()
 {
     QString sFilename = QFileDialog::getOpenFileName(this, "Load project in new instance from file ", QString(),
-                                                 tr("Semaphored project files (*.sem)"));
+                                                 tr("Semaphored project files (*.sem);;All files (*)"));
     if (sFilename.size())
         CommandLineArgs::getInstance()->startNewInstance(sFilename);
 }
@@ -373,34 +373,35 @@ void MainWindow::loadProject(const QString& sFilename)
       setWindowTitle(m_sOpenedFile);
       //TODO better logic, open file, new file
     }
-    m_canvasWidget->loadProject(sFilename);
+    canvasWidget()->loadProject(sFilename);
 }
 
 void MainWindow::reloadProjectSlot()
 {
     if (m_sOpenedFile.size()) //we load only real files
-        m_canvasWidget->loadProject(m_sOpenedFile);
+        canvasWidget()->loadProject(m_sOpenedFile);
 }
 
 void MainWindow::saveProjectSlot()
 {
     if (!m_sOpenedFile.isEmpty())
-        m_canvasWidget->saveProject(m_sOpenedFile);
+        canvasWidget()->saveProject(m_sOpenedFile);
     else
         saveProjectAsSlot();
 }
 
 void MainWindow::saveProjectAsSlot()
 {
-    QString sFilename = QFileDialog::getSaveFileName(this, "Save project as: ", "untitled.sem",
-                                                     tr("Semaphored project files (*.sem)"));
+    QString sFilename = QFileDialog::getSaveFileName(this, "Save project as: ",
+                        m_sOpenedFile.size() ? m_sOpenedFile : "untitled.sem",
+                        tr("Semaphored project files (*.sem);;All files (*)"));
     if(sFilename.size()) {
         QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
         if(ext != "sem")
             sFilename += ".sem";
         m_sOpenedFile = sFilename;
         setWindowTitle(m_sOpenedFile);
-        m_canvasWidget->saveProject(m_sOpenedFile);
+        canvasWidget()->saveProject(m_sOpenedFile);
     }
 }
 
@@ -411,25 +412,28 @@ void MainWindow::backupProjectWithTimeStampSlot()
         sBackupFile.chop(4); //
         sBackupFile += QDateTime::currentDateTime().toString("-yyyy_MM_dd-hh_mm");
         sBackupFile += ".sem";
-        m_canvasWidget->saveProject(sBackupFile);
+        canvasWidget()->saveProject(sBackupFile);
     }
 }
 
 void MainWindow::exportAsPictureSlot()
 {
     QString supportedFormats("");
+    QString supportedFormatsFilter("Images (");
     foreach(QByteArray name,QImageWriter::supportedImageFormats())
         supportedFormats +=  name + " ";
-    QString sFilename = QFileDialog::getSaveFileName(this, "Save as picture as: " + supportedFormats,"untitled.png",
-                                                     tr("Images (*.png *.xpm *.jpg)"));
+    supportedFormatsFilter+= "));;SVG files (*.svg);;All files (*)";
+    QString sOpenedFileBasename = m_sOpenedFile.size() ? QFileInfo(m_sOpenedFile).baseName() : "untitled";
+
+
+    QString sFilename = QFileDialog::getSaveFileName(this, "Save as picture as: " + supportedFormats, sOpenedFileBasename + ".png",
+                                                     supportedFormatsFilter);
     if(sFilename.size()) {
         QByteArray ext = QFileInfo(sFilename).suffix().toLower().toLatin1();
-        //suffix = suffix.mid(suffix.lastIndexOf('.')); - grabs the last period in addition to the suffix
-        if(QImageWriter::supportedImageFormats().contains(ext)) {
-            QPixmap pix = QPixmap::grabWidget(centralWidget());
-            pix.save(sFilename, ext);
+        if (ext == "svg" || QImageWriter::supportedImageFormats().contains(ext)) {
+            canvasWidget()->exportToPicture(sFilename);
         } else {
-            QMessageBox::warning(this,"Picture was not exported", "Your system supports only following formats: " +supportedFormats);
+            QMessageBox::warning(this,"Picture was not exported", "Your system supports only following formats: " + supportedFormats);
         }
     }
 }
@@ -439,44 +443,39 @@ void MainWindow::changeBackgroundColorSlot(QAction * action)
    //TPDP this could be unified by m_BackgroundPicture, "" - default, filename = picture, QColor::isValidColor  - color
     QColor newColor(Qt::white);
     if (action == m_BgColorWhiteAction )
-        m_canvasWidget->changeBackgroundColor(Qt::white);
+        canvasWidget()->changeBackgroundColor(Qt::white);
     else if (action == m_BgColorGrayAction)
-        m_canvasWidget->changeBackgroundColor(Qt::gray);
+        canvasWidget()->changeBackgroundColor(Qt::gray);
     else if (action == m_BgColorCyanAction)
-        m_canvasWidget->changeBackgroundColor(newColor = Qt::cyan);
+        canvasWidget()->changeBackgroundColor(newColor = Qt::cyan);
     else if (action == m_BgDefaultImage1Action)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_DEFAULT_1);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_DEFAULT_1);
     else if (action == m_BgDefaultImage2Action)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_DEFAULT_2);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_DEFAULT_2);
     else if (action == m_BgImageKanban1Action)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1);
     else if (action == m_BgImageKanban1HAction)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1H);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_1H);
     else if (action == m_BgImageKanban2Action)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2);
    else if (action == m_BgImageKanban2HAction)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2H);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_2H);
     else if (action == m_BgImageKanban3Action)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3);
    else if (action == m_BgImageKanban3HAction)
-        m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3H);
+        canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_KANBAN_3H);
     else if (action == m_BgImageReview1Action)
-         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_REVIEW_1);
+         canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_REVIEW_1);
     else if (action == m_BgImageReview2Action)
-         m_canvasWidget->changeBackgroundImage(DragWidget::BG_IMAGE_REVIEW_2);
+         canvasWidget()->changeBackgroundImage(DragWidget::BG_IMAGE_REVIEW_2);
     else if (action == m_BgUserImageAction) {
-        m_canvasWidget->loadUserBackgroundImage();
+        canvasWidget()->loadUserBackgroundImage();
    }
-}
-
-void  MainWindow::changeBackgroundFixed(bool checked )
-{
-    m_canvasWidget->setFixedSizeBg(checked);
 }
 
 void MainWindow::changeBackgroundSizeSlot(QAction * action)
 {
-    QSize newSize(m_canvasWidget->size());
+    QSize newSize(canvasWidget()->size());
     if (action == m_BgSizeDefault)
         ;
     else if (action == m_BgSize_A5_portrait)
@@ -500,7 +499,7 @@ void MainWindow::loadTextFileSlot()
     QString sFilename = QFileDialog::getOpenFileName(this, "Load source test file: ",QString(),
                                                      tr("Text files (*.txt *.*)"));
     if(sFilename.size())
-        m_canvasWidget->loadTextFile(sFilename);
+        canvasWidget()->loadTextFile(sFilename);
 }
 
 void MainWindow::changeIntervalReloadSlot(QAction * action)
@@ -536,7 +535,7 @@ void MainWindow::printCurrentCanvasSlot()
     if (dlg.exec() != QDialog::Accepted)
       return;
 
-    QPixmap qpm = QPixmap::grabWidget(centralWidget());
+    QPixmap qpm = QPixmap::grabWidget(canvasWidget());
     QPainter painter;
     qpm = qpm.scaled(printer.pageRect().width(), printer.pageRect().height(), Qt::KeepAspectRatio);
     painter.begin (&printer);
@@ -554,7 +553,7 @@ void MainWindow::exportCanvasToPdfSlot()
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(fileName);
 
-        QPixmap qpm = QPixmap::grabWidget(centralWidget());
+        QPixmap qpm = QPixmap::grabWidget(canvasWidget());
         QPainter painter;
         qpm = qpm.scaled(printer.pageRect().width(), printer.pageRect().height(), Qt::KeepAspectRatio);
         painter.begin (&printer);

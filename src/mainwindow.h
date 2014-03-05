@@ -54,7 +54,6 @@ public slots:
     void saveProjectAsSlot();
     void exportAsPictureSlot();
     void changeBackgroundColorSlot(QAction* action);
-    void changeBackgroundFixed(bool checked );
     void changeBackgroundSizeSlot(QAction* action);
     void changeIntervalReloadSlot(QAction* action);
     void intervalReloadSlot();
