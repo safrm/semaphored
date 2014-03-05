@@ -34,6 +34,7 @@ class DragWidget;
 class QPrinter;
 class AboutDialog;
 class QTimer;
+class MainWindow_private;
 
 class MainWindow : public QMainWindow
 {
@@ -58,6 +59,7 @@ public slots:
     void changeIntervalReloadSlot(QAction* action);
     void intervalReloadSlot();
     void loadTextFileSlot();
+    void exportToTextFileSlot();
     void printCurrentCanvasSlot();
     void exportCanvasToPdfSlot();
     void showAboutDialogSlot();
@@ -74,55 +76,13 @@ protected:
   virtual void changeEvent(QEvent *ev);
 
 private:
-    void createActions();
-    void createMenus();
+  void createActions();
+  void createMenus();
 //    void createToolBars();
 //    void createStatusBar();
 //    void createDockWindows();
 
-    QAction* loadProjectAct;
-    QAction* loadProjectInNewInstanceAct;
-    QAction* reloadProjectAct;
-    QAction* saveProjectAct;
-    QAction* backupProjectWithTimeStampAct;
-    QAction* saveProjectAsAct;
-    QAction* exportAsPictureAct;
-    QAction* loadTextFileAct;
-    QAction* printAct;
-    QAction* exportAsPdf;
-    QAction* quitAct;
-    QAction* deleteAllAct;
-    QAction* m_BgColorWhiteAction;
-    QAction* m_BgColorGrayAction ;
-    QAction* m_BgColorCyanAction;
-    QAction* m_BgDefaultImage1Action;
-    QAction* m_BgDefaultImage2Action;
-    QAction* m_BgImageKanban1Action;
-    QAction* m_BgImageKanban1HAction;
-    QAction* m_BgImageKanban2Action;
-    QAction* m_BgImageKanban2HAction;
-    QAction* m_BgImageKanban3Action;
-    QAction* m_BgImageKanban3HAction;
-    QAction* m_BgImageReview1Action;
-    QAction* m_BgImageReview2Action;
-    QAction* m_BgUserImageAction;
-    QAction* m_BgFixedSize;
-    QAction* m_BgSizeDefault;
-    QAction* m_BgSize_A5_portrait;
-    QAction* m_BgSize_A5_landscape;
-    QAction* m_BgSize_A4_portrait;
-    QAction* m_BgSize_A4_landscape;
-    QAction* m_BgSize_800_600;
-    QAction* m_BgSize_1024_768;
-    QAction* m_BgSize_1280_768;
-    QAction* createDesktopLinkAct;
-    QMap<int, QAction*> automaticReloadIntervalActMap;
-    QAction* aboutAct;
-    DragWidget* m_canvasWidget;
-    AboutDialog* m_aboutDialog;
-    QString m_sOpenedFile;
-    QSystemTrayIcon* m_pTrayIcon;
-    QTimer *intervalReloadTimer;
+    MainWindow_private* d;
 };
 
 #endif // MAINWINDOW_H
