@@ -2,7 +2,7 @@ Name:       semaphored
 Summary:    Graphical tool for presenting waighted uml-like charts or kanban dashboards
 Version:    0.0.1
 Release:    1
-Group:      System/Libraries
+Group:      Applications/Editors
 License:    LGPL v2.1
 URL:        http://semaphored.safrm.net/
 Vendor:     Miroslav Safr <miroslav.safr@gmail.com>
@@ -45,7 +45,5 @@ make install
 %{_datadir}/icons/hicolor/scalable/apps/semaphored.svg
 %dir %{_datadir}/doc/semaphored
 %{_datadir}/doc/semaphored/README
-%{_datadir}/doc/semaphored/TODO
-%{_datadir}/doc/semaphored/LICENSE.LGPL
 
 
