@@ -53,12 +53,13 @@ readme.files  = README
 unix:readme.commands = sed -i".bkp" \'1 s/Version:.*/Version: $$APP_FULL_VERSION_TAG ($$APP_BUILD_DATE)/\' README && rm -f README.bkp
 INSTALLS    += readme
 
+win32 {
+
 unix:docs.path  = /usr/share/doc/semaphored
 win32:docs.path  = /
-docs.files  = TODO LICENSE.LGPL
+docs.files  = LICENSE.LGPL
 INSTALLS    += docs
 
-win32 {
 QTDIR_BIN = $$system(qmake -query QT_INSTALL_BINS)
 message($$QTDIR)
 INSTALLS    += qtlibraries
