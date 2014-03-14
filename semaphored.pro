@@ -1,31 +1,5 @@
-include(common.pri)
-TARGET      = semaphored
-HEADERS     = src/draglabel.h \
-    src/dragwidget.h \
-    src/dragsquare.h \
-    src/mainwindow.h \
-    src/yelloweditbox.h \
-    src/aboutdialog.h \
-    src/weblink.h \
-    src/version.h \
-    src/dragline.h \
-    src/abstractdraginterface.h \
-    src/commandlineargs.h \
-    src/desktopfile.h
-RESOURCES   = src/semaphored.qrc
-SOURCES     = src/draglabel.cpp \
-    src/dragwidget.cpp \
-    src/main.cpp \
-    src/dragsquare.cpp \
-    src/mainwindow.cpp \
-    src/yelloweditbox.cpp \
-    src/aboutdialog.cpp \
-    src/weblink.cpp \
-    src/version.cpp \
-    src/dragline.cpp \
-    src/abstractdraginterface.cpp \
-    src/commandlineargs.cpp \
-    src/desktopfile.cpp
+TEMPLATE = subdirs
+SUBDIRS = src tests
 
 OBJECTS_DIR = build
 MOC_DIR     = build
@@ -33,10 +7,6 @@ RCC_DIR     = build
 UI_DIR      = build
 
 # install
-unix:target.path  = /usr/bin/
-win32:target.path  = /
-INSTALLS += target
-
 unix:desktop.path  = /usr/share/applications
 unix:desktop.files  = data/semaphored.desktop
 unix:INSTALLS    += desktop
@@ -102,6 +72,4 @@ OTHER_FILES += \
     debian/control \
     README \
     LICENSE.LGPL \
-    src/texts/words.txt \
-    src/demo-projects/words.txt \
     semaphored.spec
