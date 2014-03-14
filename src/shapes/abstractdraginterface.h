@@ -7,7 +7,7 @@ class AbstractDragInterface
 {
 public:
     explicit AbstractDragInterface(DragWidget* canvasWidget);
-    virtual ~AbstractDragInterface() { };
+    virtual ~AbstractDragInterface() {}
 
     virtual QColor currentColor() = 0;
     virtual void changeColor(const QColor &acolor) = 0;

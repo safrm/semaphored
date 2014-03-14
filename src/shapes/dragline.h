@@ -12,7 +12,7 @@ class DragLine : public QWidget, public AbstractDragInterface
     Q_INTERFACES(AbstractDragInterface)
 
     public:
-      DragLine(const QPoint & p1, const QPoint & p2, DragWidget *parent);
+      explicit DragLine(const QPoint & p1, const QPoint & p2, DragWidget *parent);
       const QPoint p1() { return m_p1; }
       const QPoint p2() { return m_p2; }
 

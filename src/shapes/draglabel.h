@@ -44,7 +44,7 @@ class DragLabel : public QLabel, public AbstractDragInterface
     Q_INTERFACES(AbstractDragInterface)
 
 public:
-    DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
+    explicit DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
     QMenu* rightClickMenu();
 
     //abstract behaviour

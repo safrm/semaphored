@@ -12,7 +12,6 @@ HEADERS     += \
     $$SEMAPHORED_SRC_DIR/weblink.h \
     $$SEMAPHORED_SRC_DIR/dragwidget.h \
     $$SEMAPHORED_SRC_DIR/version.h \
-    $$SEMAPHORED_SRC_DIR/abstractdraginterface.h \
     $$SEMAPHORED_SRC_DIR/commandlineargs.h \
     $$SEMAPHORED_SRC_DIR/desktopfile.h
 
