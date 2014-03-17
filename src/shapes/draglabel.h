@@ -33,7 +33,6 @@ QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
 class QDragMoveEvent;
 class QFrame;
-class QMenu;
 class QLineEdit;
 class DragWidget;
 QT_END_NAMESPACE
@@ -45,12 +44,12 @@ class DragLabel : public QLabel, public AbstractDragInterface
 
 public:
     explicit DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
-    QMenu* rightClickMenu();
 
     //abstract behaviour
     virtual QColor currentColor();
     virtual void changeColor(const QColor &acolor);
     virtual void select(bool bSelected);
+    virtual QMenu* rightClickMenu();
 
 signals:
     void colorChangedSignal();
@@ -67,12 +66,12 @@ protected :
 
 
 private:
-    QMenu*   m_RightClickMenu;
     QAction* pWhiteColorAction;
     QAction* pGrayColorAction;
     QAction* pGreenColorAction;
     QAction* pOrangeColorAction;
     QAction* pRedColorAction;
+    QMenu*   m_RightClickMenu;
 };
 
 #endif

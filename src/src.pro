@@ -24,7 +24,6 @@ SOURCES     += \
     $$SEMAPHORED_SRC_DIR/weblink.cpp \
     $$SEMAPHORED_SRC_DIR/dragwidget.cpp \
     $$SEMAPHORED_SRC_DIR/version.cpp \
-    $$SEMAPHORED_SRC_DIR/abstractdraginterface.cpp \
     $$SEMAPHORED_SRC_DIR/commandlineargs.cpp \
     $$SEMAPHORED_SRC_DIR/desktopfile.cpp
 

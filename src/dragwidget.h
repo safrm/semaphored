@@ -34,7 +34,6 @@ class QMenu;
 class QAction;
 class QRubberBand;
 class DragLabel;
-
 QT_END_NAMESPACE
 
 class DragWidget : public QWidget
@@ -98,12 +97,14 @@ private:
     QAction* m_NewLabelAction;
     QAction* m_NewSquareAction;
     QAction* m_NewLineAction;
+    QAction* m_NewBaseLineAction;
 
     QList<QWidget*> selectedItems;
     QPoint m_selectionStartPoint;
     QPoint m_selectionEndPoint;
     QRubberBand* multiselectRubberBand;
     bool m_bPaintLine;
+    bool m_bBaseLine;
     QString m_BackgroundPicture; // "" - default, filename = picture, QColor::isValidColor  - color
     bool m_bFixedBgSize;
 };

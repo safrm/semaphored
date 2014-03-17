@@ -30,82 +30,87 @@
 #include <QContextMenuEvent>
 
 DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget) :
-    QWidget(canvasWidget),
-    AbstractDragInterface(canvasWidget),
-    m_p1(p1),
-    m_p2(p2),
-    m_iLineWidth(LINE_WIDTH_NO_SELECTED),
-    deleteAct(NULL)
+    DragBaseLine(p1,p2,canvasWidget),
+    m_LineEnding_p1(Plain),
+    m_LineEnding_p2(Plain),
+    m_RightClickMenu(NULL)
 {
-
-    m_PaintingArea.setTop( qMin(p1.y(),p2.y()));
-    m_PaintingArea.setBottom( qMax(p1.y(),p2.y()));
-    m_PaintingArea.setLeft(qMin(p1.x(),p2.x()));
-    m_PaintingArea.setRight(qMax(p1.x(),p2.x()));
-    //relative to widget
-    if(p1.x() <= p2.x()) {
-        m_LineStart.setX(0);
-        m_LineEnd.setX(p2.x() - p1.x());
-    }
-    else {
-        m_LineStart.setX(p1.x() -p2.x());
-        m_LineEnd.setX(0);
-    }
-
-    if(p1.y() <= p2.y()) {
-        m_LineStart.setY(0);
-        m_LineEnd.setY( p2.y()- p1.y());
-
-    }
-    else {
-        m_LineStart.setY(p1.y() - p2.y());
-        m_LineEnd.setY(0);
-    }
-
-    setAttribute( Qt::WA_TranslucentBackground, true );
-    move(m_PaintingArea.left(), m_PaintingArea.top());
-    resize(m_PaintingArea.size().width(), m_PaintingArea.size().height());
-
-    deleteAct = new QAction(QIcon(":/icons/delete.svg"), tr("&Delete"), this);
-    connect(deleteAct,SIGNAL(triggered()),this,SLOT(deleteItemSlot()));
-}
-
-void DragLine::paintEvent(QPaintEvent *event)
-{
-  Q_UNUSED(event);
-  QPen pen(Qt::black, m_iLineWidth, Qt::SolidLine);
-  QPainter painter(this);
-  painter.setPen(pen);
-  painter.setBackgroundMode(Qt::TransparentMode);
-  painter.setRenderHint(QPainter::HighQualityAntialiasing);
-  painter.drawLine(m_LineStart, m_LineEnd);
-}
-void DragLine::changeColor(const QColor &acolor)
-{
-    Q_UNUSED(acolor);
-    //we don't want to change line colors for now
-}
-
-void DragLine::select(bool bSelected)
-{
-  if (bSelected)
-    m_iLineWidth = LINE_WIDTH_SELECTED;
-  else
-    m_iLineWidth = LINE_WIDTH_NO_SELECTED;
-  update();
-}
-
-QColor DragLine::currentColor()
-{
-    return palette().color(backgroundRole());
 }
 
 void DragLine::contextMenuEvent( QContextMenuEvent * event )
 {
     event->accept();
-    QMenu menu(this);
-    menu.addAction(deleteAct);
-    menu.exec(event->globalPos());
+    const QAction* selectedAction = rightClickMenu()->exec(event->globalPos());
+    Q_UNUSED(selectedAction);
+}
+
+QMenu* DragLine::rightClickMenu()
+{
+    if (!m_RightClickMenu)   {
+      m_RightClickMenu = new QMenu(this);
+      QMenu* pWidthMenu = new QMenu("Width", this);
+        pWidthMenu->setIcon(QIcon(":/icons/color.svg"));
+      QActionGroup* widthGroup = new QActionGroup(this);
+      m_p2pAction = new QAction(QIcon(":/icons/line-width-2.svg"), tr("&2p"), this);
+      m_p2pAction->setCheckable(true);
+      if(m_iLineWidth == LINE_WIDTH_2)
+          m_p2pAction->setChecked(true);
+
+      m_p4pAction = new QAction(QIcon(":/icons/line-width-4.svg"), tr("&4p"), this);
+      m_p4pAction->setCheckable(true);
+      if(m_iLineWidth == LINE_WIDTH_4)
+          m_p4pAction->setChecked(true);
+
+      m_p8pAction = new QAction(QIcon(":/icons/line-width-8.svg"), tr("&8p"), this);
+      m_p8pAction->setCheckable(true);
+      if(m_iLineWidth == LINE_WIDTH_8)
+          m_p8pAction->setChecked(true);
+
+      //group
+      widthGroup->addAction(m_p2pAction);
+      widthGroup->addAction(m_p4pAction);
+      widthGroup->addAction(m_p8pAction);
+      widthGroup->setExclusive(true);
+      connect(widthGroup,SIGNAL(triggered(QAction *)),this,SLOT(changeWidthSlot(QAction*)));
+
+      //menu
+      pWidthMenu->addAction(m_p2pAction);
+      pWidthMenu->addAction(m_p4pAction);
+      pWidthMenu->addAction(m_p8pAction);
+
+
+      QAction* deleteAct = new QAction(QIcon(":/icons/delete.svg"), tr("&Delete"), this);
+      connect(deleteAct,SIGNAL(triggered()),this,SLOT(deleteItemSlot()));
+
+      m_RightClickMenu->addMenu(pWidthMenu);
+      //m_RightClickMenu->addMenu(pStyleMenu);
+      //m_RightClickMenu->addMenu(pLeftEndingMenu);
+      //m_RightClickMenu->addMenu(pRightEndingMenu);
+      m_RightClickMenu->addAction(deleteAct);
+    }
+    return m_RightClickMenu;
+
+}
+
+void DragLine::changeWidthSlot(QAction* action)
+{
+    if (action==m_p2pAction) {
+        m_iLineWidth=LINE_WIDTH_2;
+        m_iLineWidthToPaint=LINE_WIDTH_2;
+    }
+    else if (action==m_p4pAction) {
+        m_iLineWidth=LINE_WIDTH_4;
+        m_iLineWidthToPaint=LINE_WIDTH_4;
+    }
+    else if (action==m_p8pAction) {
+     m_iLineWidth=LINE_WIDTH_8;
+     m_iLineWidthToPaint=LINE_WIDTH_8;
+    }
+    else
+        ;
+
+    update();
+
 }
 
 void DragLine::deleteItemSlot()

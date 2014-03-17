@@ -37,6 +37,7 @@
 #include "dragwidget.h"
 #include "dragsquare.h"
 #include "dragline.h"
+#include "dragbaseline.h"
 #include "yelloweditbox.h"
 #include "version.h"
 #include "abstractdraginterface.h"
@@ -69,11 +70,13 @@ DragWidget::DragWidget(QWidget *parent)
      m_NewLabelAction(NULL),
      m_NewSquareAction(NULL),
      m_NewLineAction(NULL),
+     m_NewBaseLineAction(NULL),
      selectedItems(),
      m_selectionStartPoint(),
      m_selectionEndPoint(),
      multiselectRubberBand(NULL),
      m_bPaintLine(false),
+     m_bBaseLine(false),
      m_BackgroundPicture(""),
      m_bFixedBgSize(false)
 {
@@ -247,7 +250,10 @@ void DragWidget::dropEvent(QDropEvent *event)
            p2.setX(p2Pos.first().toInt());
            p2.setY(p2Pos.last().toInt());
        }
-       QPoint movingDiff = position - hotSpot - p1;
+       qDebug() << "originalLine" << p1 <<p2 << " rel:" << p2-p1 ;
+       QPoint movingDiff =  p1 - position - hotSpot  ;
+       qDebug() << "moving diff: position " << position << "- hotspot" << hotSpot << "- p1:" << p1 << "moving diff:" << movingDiff;
+       qDebug() << "newLine" << p1+movingDiff <<p2+movingDiff ;
        DragLine *newLine = new DragLine(p1+movingDiff, p2+movingDiff, this);
        if(!timestamp.isEmpty())
            newLine->setTimeStamp(timestamp.toLongLong());
@@ -343,7 +349,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         if(widget->parent()->inherits("DragSquare")) {
             squareChild = static_cast<DragSquare*>(labelChild->parent()); //we take the whole square
         } else {
-          QPoint hotSpot = event->pos() - labelChild->pos();
+            QPoint hotSpot = event->pos() - labelChild->pos();
 
             QMimeData *mimeData = new QMimeData;
             mimeData->setData("application/timestamp", QByteArray::number(labelChild->creationTimeStamp()));
@@ -351,6 +357,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
             mimeData->setData("application/x-hotspot",
                               QByteArray::number(hotSpot.x())
                               + " " + QByteArray::number(hotSpot.y()));
+            qDebug()<< "hotspot set" << hotSpot;
             mimeData->setColorData(labelChild->currentColor());
 
 
@@ -398,8 +405,9 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
        QMimeData *mimeData = new QMimeData;
        mimeData->setData("application/timestamp", QByteArray::number(lineChild->creationTimeStamp()));
        mimeData->setData("application/x-hotspot", QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
-       mimeData->setData("application/p1-hotspot", QByteArray::number(lineChild->p1().x()) + " " + QByteArray::number(lineChild->p1().y()));
-       mimeData->setData("application/p2-hotspot",QByteArray::number(lineChild->p2().x()) + " " + QByteArray::number(lineChild->p2().y()));
+       mimeData->setData("application/p1-hotspot", QByteArray::number(lineChild->absoluteLine().p1().x()) + " " + QByteArray::number(lineChild->absoluteLine().p1().y()));
+       mimeData->setData("application/p2-hotspot",QByteArray::number(lineChild->absoluteLine().p2().x()) + " " + QByteArray::number(lineChild->absoluteLine().p2().y()));
+       qDebug() << "line set hotspot" << hotSpot << " p1 " << lineChild->absoluteLine().p1() << " p2 " << lineChild->absoluteLine().p2();
 
        QPixmap pixmap(lineChild->size());
        pixmap.fill( Qt::transparent );
@@ -431,9 +439,15 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     Q_UNUSED(event);
     if( m_bPaintLine) {
-            DragLine *line = new DragLine(m_selectionStartPoint, event->pos(),this);
-            line->show();
-            line->setAttribute(Qt::WA_DeleteOnClose);
+            if (m_bBaseLine) {
+                DragLine *line = new DragLine(m_selectionStartPoint, event->pos(),this);
+                line->show();
+                line->setAttribute(Qt::WA_DeleteOnClose);
+            } else {
+                DragBaseLine *line = new DragBaseLine(m_selectionStartPoint, event->pos(),this);
+                line->show();
+                line->setAttribute(Qt::WA_DeleteOnClose);
+            }
             m_bPaintLine = false;
     } else if( multiselectRubberBand && multiselectRubberBand->isVisible()) {
         multiselectRubberBand->hide();
@@ -469,10 +483,13 @@ void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
     } else if (selectedAction == m_NewLineAction) {
         //we will paint line now
         m_bPaintLine = true;
+        m_bBaseLine = false;
+    } else if (selectedAction == m_NewBaseLineAction) {
+        m_bPaintLine = true;
+        m_bBaseLine = true;
     } else {
         qCritical("invalid action processed");
     }
-
 }
 
 void DragWidget::paintEvent(QPaintEvent *event)
@@ -503,6 +520,8 @@ QMenu* DragWidget::rightClickMenu()
     m_NewLineAction = new QAction(QIcon(":/icons/new_line.svg"), tr("&Line"), this);
     newMenu->addAction(m_NewLineAction);
 
+    m_NewBaseLineAction = new QAction(QIcon(":/icons/new_line.svg"), tr("&BaseLine"), this);
+    newMenu->addAction(m_NewBaseLineAction);
 
     m_RightClickMenu->addMenu(newMenu);
   }
@@ -513,7 +532,7 @@ void DragWidget::deleteAllItemsSlot()
 {
     selectedItems.clear();
     foreach (QObject *child, children()) {
-        if (child->inherits("DragLabel")) {
+    /*    if (child->inherits("DragLabel")) {
             DragLabel *widget = static_cast<DragLabel *>(child);
             widget->deleteLater();
         }
@@ -524,7 +543,10 @@ void DragWidget::deleteAllItemsSlot()
         if (child->inherits("DragLine")) {
             DragLine *widget = static_cast<DragLine *>(child);
             widget->deleteLater();
-        }
+        }*/
+         if (child->inherits("AbstractDragInterface")) {
+             child->deleteLater();
+         }
     }
 }
 
@@ -741,10 +763,10 @@ void DragWidget::saveProject(const QString &sFilename)
                 DragLine *widgetLine = static_cast<DragLine *>(child);
                 tag = xmlDocument.createElement("line");
                 tag.setAttribute("created", QString::number(widgetLine->creationTimeStamp()));
-                tag.setAttribute("p1x", QString::number(widgetLine->p1().x()));
-                tag.setAttribute("p1y", QString::number(widgetLine->p1().y()));
-                tag.setAttribute("p2x", QString::number(widgetLine->p2().x()));
-                tag.setAttribute("p2y", QString::number(widgetLine->p2().y()));
+                tag.setAttribute("p1x", QString::number(widgetLine->absoluteLine().p1().x()));
+                tag.setAttribute("p1y", QString::number(widgetLine->absoluteLine().p1().y()));
+                tag.setAttribute("p2x", QString::number(widgetLine->absoluteLine().p2().x()));
+                tag.setAttribute("p2y", QString::number(widgetLine->absoluteLine().p2().y()));
                 sortedList.append(tag);
             }
             else {

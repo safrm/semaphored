@@ -5,7 +5,6 @@
 #include <QtTest/QtTest>
 #include <QObject>
 
-//class EBTextEdit;
 class Ut_DragWidget : public QObject
 {
     Q_OBJECT

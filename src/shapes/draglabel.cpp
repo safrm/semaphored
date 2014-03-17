@@ -61,9 +61,9 @@ void DragLabel::contextMenuEvent( QContextMenuEvent * event )
     //}
 }
 
-QMenu* DragLabel::rightClickMenu()     //context menu for tab switch
+QMenu* DragLabel::rightClickMenu()
 {
-  if (!m_RightClickMenu)   {
+  if (!m_RightClickMenu) {
     m_RightClickMenu = new QMenu(this);
     QMenu* colorMenu = new QMenu("Color", this);
     colorMenu->setIcon(QIcon(":/icons/color.svg"));
