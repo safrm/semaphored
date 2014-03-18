@@ -2,7 +2,7 @@ include(../common.pri)
 SRCDIR = ../../src
 STUBSDIR = ../stubs
 TESTS_DIR = ../
-INCLUDEPATH += $$SRCDIR $$STUBSDIR $$TESTS_DIR ../../src/shapes
+INCLUDEPATH += $$SRCDIR $$STUBSDIR $$TESTS_DIR $$SRCDIR/shapes
 DEPENDPATH = $$INCLUDEPATH
 QT += testlib core gui xml
 TEMPLATE = app

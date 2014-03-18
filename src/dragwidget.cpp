@@ -854,7 +854,7 @@ int DragWidget::dragableObjectsCount() const
     foreach (QObject *child, children()) {
         if (child->inherits("AbstractDragInterface")) {
             QWidget *widget = static_cast<QWidget *>(child);
-            if (!widget->isVisible())
+            if (widget->isVisible())
                 ++iVisibleCount;
             else
                 ++iHiddenCount;
