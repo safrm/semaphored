@@ -55,7 +55,7 @@ void AbstractDragInterface::setTimeStamp(qint64 mSecsSinceEpoch)
     m_i64TimeStamp = mSecsSinceEpoch;
 }
 
-QString AbstractDragInterface::creationTimeStampString()
+const QString AbstractDragInterface::creationTimeStampString()
 {
     QDateTime timeStamp;
 #if QT_VERSION >= 0x040700
@@ -76,7 +76,7 @@ QString AbstractDragInterface::creationTimeStampString()
     return  timeStamp.toString(AbstractDragInterface::TIMESTAMP_FORMAT);
 }
 
-qint64 AbstractDragInterface::creationTimeStamp()
+const qint64 AbstractDragInterface::creationTimeStamp()
 {
     return m_i64TimeStamp;
 }

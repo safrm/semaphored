@@ -33,7 +33,10 @@ class DragLine : public DragBaseLine
       //virtual QColor currentColor();
       //virtual void changeColor(const QColor &acolor);
       //virtual void select(bool bSelected);
+      virtual void fillXmlElement(QDomElement & element);
+
       virtual QMenu* rightClickMenu();
+      static const QString mimeName() { return "object/x-semaphored-dragline"; }
 
     protected:
       //void paintEvent(QPaintEvent *event);

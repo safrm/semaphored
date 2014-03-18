@@ -64,7 +64,6 @@ bool dtscomp(QDomElement& left, QDomElement & right) {
   return left.attribute("created").toLongLong() < right.attribute("created").toLongLong();
 }
 
-
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent),
      m_NewLabelAction(NULL),
@@ -159,8 +158,7 @@ void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
 
 void DragWidget::dragEnterEvent(QDragEnterEvent *event)
 {
-
-    if (event->mimeData()->hasText() || event->mimeData()->hasFormat("application/p1-hotspot")) {
+    if(canDrop(event->mimeData())) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
@@ -171,18 +169,37 @@ void DragWidget::dragEnterEvent(QDragEnterEvent *event)
         event->ignore();
     }
 }
+bool DragWidget::canDrop(const QMimeData *mime)
+{
+    static const QStringList supportedMimes = QStringList() << DragBaseLine::mimeName() << DragLine::mimeName() <<
+                                        DragLabel::mimeName() << DragSquare::mimeName();
+    foreach(QString type, supportedMimes) {
+        if(mime->formats().contains(type))
+            return true;
+    }
+    if (mime->hasText())
+        return true;
+    return false;
+}
 
 void DragWidget::dropEvent(QDropEvent *event)
 {
-   /* QString sCurrentObjName = event->mimeData()->objectName();
-    if (sCurrentObjName == "DragLabel") {
-    }
-    */
-
     selectedItems.clear(); //they are anyway deleted
+    const QMimeData *mime = event->mimeData();
+    if (mime->hasFormat(DragBaseLine::mimeName())) {
+        ;
+    } else if (mime->hasFormat(DragLine::mimeName())) {
+        ;
+    } else if (mime->hasFormat(DragLabel::mimeName())) {
+        ;
+    } else if (mime->hasFormat(DragSquare::mimeName())) {
+        ;
+    } else if (mime->hasText())
+    {
+        ;
+    }
 
     if (event->mimeData()->hasText()) {
-        const QMimeData *mime = event->mimeData();
         QPoint position = event->pos();
         QPoint hotSpot;
         QColor color(Qt::white);
@@ -336,6 +353,8 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     DragSquare *squareChild(NULL);
     DragLine *lineChild(NULL);
 
+    QMimeData *mimeData = new QMimeData;
+
     //1 label
     if (widget->inherits("DragLabel"))
         labelChild = static_cast<DragLabel*>(widget);
@@ -343,6 +362,8 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         squareChild = static_cast<DragSquare*>(widget);
     else if (widget->inherits("DragLine"))
         lineChild = static_cast<DragLine*>(widget);
+
+    // mimeData->setData("text/csv", csvData);
 
 
     if(labelChild) {
@@ -827,3 +848,18 @@ void DragWidget::exportToPicture(const QString &sFilename)
     }
 }
 
+int DragWidget::dragableObjectsCount() const
+{
+    int iVisibleCount(0), iHiddenCount(0);
+    foreach (QObject *child, children()) {
+        if (child->inherits("AbstractDragInterface")) {
+            QWidget *widget = static_cast<QWidget *>(child);
+            if (!widget->isVisible())
+                ++iVisibleCount;
+            else
+                ++iHiddenCount;
+        }
+    }
+    qDebug() << "dragableObjectsCount() visible:" << iVisibleCount << " hidden:" << iHiddenCount;
+    return iVisibleCount;
+}

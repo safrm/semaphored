@@ -28,6 +28,8 @@
 #include <QtGlobal>
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QDomElement>
+
 
 DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget) :
     DragBaseLine(p1,p2,canvasWidget),
@@ -119,4 +121,8 @@ void DragLine::deleteItemSlot()
        m_CanvasWidget->deleteMutliselected();
     } else
       close();
+}
+
+void DragLine::fillXmlElement(QDomElement & element)
+{
 }

@@ -16,6 +16,7 @@ void Ut_DragBaseLine::initTestCase()
 void Ut_DragBaseLine::cleanupTestCase()
 {
     delete dragWidget;
+    dragWidget = NULL;
 }
 
 void Ut_DragBaseLine::init()
@@ -58,7 +59,6 @@ void Ut_DragBaseLine::testConstruction_data()
     QTest::newRow("[200,400] - [400,200]")   << QLine(200,400,400,200);
     QTest::newRow("[400,200] - [200,400]")   << QLine(400,200,200,400);
 }
-
 
 void Ut_DragBaseLine::testConstruction()
 {

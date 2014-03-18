@@ -16,8 +16,11 @@ public:
     virtual QColor currentColor();
     virtual void changeColor(const QColor &acolor);
     virtual void select(bool bSelected);
+    virtual void fillXmlElement(QDomElement & element);
+
     QLine absoluteLine() { return m_AbsoluteLine; }
     QLine relativeLine() { return m_RelativeWidgetLine; }
+    static const QString mimeName() { return "object/x-semaphored-dragbaseline"; }
 
     enum { LINE_WIDTH_SELECTED_HIGHLIGHT = 2 };
     enum { LINE_WIDTH_2 = 2,

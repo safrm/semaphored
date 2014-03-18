@@ -45,9 +45,11 @@ public:
     virtual QColor currentColor();
     virtual void changeColor(const QColor &acolor);
     virtual void select(bool bSelected);
+    virtual void fillXmlElement(QDomElement & element);
 
     DragLabel* labelWidget();
 
+    static const QString mimeName() { return "object/x-semaphored-dragsqare"; }
 public slots:
     void updateColorsSlot();
     void editLabelSlot() ;

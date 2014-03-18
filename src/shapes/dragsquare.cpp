@@ -26,6 +26,7 @@
 #include <QTextEdit>
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QDomElement>
 
 #include "dragsquare.h"
 #include "draglabel.h"
@@ -118,4 +119,7 @@ void DragSquare::select(bool bSelected)
         setLineWidth(2);
 }
 
+void DragSquare::fillXmlElement(QDomElement & element)
+{
 
+}

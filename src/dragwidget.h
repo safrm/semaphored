@@ -34,6 +34,7 @@ class QMenu;
 class QAction;
 class QRubberBand;
 class DragLabel;
+class QMimeData;
 QT_END_NAMESPACE
 
 class DragWidget : public QWidget
@@ -71,6 +72,7 @@ public:
     void deleteMutliselected();
     void changeColorMutliselected(const QColor &acolor);
     void exportToPicture(const QString &sFilename);
+    int dragableObjectsCount() const;
 
 public slots:
     void deleteAllItemsSlot();
@@ -88,7 +90,7 @@ protected:
     virtual void contextMenuEvent ( QContextMenuEvent * event );
     virtual void paintEvent(QPaintEvent *);
     virtual void resizeEvent(QResizeEvent * event );
-
+    bool canDrop(const QMimeData *mime);
 private:
 
     QMenu* rightClickMenu();

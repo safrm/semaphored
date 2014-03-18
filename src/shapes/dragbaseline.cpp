@@ -1,5 +1,6 @@
 #include <QPainter>
 #include <QDebug>
+#include <QDomElement>
 
 #include "dragbaseline.h"
 #include "dragwidget.h"
@@ -70,4 +71,9 @@ void DragBaseLine::changeColor(const QColor &acolor)
 {
     Q_UNUSED(acolor);
     //we don't want to change line colors for now
+}
+
+void DragBaseLine::fillXmlElement(QDomElement & element)
+{
+
 }

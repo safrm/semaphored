@@ -25,6 +25,8 @@
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <QActionGroup>
+#include <QDomElement>
+
 #include "draglabel.h"
 #include "yelloweditbox.h"
 #include "dragwidget.h"
@@ -182,4 +184,13 @@ void DragLabel::select(bool bSelected)
         else
             setLineWidth(BORDER_WIDTH_NO_SELECTED);
     }
+}
+
+void DragLabel::fillXmlElement(QDomElement & element)
+{
+    element.setAttribute("created", QString::number(creationTimeStamp()));
+    element.setAttribute("color", currentColor().name());
+    element.setAttribute("label", text());
+    element.setAttribute("x", QString::number(pos().x()));
+    element.setAttribute("y", QString::number(pos().y()));
 }

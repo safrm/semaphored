@@ -49,10 +49,14 @@ public:
     virtual QColor currentColor();
     virtual void changeColor(const QColor &acolor);
     virtual void select(bool bSelected);
+    virtual void fillXmlElement(QDomElement & element);
+
     virtual QMenu* rightClickMenu();
+    static const QString mimeName() { return "object/x-semaphored-draglabel"; }
 
 signals:
     void colorChangedSignal();
+
 public slots:
     void editSlot();
 
@@ -63,7 +67,6 @@ private slots:
 protected :
     virtual void contextMenuEvent ( QContextMenuEvent * event );
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
-
 
 private:
     QAction* pWhiteColorAction;
