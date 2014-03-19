@@ -302,9 +302,9 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         return;
     }
 
-    QWidget * widget = childAt(event->pos());
+    QWidget * clickedWidget = childAt(event->pos());
     //we pressed out of our objects
-    if (!widget) { //|| !widget->inherits("YellowEditBox")) {
+    if (!clickedWidget) {
         //cancel YellowBox edit
         //a bit stupid way but easy.. maybe it could restore old text instead of applying new one?
         foreach (QObject *yellowBox, children()) {
@@ -341,6 +341,19 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
     //TODO we have selection and want to work with it
     if (isMultiselecting()) {
+        //editing multi selection
+        if (event->modifiers()& Qt::ShiftModifier) {
+            if (clickedWidget->inherits("AbstractDragInterface")) {
+                AbstractDragInterface* abstractDrag = qobject_cast<AbstractDragInterface*>(clickedWidget);
+                if (selectedItems.contains(clickedWidget)) {
+                    selectedItems.removeAll(clickedWidget);
+                    abstractDrag->select(false);
+                } else {
+                    selectedItems += clickedWidget;
+                    abstractDrag->select(true);
+                }
+            }
+        }
       //QList<QPoint> hotSpots;
       //QMimeData *mimeData = new QMimeData;
       return;
@@ -353,18 +366,18 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     QMimeData *mimeData = new QMimeData;
 
     //1 label
-    if (widget->inherits("DragLabel"))
-        labelChild = static_cast<DragLabel*>(widget);
-    else if (widget->inherits("DragSquare"))
-        squareChild = static_cast<DragSquare*>(widget);
-    else if (widget->inherits("DragLine"))
-        lineChild = static_cast<DragLine*>(widget);
+    if (clickedWidget->inherits("DragLabel"))
+        labelChild = static_cast<DragLabel*>(clickedWidget);
+    else if (clickedWidget->inherits("DragSquare"))
+        squareChild = static_cast<DragSquare*>(clickedWidget);
+    else if (clickedWidget->inherits("DragLine"))
+        lineChild = static_cast<DragLine*>(clickedWidget);
 
     // mimeData->setData("text/csv", csvData);
 
 
     if(labelChild) {
-        if(widget->parent()->inherits("DragSquare")) {
+        if(clickedWidget->parent()->inherits("DragSquare")) {
             squareChild = static_cast<DragSquare*>(labelChild->parent()); //we take the whole square
         } else {
             QPoint hotSpot = event->pos() - labelChild->pos();
@@ -542,18 +555,6 @@ void DragWidget::deleteAllItemsSlot()
 {
     selectedItems.clear();
     foreach (QObject *child, children()) {
-    /*    if (child->inherits("DragLabel")) {
-            DragLabel *widget = static_cast<DragLabel *>(child);
-            widget->deleteLater();
-        }
-        if (child->inherits("DragSquare")) {
-            DragSquare *widget = static_cast<DragSquare *>(child);
-            widget->deleteLater();
-        }
-        if (child->inherits("DragLine")) {
-            DragLine *widget = static_cast<DragLine *>(child);
-            widget->deleteLater();
-        }*/
          if (child->inherits("AbstractDragInterface")) {
              child->deleteLater();
          }
