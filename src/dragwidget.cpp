@@ -30,7 +30,7 @@
 #include <QFile>
 #include <QtAlgorithms>
 #include <QSvgGenerator>
-
+#include <QSvgGenerator>
 #include <unistd.h>
 
 #include "draglabel.h"
@@ -62,6 +62,15 @@ QMenu * DragWidget::m_RightClickMenu(NULL);
 
 bool dtscomp(QDomElement& left, QDomElement & right) {
   return left.attribute("created").toLongLong() < right.attribute("created").toLongLong();
+}
+
+QDebug operator<<(QDebug dbg, const QDomNode& node)
+{
+  QString s;
+  QTextStream str(&s, QIODevice::WriteOnly);
+  node.save(str, 2);
+  dbg << qPrintable(s);
+  return dbg;
 }
 
 DragWidget::DragWidget(QWidget *parent)
@@ -690,7 +699,8 @@ void DragWidget::loadProject(const QString &sFilename)
     while(!n.isNull()) {
         QDomElement e = n.toElement();
         if (!e.isNull()) {
-            qDebug()<< qPrintable(e.tagName())  << " : " << qPrintable(e.text());
+            //qDebug()<< qPrintable(e.tagName())  << " : " << qPrintable(e.text());
+            qDebug()<< e;
 
             if (e.tagName() == "label") {
                 new DragLabel(e.attribute("label"), this, this, QColor(e.attribute("color")),
