@@ -339,20 +339,22 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         }
     }
 
+    //editing multi selection
+    if (event->modifiers() & Qt::ShiftModifier) {
+        if (clickedWidget && clickedWidget->inherits("AbstractDragInterface")) {
+            AbstractDragInterface* abstractDrag = qobject_cast<AbstractDragInterface*>(clickedWidget);
+            if (selectedItems.contains(clickedWidget)) {
+                selectedItems.removeAll(clickedWidget);
+                abstractDrag->select(false);
+            } else {
+                selectedItems += clickedWidget;
+                abstractDrag->select(true);
+            }
+    }
+
+
     //TODO we have selection and want to work with it
     if (isMultiselecting()) {
-        //editing multi selection
-        if (event->modifiers()& Qt::ShiftModifier) {
-            if (clickedWidget->inherits("AbstractDragInterface")) {
-                AbstractDragInterface* abstractDrag = qobject_cast<AbstractDragInterface*>(clickedWidget);
-                if (selectedItems.contains(clickedWidget)) {
-                    selectedItems.removeAll(clickedWidget);
-                    abstractDrag->select(false);
-                } else {
-                    selectedItems += clickedWidget;
-                    abstractDrag->select(true);
-                }
-            }
         }
       //QList<QPoint> hotSpots;
       //QMimeData *mimeData = new QMimeData;
