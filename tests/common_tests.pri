@@ -8,7 +8,7 @@ QT += testlib core gui xml
 TEMPLATE = app
 DEFINES += UNIT_TEST
 MOC_DIR = ./.moc
-CONFIG += debug
+CONFIG += debug testcase
 
 # install tests
 #target.path = $$[QT_INSTALL_LIBS]/tests
