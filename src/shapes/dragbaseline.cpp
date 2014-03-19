@@ -5,7 +5,7 @@
 #include "dragbaseline.h"
 #include "dragwidget.h"
 
-DragBaseLine::DragBaseLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget) :
+DragBaseLine::DragBaseLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget,  const QColor &defaultColor) :
     QWidget(canvasWidget),
     AbstractDragInterface(canvasWidget),
     m_AbsoluteLine(p1,p2),
@@ -14,6 +14,7 @@ DragBaseLine::DragBaseLine(const QPoint & p1, const QPoint & p2, DragWidget *can
     m_LineStyle(Qt::SolidLine)
 {
     setAttribute(Qt::WA_DeleteOnClose);
+    changeColor(defaultColor);
     qDebug() << "DragBaseLine() m_AbsoluteLine(" << p1 << p2 << ")";
 
     m_PaintingArea.setTop( qMin(p1.y(),p2.y()));
@@ -41,6 +42,7 @@ DragBaseLine::DragBaseLine(const QPoint & p1, const QPoint & p2, DragWidget *can
     move(m_PaintingArea.left(), m_PaintingArea.top());
     resize(m_PaintingArea.size().width(), m_PaintingArea.size().height());
     qDebug() << "DragBaseLine():moving left:" << m_PaintingArea.left() << " top:"<< m_PaintingArea.top();
+    show();
 }
 
 void DragBaseLine::paintEvent(QPaintEvent *event)
@@ -78,3 +80,19 @@ void DragBaseLine::fillXmlElement(QDomElement & element)
 {
 
 }
+/*
+QColor DragBaseLine::currentColor()
+{
+    return palette().color(foregroundRole());
+}
+
+void DragBaseLine::changeColor(const QColor &acolor)
+{
+    if(currentColor() !=  acolor ) {
+        QPalette pal = palette();
+        pal.setColor(foregroundRole(), acolor);
+        setPalette(pal);
+        emit colorChangedSignal();
+    }
+}
+*/

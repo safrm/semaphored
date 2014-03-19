@@ -63,6 +63,14 @@ DragSquare::DragSquare(const QString &label, const QString &text, DragWidget* ca
     mainLayout->addWidget(textTextEdit);
     setLayout(mainLayout);
     updateColorsSlot();
+    show();
+}
+
+DragSquare::DragSquare(const QString &label, const QString &text, DragWidget* canvasWidget, const QColor &defaultColor, qint64 timeStamp, int x, int y)
+    : DragSquare(label, text, canvasWidget, defaultColor)
+{
+    setTimeStamp(timeStamp);
+    move(x,y);
 }
 
 void DragSquare::contextMenuEvent( QContextMenuEvent * event )

@@ -84,7 +84,6 @@ DragWidget::DragWidget(QWidget *parent)
     //add few testing squares
     DragSquare *wordSqare = new DragSquare("test","content", this);
     wordSqare->move(250, 50);
-    wordSqare->show();
 
     //backround color
     QPalette pal = palette();
@@ -113,7 +112,6 @@ void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
         if (!word.isEmpty()) {
             DragLabel *wordLabel = new DragLabel(word, this);
             wordLabel->move(x, y);
-            wordLabel->show();
             x += wordLabel->width() + 2;
             if (x >= 195) {
                 x = 5;
@@ -143,7 +141,6 @@ void DragWidget::loadTextFile(const QString &sFilename, bool bColorsOn)
             DragLabel *wordLabel = new DragLabel(line, this, this, titleColor);
             usleep(1000); //to have unique TS
             wordLabel->move(x, y);
-            wordLabel->show();
             y += wordLabel->height() + 2;
             if (y + 10 >= height()) {
                 y = 5;
@@ -221,7 +218,6 @@ void DragWidget::dropEvent(QDropEvent *event)
                 newSquare->setTimeStamp(timestamp.toLongLong());
             newSquare->move(position - hotSpot);
             newSquare->changeColor(color);
-            newSquare->show();
             position += QPoint(newSquare->width(), 0);
         } else { //label
           DragLabel *newLabel = new DragLabel(label, this, this);
@@ -229,7 +225,6 @@ void DragWidget::dropEvent(QDropEvent *event)
               newLabel->setTimeStamp(timestamp.toLongLong());
           newLabel->move(position - hotSpot);
           newLabel->changeColor(color);
-          newLabel->show();
           position += QPoint(newLabel->width(), 0);
         }
 
@@ -269,7 +264,6 @@ void DragWidget::dropEvent(QDropEvent *event)
        DragLine *newLine = new DragLine(p1+movingDiff, p2+movingDiff, this);
        if(!timestamp.isEmpty())
            newLine->setTimeStamp(timestamp.toLongLong());
-       newLine->show();
        position += QPoint(newLine->width(), 0);
        if (event->source() == this) {
            event->setDropAction(Qt::MoveAction);
@@ -456,10 +450,8 @@ void DragWidget::mouseReleaseEvent(QMouseEvent * event)
     if( m_bPaintLine) {
             if (m_bBaseLine) {
                 DragLine *line = new DragLine(m_selectionStartPoint, event->pos(),this);
-                line->show();
             } else {
-                DragBaseLine *line = new DragBaseLine(m_selectionStartPoint, event->pos(),this);
-                line->show();
+                DragBaseLine *line = new DragBaseLine(m_selectionStartPoint, event->pos(), this);
             }
             m_bPaintLine = false;
     } else if( multiselectRubberBand && multiselectRubberBand->isVisible()) {
@@ -484,12 +476,10 @@ void DragWidget::contextMenuEvent ( QContextMenuEvent * event )
     if (selectedAction == m_NewLabelAction) {
         DragLabel *wordLabel = new DragLabel("label", this, this);
         wordLabel->move(event->pos());
-        wordLabel->show();
         wordLabel->editSlot();
     } else if (selectedAction == m_NewSquareAction) {
         DragSquare *wordSqare = new DragSquare("sqare","comments", this);
         wordSqare->move(event->pos());
-        wordSqare->show();
         wordSqare->editLabelSlot();
     } else if (selectedAction == m_NewLineAction) {
         //we will paint line now
@@ -703,21 +693,14 @@ void DragWidget::loadProject(const QString &sFilename)
             qDebug()<< qPrintable(e.tagName())  << " : " << qPrintable(e.text());
 
             if (e.tagName() == "label") {
-                DragLabel *wordLabel = new DragLabel(e.attribute("label"), this, this, QColor(e.attribute("color")));
-                wordLabel->setTimeStamp(e.attribute("created").toLongLong());
-                wordLabel->move(e.attribute("x").toInt(), e.attribute("y").toInt());
-                wordLabel->show();
+                new DragLabel(e.attribute("label"), this, this, QColor(e.attribute("color")),
+                                                     e.attribute("created").toLongLong(), e.attribute("x").toInt(), e.attribute("y").toInt());
             } else if (e.tagName() == "square")  {
-                DragSquare *wordSquare = new DragSquare(e.attribute("label"), e.attribute("text"), this, QColor(e.attribute("color")));
-                wordSquare->setTimeStamp(e.attribute("created").toLongLong());
-                wordSquare->move(e.attribute("x").toInt(), e.attribute("y").toInt());
-                wordSquare->show();
+                new DragSquare(e.attribute("label"), e.attribute("text"), this, QColor(e.attribute("color")),
+                                                        e.attribute("created").toLongLong(), e.attribute("x").toInt(), e.attribute("y").toInt());
             }  else if (e.tagName() == "line")  {
-                DragLine *line = new DragLine(QPoint(e.attribute("p1x").toInt(),e.attribute("p1y").toInt()),QPoint(e.attribute("p2x").toInt(),e.attribute("p2y").toInt()), this);
-                line->setTimeStamp(e.attribute("created").toLongLong());
-                //line->move(e.attribute("x").toInt(), e.attribute("y").toInt());
-                line->show();
-        }
+                new DragLine(QPoint(e.attribute("p1x").toInt(),e.attribute("p1y").toInt()),QPoint(e.attribute("p2x").toInt(),e.attribute("p2y").toInt()), this, QColor(e.attribute("color")), e.attribute("created").toLongLong());
+            }
         }
         n = n.nextSibling();
     }
@@ -775,6 +758,7 @@ void DragWidget::saveProject(const QString &sFilename)
                 tag.setAttribute("p1y", QString::number(widgetLine->absoluteLine().p1().y()));
                 tag.setAttribute("p2x", QString::number(widgetLine->absoluteLine().p2().x()));
                 tag.setAttribute("p2y", QString::number(widgetLine->absoluteLine().p2().y()));
+                tag.setAttribute("color", widgetLine->currentColor().name());
                 sortedList.append(tag);
             }
             else {

@@ -44,6 +44,7 @@ class DragLabel : public QLabel, public AbstractDragInterface
 
 public:
     explicit DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
+    explicit DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor, qint64 timeStamp, int x, int y);
 
     //abstract behaviour
     virtual QColor currentColor();

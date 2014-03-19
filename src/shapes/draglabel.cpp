@@ -42,6 +42,14 @@ DragLabel::DragLabel(const QString &text, QWidget *parent, DragWidget * canvasWi
     setAutoFillBackground(true);
     setFrameStyle(QFrame::Box | QFrame::Plain);
     setLineWidth(2);
+    show();
+}
+
+DragLabel::DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor, qint64 timeStamp, int x, int y)
+    : DragLabel(text,parent,canvasWidget, defaultColor)
+{
+    setTimeStamp(timeStamp);
+    move(x,y);
 }
 
 void DragLabel::changeColor(const QColor &acolor)

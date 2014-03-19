@@ -11,7 +11,7 @@ class DragBaseLine : public QWidget, public AbstractDragInterface
     Q_INTERFACES(AbstractDragInterface)
 
 public:
-    explicit DragBaseLine(const QPoint & p1, const QPoint & p2, DragWidget *parent);
+    explicit DragBaseLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget,  const QColor &defaultColor = Qt::black);
 
     virtual QColor currentColor();
     virtual void changeColor(const QColor &acolor);

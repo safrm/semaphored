@@ -31,12 +31,18 @@
 #include <QDomElement>
 
 
-DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget) :
-    DragBaseLine(p1,p2,canvasWidget),
+DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget, const QColor &defaultColor ) :
+    DragBaseLine(p1,p2,canvasWidget, defaultColor),
     m_LineEnding_p1(Plain),
     m_LineEnding_p2(Plain),
     m_RightClickMenu(NULL)
 {
+}
+
+DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget, const QColor &defaultColor, qint64 timeStamp) :
+    DragBaseLine(p1,p2,canvasWidget, defaultColor)
+{
+    setTimeStamp(timeStamp);
 }
 
 void DragLine::contextMenuEvent( QContextMenuEvent * event )
@@ -126,3 +132,4 @@ void DragLine::deleteItemSlot()
 void DragLine::fillXmlElement(QDomElement & element)
 {
 }
+

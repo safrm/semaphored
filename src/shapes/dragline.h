@@ -23,8 +23,10 @@ class DragLine : public DragBaseLine
   //    Q_DECLARE_FLAGS(LineEndings, LineEnding)
 
 
-      explicit DragLine(const QPoint & p1, const QPoint & p2, DragWidget *parent);
-      //virtual ~DragLine () {}
+      explicit DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget, const QColor &defaultColor = Qt::black);
+      explicit DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget, const QColor &defaultColor, qint64 timeStamp);
+
+        //virtual ~DragLine () {}
       //const QPoint p1() { return m_p1; }
       //const QPoint p2() { return m_p2; }
 
