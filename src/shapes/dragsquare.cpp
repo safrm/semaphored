@@ -36,6 +36,7 @@ DragSquare::DragSquare(const QString &label, const QString &text, DragWidget* ca
     : QFrame(canvasWidget),
       AbstractDragInterface(canvasWidget)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     setAutoFillBackground(true);
     setFrameShape(QFrame::Box);
     setFrameShadow(QFrame::Raised);

@@ -13,6 +13,7 @@ DragBaseLine::DragBaseLine(const QPoint & p1, const QPoint & p2, DragWidget *can
     m_iLineWidthToPaint(m_iLineWidth),
     m_LineStyle(Qt::SolidLine)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     qDebug() << "DragBaseLine() m_AbsoluteLine(" << p1 << p2 << ")";
 
     m_PaintingArea.setTop( qMin(p1.y(),p2.y()));

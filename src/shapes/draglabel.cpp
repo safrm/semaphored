@@ -37,6 +37,7 @@ DragLabel::DragLabel(const QString &text, QWidget *parent, DragWidget * canvasWi
       AbstractDragInterface(canvasWidget),
       m_RightClickMenu(NULL)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     changeColor(defaultColor);
     setAutoFillBackground(true);
     setFrameStyle(QFrame::Box | QFrame::Plain);
