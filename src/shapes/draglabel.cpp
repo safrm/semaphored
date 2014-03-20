@@ -46,10 +46,19 @@ DragLabel::DragLabel(const QString &text, QWidget *parent, DragWidget * canvasWi
 }
 
 DragLabel::DragLabel(const QString &text, QWidget* parent, DragWidget* canvasWidget, const QColor &defaultColor, qint64 timeStamp, int x, int y)
-    : DragLabel(text,parent,canvasWidget, defaultColor)
+    : QLabel(text, parent),
+      AbstractDragInterface(canvasWidget),
+      m_RightClickMenu(NULL)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
+    changeColor(defaultColor);
+    setAutoFillBackground(true);
+    setFrameStyle(QFrame::Box | QFrame::Plain);
+    setLineWidth(2);
+
     setTimeStamp(timeStamp);
     move(x,y);
+    show();
 }
 
 void DragLabel::changeColor(const QColor &acolor)

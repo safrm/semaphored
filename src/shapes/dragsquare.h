@@ -38,7 +38,6 @@ class DragSquare : public QFrame , public AbstractDragInterface
 
 public:
     explicit DragSquare(const QString &label, const QString &text, DragWidget* canvasWidget, const QColor &defaultColor = Qt::white);
-    explicit DragSquare(const QString &label, const QString &text, DragWidget* canvasWidget, const QColor &defaultColor, qint64 timeStamp, int x, int y);
 
     QString label();
     QString text();

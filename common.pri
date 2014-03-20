@@ -45,3 +45,7 @@ QT          = core gui xml svg
 
 # All generated files goes to the same directory
 win32:INSTALL_ROOT= /progs/semaphored
+#to enable c++11 features
+#CONFIG += c++11
+#QMAKE_CXXFLAGS += -std=c++0x
+

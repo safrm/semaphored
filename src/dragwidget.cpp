@@ -706,8 +706,9 @@ void DragWidget::loadProject(const QString &sFilename)
                 new DragLabel(e.attribute("label"), this, this, QColor(e.attribute("color")),
                                                      e.attribute("created").toLongLong(), e.attribute("x").toInt(), e.attribute("y").toInt());
             } else if (e.tagName() == "square")  {
-                new DragSquare(e.attribute("label"), e.attribute("text"), this, QColor(e.attribute("color")),
-                                                        e.attribute("created").toLongLong(), e.attribute("x").toInt(), e.attribute("y").toInt());
+                DragSquare* wordSquare = new DragSquare(e.attribute("label"), e.attribute("text"), this, QColor(e.attribute("color")));
+                wordSquare->setTimeStamp(e.attribute("created").toLongLong());
+                wordSquare->move(e.attribute("x").toInt(), e.attribute("y").toInt());
             }  else if (e.tagName() == "line")  {
                 new DragLine(QPoint(e.attribute("p1x").toInt(),e.attribute("p1y").toInt()),QPoint(e.attribute("p2x").toInt(),e.attribute("p2y").toInt()), this, QColor(e.attribute("color")), e.attribute("created").toLongLong());
             }

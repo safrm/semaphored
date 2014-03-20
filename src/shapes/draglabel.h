@@ -37,7 +37,7 @@ class QLineEdit;
 class DragWidget;
 QT_END_NAMESPACE
 
-class DragLabel : public QLabel, public AbstractDragInterface
+class DragLabel : public QLabel, virtual public AbstractDragInterface
 {
     Q_OBJECT
     Q_INTERFACES(AbstractDragInterface)

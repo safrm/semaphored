@@ -40,7 +40,11 @@ DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidge
 }
 
 DragLine::DragLine(const QPoint & p1, const QPoint & p2, DragWidget *canvasWidget, const QColor &defaultColor, qint64 timeStamp) :
-    DragBaseLine(p1,p2,canvasWidget, defaultColor)
+    DragBaseLine(p1,p2,canvasWidget, defaultColor),
+    m_LineEnding_p1(Plain),
+    m_LineEnding_p2(Plain),
+    m_RightClickMenu(NULL)
+
 {
     setTimeStamp(timeStamp);
 }
