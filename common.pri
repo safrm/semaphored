@@ -1,6 +1,8 @@
 #this is small fix for releasing
 #win32:CONFIG += release
 #win32:CONFIG -= debug
+CONFIG(debug, debug|release):message("DEBUG")
+CONFIG(release, debug|release):message("RELEASE")
 
 #appver, win/lin version system
 APP_FULL_VERSION_TAG=NA

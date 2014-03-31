@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="semaphored.1">
+
+<refentryinfo>
+    <title>Graphical editor and notes dashboard</title>
+    <author>
+        <personname><firstname>Miroslav</firstname><surname>Safr</surname></personname>
+        <email>miroslav.safr@gmail.com</email>
+        <personblurb><para>Author and maintainer</para></personblurb>
+    </author>
+    <date>2014-03-24</date>
+    <productnumber>NA</productnumber>
+    <productname>semaphored</productname>
+</refentryinfo>
+
+<refmeta>
+    <refentrytitle>semaphored</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+
+<refnamediv>
+    <refname>semaphored</refname>
+    <refpurpose>Graphical editor and notes dashboard used for planning it can be used to create valued object charts or kanban dashboards or simple uml static charts</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+        <command>semaphored [OPTIONS]..[SEM_FILES]</command>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+      Graphical editor and notes dashboard used for planning it can be used to create valued object charts or kanban dashboards or simple uml static charts
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+      <varlistentry><term>-t --tray</term>
+        <listitem>
+          <para>
+               Start minimized in tray.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry><term>-m --maximized</term>
+        <listitem>
+          <para>
+            Start with maximized window.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    
+  </refsect1>
+  <refsect1>
+    <title>SEM_FILES</title>
+    <para>
+		List of files to open.
+    </para>
+  </refsect1>
+
+
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      semaphored(1).
+      <ulink url="http://safrm.net/projects/semaphored/"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>AUTHOR</title>
+    <para>
+        Miroslav Šafr &lt;miroslav.safr@gmail.com&gt;
+    </para>
+  </refsect1>
+  <refsect1>
+  <title>LICENSE</title>
+      <para>
+       LGPL2
+    </para>       
+  </refsect1>
+</refentry>

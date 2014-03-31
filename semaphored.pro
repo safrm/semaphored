@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-SUBDIRS = src tests
+SUBDIRS = src tests doc
 
 OBJECTS_DIR = build
 MOC_DIR     = build
@@ -17,18 +17,7 @@ unix:icon.files  = data/semaphored.svg
 win32:icon.files  = data/semaphored.ico
 INSTALLS    += icon
 
-unix:readme.path  = /usr/share/doc/semaphored
-win32:readme.path  = /
-readme.files  = README
-unix:readme.commands = sed -i".bkp" \'1 s/Version:.*/Version: $$APP_FULL_VERSION_TAG ($$APP_BUILD_DATE)/\' README && rm -f README.bkp
-INSTALLS    += readme
-
 win32 {
-
-unix:docs.path  = /usr/share/doc/semaphored
-win32:docs.path  = /
-docs.files  = LICENSE.LGPL
-INSTALLS    += docs
 
 QTDIR_BIN = $$system(qmake -query QT_INSTALL_BINS)
 message($$QTDIR)
@@ -70,6 +59,4 @@ OTHER_FILES += \
     debian/changelog \
     debian/rules \
     debian/control \
-    README \
-    LICENSE.LGPL \
     semaphored.spec
