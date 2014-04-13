@@ -19,3 +19,4 @@ install/*
 release/*
 debian/changelog
 *.autosave
+doc/tmp/*
