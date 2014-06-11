@@ -48,4 +48,5 @@ rm -fr %{buildroot}
 %dir %{_datadir}/doc/semaphored
 %{_datadir}/doc/semaphored/README
 
+%{_mandir}/man1/semaphored.1*
 
