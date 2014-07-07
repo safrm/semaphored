@@ -51,3 +51,10 @@ win32:INSTALL_ROOT= /progs/semaphored
 #CONFIG += c++11
 #QMAKE_CXXFLAGS += -std=c++0x
 
+# To use compiler cache by default if installed
+exists( /usr/bin/ccache ) {
+    message("Using compiler cache")
+    QMAKE_CC = ccache gcc
+    QMAKE_CXX = ccache g++
+}
+
